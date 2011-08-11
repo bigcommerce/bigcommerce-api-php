@@ -7,10 +7,10 @@ class BigCommerce_Api2_Resource
 
 	public function __construct($object=false)
 	{
-		$this->fields = ($object) ? json_decode($object) : new stdClass;
-		$this->id = ($object) ? $this->fields->id : 0;
+		$this->fields = ($object) ? $object : new stdClass;
+		$this->id = ($object) ? $object->id : 0;
 	}
-	
+
 	public function __get($field)
 	{
 		if (method_exists($this, $field)) {
@@ -18,27 +18,22 @@ class BigCommerce_Api2_Resource
 		}
 		return (isset($this->fields->$field)) ? $this->fields->$field : null;
 	}
-	
+
 	public function __set($field, $value)
 	{
 		$this->fields->$field = $value;
 	}
-	
-	public function toJson()
-	{
-		return json_encode($this->fields);
-	}
-	
+
 }
 
-class BigCommerce_Api2_Product
+class BigCommerce_Api2_Product extends BigCommerce_Api2_Resource
 {
-	
+
 	public function update()
 	{
 		return BigCommerce_Api2::updateProduct($this->id, $this->fields);
 	}
-	
+
 }
 
 class BigCommerce_Api2_Brand
@@ -48,10 +43,10 @@ class BigCommerce_Api2_Brand
 	{
 		return BigCommerce_Api2::createBrand($this->fields);
 	}
-	
+
 	public function update()
 	{
 		return BigCommerce_Api2::updateBrand($this->id, $this->fields);
 	}
-	
+
 }

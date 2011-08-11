@@ -267,15 +267,15 @@ class BigCommerce_Api2_Connection
 	/**
 	 * Make an HTTP GET request to the specified endpoint.
 	 */
-	public function get($uri, $query=false)
+	public function get($url, $query=false)
 	{
 		$this->initializeRequest();
 
 		if (is_array($query)) {
-			$uri .= '?' . http_build_query($query);
+			$url .= '?' . http_build_query($query);
 		}
 
-		curl_setopt($this->curl, CURLOPT_URL, $uri);
+		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_HTTPGET, true);
 		curl_exec($this->curl);
 
