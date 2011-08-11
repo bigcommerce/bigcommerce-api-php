@@ -5,29 +5,46 @@ require_once dirname(__FILE__).'/Api2/Resources.php';
 class BigCommerce_Api2
 {
 
-	private $api_path = '/api/v1';
-	private $store_url;
-	private $username;
-	private $api_key
-	
+	static private $api_path = '/api/v1';
+	static private $store_url;
+	static private $username;
+	static private $api_key;
+	static private $connection;
+
 	public static function configure($store_url, $username, $api_key)
 	{
-		self::$store_url = ($store_url[0] == '/') ? substr($store_url, 1) : $store_url;
 		self::$username  = $username;
 		self::$api_key = $api_key;
+		self::$store_url = ($store_url[0] == '/') ? substr($store_url, 1) : $store_url;
+		self::$api_path = self::$store_url . self::$api_path;
 	}
-	
+
 	public static function failOnError($option=true)
 	{
-		self::getConnection()->failOnError($option);
+		self::connection()->failOnError($option);
 	}
-	
+
 	public static function useXml()
 	{
-		self::getConnection()->useXml();
+		self::connection()->useXml();
 	}
-	
-	private static function getConnection()
+
+	public static function verifyPeer($option=false)
+	{
+		self::connection()->verifyPeer($option);
+	}
+
+	public static function useProxy($server, $port=false)
+	{
+		self::connection()->useProxy($server, $port);
+	}
+
+	public static function getLastError()
+	{
+		return self::connection()->getLastError();
+	}
+
+	private static function connection()
 	{
 		if (!self::$connection) {
 		 	self::$connection = new BigCommerce_Api2_Connection();
@@ -35,50 +52,56 @@ class BigCommerce_Api2
 		}
 		return self::$connection;
 	}
-	
+
+	public static function ping()
+	{
+		$timestamp = self::connection()->get(self::$api_path . '/ping');
+		return $timestamp;
+	}
+
 	public static function getProducts()
 	{
-		
+
 	}
-	
+
 	public static function getProductsCount()
 	{
-		
+
 	}
-	
+
 	public static function getProduct()
 	{
-		
+
 	}
-	
+
 	public static function updateProduct()
 	{
-		
+
 	}
-	
+
 	public static function getCategories()
 	{
-		
+
 	}
-	
+
 	public static function getCategoriesCount()
 	{
-		
+
 	}
-	
+
 	public static function getCategory()
 	{
-		
+
 	}
-	
+
 	public static function getBrands()
 	{
-		
+
 	}
-	
+
 	public static function getBrandsCount()
 	{
-		
+
 	}
-	
+
 }
