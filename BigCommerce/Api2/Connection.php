@@ -157,9 +157,17 @@ class BigCommerce_Api2_Connection
 	/**
 	 * Add a custom header to the request.
 	 */
-	public function setHeader($header, $value)
+	public function addHeader($header, $value)
 	{
 		$this->headers[$header] = "$header: $value";
+	}
+
+	/**
+	 * Get the MIME type that should be used for this request.
+	 */
+	private function getContentType()
+	{
+		return ($this->useXml) ? 'application/xml' : 'application/json';
 	}
 
 	/**
@@ -169,14 +177,10 @@ class BigCommerce_Api2_Connection
 	private function initializeRequest()
 	{
 		$this->isComplete = false;
-		$this->responseBody = "";
+		$this->responseBody = '';
 		$this->responseHeaders = array();
 		$this->lastError = false;
-		if ($this->useXml) {
-			$this->headers['Accept'] = "Accept: application/xml";
-		} else {
-			$this->headers['Accept'] = "Accept: application/json";
-		}
+		$this->addHeader('Accept', $this->getContentType());
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers);
 	}
 
@@ -198,14 +202,14 @@ class BigCommerce_Api2_Connection
 
 		if ($status >= 400 && $status <= 499) {
 			if ($this->failOnError) {
-				throw new BigCommerce_Api2_ClientError($this->getStatusMessage(), $status);
+				throw new BigCommerce_Api2_ClientError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
 			}
 		} elseif ($status >= 500 && $status <= 599) {
 			if ($this->failOnError) {
-				throw new BigCommerce_Api2_ServerError($this->getStatusMessage(), $status);
+				throw new BigCommerce_Api2_ServerError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
@@ -285,17 +289,19 @@ class BigCommerce_Api2_Connection
 	/**
 	 * Make an HTTP POST request to the specified endpoint.
 	 */
-	public function post($uri, $data)
+	public function post($url, $body)
 	{
-		$this->initializeRequest();
+		$this->addHeader('Content-Type', $this->getContentType());
 
-		if (is_array($data)) {
-			$data = http_build_query($data);
+		if (!is_string($body)) {
+			$body = json_encode($body);
 		}
 
-		curl_setopt($this->curl, CURLOPT_URL, $uri);
+		$this->initializeRequest();
+
+		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_POST, true);
-		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $body);
 		curl_exec($this->curl);
 
 		return $this->handleResponse();
@@ -304,11 +310,11 @@ class BigCommerce_Api2_Connection
 	/**
 	 * Make an HTTP HEAD request to the specified endpoint.
 	 */
-	public function head($uri)
+	public function head($url)
 	{
 		$this->initializeRequest();
 
-		curl_setopt($this->curl, CURLOPT_URL, $uri);
+		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_NOBODY, true);
 		curl_exec($this->curl);
 
@@ -321,17 +327,23 @@ class BigCommerce_Api2_Connection
 	 * Requires a tmpfile() handle to be opened on the system, as the cURL
 	 * API requires it to send data.
 	 */
-	public function put($uri, $data)
+	public function put($url, $body)
 	{
+		$this->addHeader('Content-Type', $this->getContentType());
+
+		if (!is_string($body)) {
+			$body = json_encode($body);
+		}
+
 		$this->initializeRequest();
 
 		$handle = tmpfile();
-		fwrite($handle, $data);
+		fwrite($handle, $body);
 		fseek($handle, 0);
 		curl_setopt($this->curl, CURLOPT_INFILE, $handle);
-		curl_setopt($this->curl, CURLOPT_INFILESIZE, strlen($data));
+		curl_setopt($this->curl, CURLOPT_INFILESIZE, strlen($body));
 
-		curl_setopt($this->curl, CURLOPT_URL, $uri);
+		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_PUT, true);
 		curl_exec($this->curl);
 
@@ -432,6 +444,15 @@ class BigCommerce_Api2_Connection
 class BigCommerce_Api2_Error extends Exception
 {
 
+	public function __construct($message, $code, Exception $previous=null)
+	{
+		if (is_array($message)) {
+			$message = $message[0]->message;
+		}
+
+		parent::__construct($message, $code, $previous);
+	}
+
 }
 
 class BigCommerce_Api2_NetworkError extends BigCommerce_Api2_Error
@@ -441,6 +462,11 @@ class BigCommerce_Api2_NetworkError extends BigCommerce_Api2_Error
 
 class BigCommerce_Api2_ClientError extends BigCommerce_Api2_Error
 {
+
+	public function __toString()
+	{
+		return "Client Error ({$this->code}): " . $this->message;
+	}
 
 }
 

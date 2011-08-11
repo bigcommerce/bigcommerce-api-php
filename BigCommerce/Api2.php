@@ -157,10 +157,25 @@ class BigCommerce_Api2
 		return self::mapCount($response);
 	}
 
-	public static function getBrand($id) {
+	public static function getBrand($id)
+	{
 		$response = self::connection()->get(self::$api_path . '/brands/' . $id);
 
 		return self::mapResource('Brand', $response);
+	}
+
+	public static function createBrand($object)
+	{
+		if (is_array($object)) $object = (object)$object;
+
+		return self::connection()->post(self::$api_path . '/brands', $object);
+	}
+
+	public static function updateBrand($id, $object)
+	{
+		if (is_array($object)) $object = (object)$object;
+
+		return self::connection()->put(self::$api_path . '/brands/' . $id, $object);
 	}
 
 	public static function getOrders()
@@ -177,7 +192,8 @@ class BigCommerce_Api2
 		return self::mapCount($response);
 	}
 
-	public static function getOrder($id) {
+	public static function getOrder($id)
+	{
 		$response = self::connection()->get(self::$api_path . '/orders/' . $id);
 
 		return self::mapResource('Order', $response);
@@ -197,7 +213,8 @@ class BigCommerce_Api2
 		return self::mapCount($response);
 	}
 
-	public static function getCustomer($id) {
+	public static function getCustomer($id)
+	{
 		$response = self::connection()->get(self::$api_path . '/customers/' . $id);
 
 		return self::mapResource('Customer', $response);
@@ -217,7 +234,8 @@ class BigCommerce_Api2
 		return self::mapCount($response);
 	}
 
-	public static function getOptionSet($id) {
+	public static function getOptionSet($id)
+	{
 		$response = self::connection()->get(self::$api_path . '/optionsets/' . $id);
 
 		return self::mapResource('OptionSet', $response);
