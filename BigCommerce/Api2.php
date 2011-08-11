@@ -55,13 +55,6 @@ class BigCommerce_Api2
 		return self::$connection;
 	}
 
-	private static function makeResource($resource, $object)
-	{
-		$class = 'BigCommerce_Api2_' . $resource;
-
-		return new $class($object);
-	}
-
 	private static function mapCollection($resource, $object)
 	{
 		if ($object == false || is_string($object)) return $object;
@@ -73,17 +66,22 @@ class BigCommerce_Api2
 
 	private static function mapCollectionObject($object)
 	{
-		return self::makeResource(self::$resource, $object);
+		$class = 'BigCommerce_Api2_' . self::$resource;
+
+		return new $class($object);
 	}
 
 	private static function mapResource($resource, $object)
 	{
 		if ($object == false || is_string($object)) return $object;
 
-		return self::makeResource($object, $resource);
+		$class = 'BigCommerce_Api2_' . $resource;
+
+		return new $class($object);
 	}
 
-	private static function mapCount($object) {
+	private static function mapCount($object)
+	{
 		if ($object == false || is_string($object)) return $object;
 
 		return $object->count;
@@ -112,9 +110,9 @@ class BigCommerce_Api2
 		return self::mapCount($response);
 	}
 
-	public static function getProduct()
+	public static function getProduct($id)
 	{
-		$response = self::connection()->get(self::$api_path . '/time');
+		$response = self::connection()->get(self::$api_path . '/products/' . $id);
 
 		return self::mapResource('Product', $response);
 	}
@@ -126,27 +124,102 @@ class BigCommerce_Api2
 
 	public static function getCategories()
 	{
+		$response = self::connection()->get(self::$api_path . '/categories');
 
+		return self::mapCollection('Category', $response);
 	}
 
 	public static function getCategoriesCount()
 	{
+		$response = self::connection()->get(self::$api_path . '/categories/count');
 
+		return self::mapCount($response);
 	}
 
-	public static function getCategory()
+	public static function getCategory($id)
 	{
+		$response = self::connection()->get(self::$api_path . '/categories/' . $id);
 
+		return self::mapResource('Category', $response);
 	}
 
 	public static function getBrands()
 	{
+		$response = self::connection()->get(self::$api_path . '/brands');
 
+		return self::mapCollection('Brand', $response);
 	}
 
 	public static function getBrandsCount()
 	{
+		$response = self::connection()->get(self::$api_path . '/brands/count');
 
+		return self::mapCount($response);
 	}
 
+	public static function getBrand($id) {
+		$response = self::connection()->get(self::$api_path . '/brands/' . $id);
+
+		return self::mapResource('Brand', $response);
+	}
+
+	public static function getOrders()
+	{
+		$response = self::connection()->get(self::$api_path . '/orders');
+
+		return self::mapCollection('Order', $response);
+	}
+
+	public static function getOrdersCount()
+	{
+		$response = self::connection()->get(self::$api_path . '/orders/count');
+
+		return self::mapCount($response);
+	}
+
+	public static function getOrder($id) {
+		$response = self::connection()->get(self::$api_path . '/orders/' . $id);
+
+		return self::mapResource('Order', $response);
+	}
+
+	public static function getCustomers()
+	{
+		$response = self::connection()->get(self::$api_path . '/customers');
+
+		return self::mapCollection('Customer', $response);
+	}
+
+	public static function getCustomersCount()
+	{
+		$response = self::connection()->get(self::$api_path . '/customers/count');
+
+		return self::mapCount($response);
+	}
+
+	public static function getCustomer($id) {
+		$response = self::connection()->get(self::$api_path . '/customers/' . $id);
+
+		return self::mapResource('Customer', $response);
+	}
+
+	public static function getOptionSets()
+	{
+		$response = self::connection()->get(self::$api_path . '/optionsets');
+
+		return self::mapCollection('OptionSet', $response);
+	}
+
+	public static function getOptionSetsCount()
+	{
+		$response = self::connection()->get(self::$api_path . '/optionsets/count');
+
+		return self::mapCount($response);
+	}
+
+	public static function getOptionSet($id) {
+		$response = self::connection()->get(self::$api_path . '/optionsets/' . $id);
+
+		return self::mapResource('OptionSet', $response);
+	}
 }

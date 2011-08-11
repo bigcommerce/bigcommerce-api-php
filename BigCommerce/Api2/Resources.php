@@ -36,7 +36,27 @@ class BigCommerce_Api2_Product extends BigCommerce_Api2_Resource
 
 }
 
-class BigCommerce_Api2_Brand
+class BigCommerce_Api2_Category extends BigCommerce_Api2_Resource
+{
+
+}
+
+class BigCommerce_Api2_Order extends BigCommerce_Api2_Resource
+{
+
+}
+
+class BigCommerce_Api2_Customer extends BigCommerce_Api2_Resource
+{
+
+}
+
+class BigCommerce_Api2_OptionSet extends BigCommerce_Api2_Resource
+{
+
+}
+
+class BigCommerce_Api2_Brand extends BigCommerce_Api2_Resource
 {
 
 	public function create()

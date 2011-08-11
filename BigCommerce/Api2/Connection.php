@@ -91,7 +91,7 @@ class BigCommerce_Api2_Connection
 	 * Controls whether requests and responses should be treated
 	 * as XML. Defaults to false (using JSON).
 	 */
-	public static function useXml($option=true) {
+	public function useXml($option=true) {
 		$this->useXml = $option;
 	}
 
