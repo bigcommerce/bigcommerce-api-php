@@ -117,9 +117,11 @@ class BigCommerce_Api2
 		return self::mapResource('Product', $response);
 	}
 
-	public static function updateProduct()
+	public static function updateProduct($id, $object)
 	{
+		if (is_array($object)) $object = (object)$object;
 
+		return self::connection()->put(self::$api_path . '/products/' . $id, $object);
 	}
 
 	public static function getCategories()
