@@ -256,4 +256,9 @@ class BigCommerce_Api2
 
 		return self::mapResource('OptionSet', $response);
 	}
+
+	public static function getOrderStatuses()
+	{
+		return self::getCollection('/orderstatuses', 'OrderStatus');
+	}
 }
