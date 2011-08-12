@@ -69,6 +69,29 @@ class BigCommerce_Api2
 		return self::mapResource($resource, $response);
 	}
 
+	public static function getCount($path)
+	{
+		$response = self::connection()->get(self::$api_path . $path);
+
+		if ($response == false || is_string($response)) return $response;
+
+		return $response->count;
+	}
+
+	public static function createResource($path, $object)
+	{
+		if (is_array($object)) $object = (object)$object;
+
+		return self::connection()->post(self::$api_path . $path, $object);
+	}
+
+	public static function updateResource($path, $object)
+	{
+		if (is_array($object)) $object = (object)$object;
+
+		return self::connection()->put(self::$api_path . $path, $object);
+	}
+
 	private static function mapCollection($resource, $object)
 	{
 		if ($object == false || is_string($object)) return $object;
@@ -112,149 +135,117 @@ class BigCommerce_Api2
 
 	public static function getProducts()
 	{
-		$response = self::connection()->get(self::$api_path . '/products');
-
-		return self::mapCollection('Product', $response);
+		return self::getCollection('/products', 'Product');
 	}
 
 	public static function getProductsCount()
 	{
-		$response = self::connection()->get(self::$api_path . '/products/count');
-
-		return self::mapCount($response);
+		return self::getCount('/products/count');
 	}
 
 	public static function getProduct($id)
 	{
-		$response = self::connection()->get(self::$api_path . '/products/' . $id);
-
-		return self::mapResource('Product', $response);
+		return self::getResource('/products/' . $id, 'Product');
 	}
 
 	public static function updateProduct($id, $object)
 	{
-		if (is_array($object)) $object = (object)$object;
-
-		return self::connection()->put(self::$api_path . '/products/' . $id, $object);
+		return self::updateResource('/products/' . $id, $object);
 	}
 
 	public static function getCategories()
 	{
-		$response = self::connection()->get(self::$api_path . '/categories');
-
-		return self::mapCollection('Category', $response);
+		return self::getCollection('/categories', 'Category');
 	}
 
 	public static function getCategoriesCount()
 	{
-		$response = self::connection()->get(self::$api_path . '/categories/count');
-
-		return self::mapCount($response);
+		return self::getCount('/categories/count');
 	}
 
 	public static function getCategory($id)
 	{
-		$response = self::connection()->get(self::$api_path . '/categories/' . $id);
+		return self::getResource('/categories/' . $id, 'Category');
+	}
 
-		return self::mapResource('Category', $response);
+	public static function createCategory($object)
+	{
+		return self::createResource('/categories', $object);
+	}
+
+	public static function updateCategory($id, $object)
+	{
+		return self::updateResource('/categories/' . $id, $object);
 	}
 
 	public static function getBrands()
 	{
-		$response = self::connection()->get(self::$api_path . '/brands');
-
-		return self::mapCollection('Brand', $response);
+		return self::getCollection('/brands', 'Brand');
 	}
 
 	public static function getBrandsCount()
 	{
-		$response = self::connection()->get(self::$api_path . '/brands/count');
-
-		return self::mapCount($response);
+		return self::getCount('/brands/count');
 	}
 
 	public static function getBrand($id)
 	{
-		$response = self::connection()->get(self::$api_path . '/brands/' . $id);
-
-		return self::mapResource('Brand', $response);
+		return self::getResource('/brands/' . $id, 'Brand');
 	}
 
 	public static function createBrand($object)
 	{
-		if (is_array($object)) $object = (object)$object;
-
-		return self::connection()->post(self::$api_path . '/brands', $object);
+		return self::createResource('/brands', $object);
 	}
 
 	public static function updateBrand($id, $object)
 	{
-		if (is_array($object)) $object = (object)$object;
-
-		return self::connection()->put(self::$api_path . '/brands/' . $id, $object);
+		return self::updateResource('/brands/' . $id, $object);
 	}
 
 	public static function getOrders()
 	{
-		$response = self::connection()->get(self::$api_path . '/orders');
-
-		return self::mapCollection('Order', $response);
+		return self::getCollection('/orders', 'Order');
 	}
 
 	public static function getOrdersCount()
 	{
-		$response = self::connection()->get(self::$api_path . '/orders/count');
-
-		return self::mapCount($response);
+		return self::getCount('/orders/count');
 	}
 
 	public static function getOrder($id)
 	{
-		$response = self::connection()->get(self::$api_path . '/orders/' . $id);
-
-		return self::mapResource('Order', $response);
+		return self::getResource('/orders/' . $id, 'Order');
 	}
 
 	public static function getCustomers()
 	{
-		$response = self::connection()->get(self::$api_path . '/customers');
-
-		return self::mapCollection('Customer', $response);
+		return self::getCollection('/customers', 'Customer');
 	}
 
 	public static function getCustomersCount()
 	{
-		$response = self::connection()->get(self::$api_path . '/customers/count');
-
-		return self::mapCount($response);
+		return self::getCount('/customers/count');
 	}
 
 	public static function getCustomer($id)
 	{
-		$response = self::connection()->get(self::$api_path . '/customers/' . $id);
-
-		return self::mapResource('Customer', $response);
+		return self::getResource('/customers/' . $id, 'Customer');
 	}
 
 	public static function getOptionSets()
 	{
-		$response = self::connection()->get(self::$api_path . '/optionsets');
-
-		return self::mapCollection('OptionSet', $response);
+		return self::getCollection('/optionsets', 'OptionSet');
 	}
 
 	public static function getOptionSetsCount()
 	{
-		$response = self::connection()->get(self::$api_path . '/optionsets/count');
-
-		return self::mapCount($response);
+		return self::getCount('/optionsets/count');
 	}
 
 	public static function getOptionSet($id)
 	{
-		$response = self::connection()->get(self::$api_path . '/optionsets/' . $id);
-
-		return self::mapResource('OptionSet', $response);
+		return self::getResource('/optionsets/' . $id, 'OptionSet');
 	}
 
 	public static function getOrderStatuses()
