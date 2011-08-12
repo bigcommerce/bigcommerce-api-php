@@ -7,6 +7,9 @@ class BigCommerce_Api2_Resource
 
 	public function __construct($object=false)
 	{
+		if (is_array($object)) {
+			$object = (isset($object[0])) ? $object[0] : false;
+		}
 		$this->fields = ($object) ? $object : new stdClass;
 		$this->id = ($object) ? $object->id : 0;
 	}
@@ -47,6 +50,16 @@ class BigCommerce_Api2_Order extends BigCommerce_Api2_Resource
 }
 
 class BigCommerce_Api2_Customer extends BigCommerce_Api2_Resource
+{
+
+	public function addresses()
+	{
+		return BigCommerce_Api2::getCollection($this->fields->addresses->resource, 'Address');
+	}
+
+}
+
+class BigCommerce_Api2_Address extends BigCommerce_Api2_Resource
 {
 
 }

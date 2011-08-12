@@ -55,6 +55,20 @@ class BigCommerce_Api2
 		return self::$connection;
 	}
 
+	public static function getCollection($path, $resource='Resource')
+	{
+		$response = self::connection()->get(self::$api_path . $path);
+
+		return self::mapCollection($resource, $response);
+	}
+
+	public static function getResource($path, $resource='Resource')
+	{
+		$response = self::connection()->get(self::$api_path . $path);
+
+		return self::mapResource($resource, $response);
+	}
+
 	private static function mapCollection($resource, $object)
 	{
 		if ($object == false || is_string($object)) return $object;
