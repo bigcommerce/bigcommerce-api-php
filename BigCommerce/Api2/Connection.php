@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * HTTP connection.
+ */
 class BigCommerce_Api2_Connection
 {
 
@@ -441,6 +444,9 @@ class BigCommerce_Api2_Connection
 
 }
 
+/**
+ * Base class for API exceptions. Used if failOnError is true.
+ */
 class BigCommerce_Api2_Error extends Exception
 {
 
@@ -455,11 +461,17 @@ class BigCommerce_Api2_Error extends Exception
 
 }
 
+/**
+ * Raised if a network fault occurs.
+ */
 class BigCommerce_Api2_NetworkError extends BigCommerce_Api2_Error
 {
 
 }
 
+/**
+ * Raised when a client error (400+) is returned from the API.
+ */
 class BigCommerce_Api2_ClientError extends BigCommerce_Api2_Error
 {
 
@@ -470,6 +482,9 @@ class BigCommerce_Api2_ClientError extends BigCommerce_Api2_Error
 
 }
 
+/**
+ * Raised when a server error (500+) is returned from the API.
+ */
 class BigCommerce_Api2_ServerError extends BigCommerce_Api2_Error
 {
 
