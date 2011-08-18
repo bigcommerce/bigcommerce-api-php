@@ -31,23 +31,23 @@ directly:
 To use the API client in your PHP code, require the package from your include
 path and provide the required credentials as follows:
 
-<?php
 require_once 'BigCommerce/Api2.php';
 
 $store_url = "http://store.url/"
 $username  = "admin"
 $api_key   = "api_key"
 
-BigCommerce_Api2::configure($store_url, $username, $api_key);
+BigCommerce_Api::configure($store_url, $username, $api_key);
 
 Connecting to the store
 -----------------------
 
 To test that your configuration was correct and you can successfully connect to
-the store, use the ping method which will return a DateTime object representing
-the current timestamp of the store if successful or false if unsuccessful:
+the store, ping the getTime method which will return a DateTime object
+representing the current timestamp of the store if successful or false if
+unsuccessful:
 
-$ping = BigCommerce_Api2::ping();
+$ping = BigCommerce_Api::getTime();
 
 if ($ping) {
 	echo $ping->format('H:i:s');
@@ -58,7 +58,7 @@ Accessing collections and resources (GET)
 
 To list all the resources in a collection:
 
-$products = BigCommerce_Api2::getProducts();
+$products = BigCommerce_Api::getProducts();
 
 foreach($products as $product) {
 	echo $product->name;
@@ -67,21 +67,21 @@ foreach($products as $product) {
 
 To access a single resource and its connected sub-resources:
 
-$product = BigCommerce_Api2::getProduct(11);
+$product = BigCommerce_Api::getProduct(11);
 
 echo $product->name;
 echo $product->price;
 
 To view the total count of resources in a collection:
 
-$count = BigCommerce_Api2::getProductsCount();
+$count = BigCommerce_Api::getProductsCount();
 
 Updating existing resources (PUT)
 ---------------------------------
 
 To update a single resource:
 
-$product = BigCommerce_Api2::getProduct(11);
+$product = BigCommerce_Api::getProduct(11);
 
 $product->name = "MacBook Air";
 $product->price = 99.95;
@@ -95,7 +95,7 @@ $fields = array(
 	"price" => 999.95
 );
 
-BigCommerce_Api2::updateProduct(11, $fields);
+BigCommerce_Api::updateProduct(11, $fields);
 
 Creating new resources (POST)
 -----------------------------
@@ -108,12 +108,12 @@ $fields = array(
 	"name" => "Apple"
 );
 
-BigCommerce_Api2::createBrand($fields);
+BigCommerce_Api::createBrand($fields);
 
 You can also create a resource by making a new instance of the resource class
 and calling the create method once you have set the fields you want to save:
 
-$brand = new BigCommerce_Api2_Brand();
+$brand = new BigCommerce_Api_Brand();
 
 $brand->name = "Apple";
 $brand->create();
@@ -123,17 +123,17 @@ Deleting resources and collections (DELETE)
 
 To delete a single resource you can call the delete method on the resource object:
 
-$options = BigCommerce_Api2::getOptionSet(22);
+$options = BigCommerce_Api::getOptionSet(22);
 $options->delete();
 
 You can also delete resources by calling the global method:
 
-BigCommerce_Api2::deleteOptionSet(22);
+BigCommerce_Api::deleteOptionSet(22);
 
 Some resources support deletion of the entire collection. You can use the
 deleteAll methods to do this:
 
-BigCommerce_Api2::deleteAllOptionSets();
+BigCommerce_Api::deleteAllOptionSets();
 
 Using The XML API
 -----------------
@@ -142,7 +142,7 @@ By default, the API client handles requests and responses by converting between
 JSON strings and their PHP object representations. If you need to work with XML
 you can switch the API into XML mode with the useXml method:
 
-BigCommerce_Api2::useXml();
+BigCommerce_Api::useXml();
 
 This will configure the API client to use XML for all subsequent requests. Note
 that the client does not convert XML to PHP objects. In XML mode, all object
@@ -151,7 +151,7 @@ containing valid XML, and all responses from collection and resource methods
 (including the ping, and count methods) will return XML strings instead of PHP
 objects. An example transaction using XML would look like:
 
-BigCommerce_Api2::useXml();
+BigCommerce_Api::useXml();
 
 $xml = "<?xml version="1.0" encoding="UTF-8"?>
 		<brand>
@@ -159,7 +159,7 @@ $xml = "<?xml version="1.0" encoding="UTF-8"?>
 		 	<search_keywords>computers laptops</search_keywords>
 		</brand>";
 
-$result = BigCommerce_Api2::createBrand($xml);
+$result = BigCommerce_Api::createBrand($xml);
 
 Handling Errors And Timeouts
 ----------------------------
@@ -174,12 +174,12 @@ In some cases, you may also need to check the reason why the request failed.
 This would most often be when you tried to save some data that did not validate
 correctly.
 
-$count = BigCommerce_Api2::getProductsCount();
+$count = BigCommerce_Api::getProductsCount();
 
 if ($count) {
 	echo $count;
 } else {
-	$error = BigCommerce_Api2::getLastError();
+	$error = BigCommerce_Api::getLastError();
 	echo $error->code;
 	echo $error->message;
 }
@@ -196,14 +196,14 @@ behavior of the client is controlled using the failOnError method:
 BigCommerce_Api::failOnError();
 
 try {
-	$orders = BigCommerce_Api2::getOrders();
+	$orders = BigCommerce_Api::getOrders();
 
-} catch(BigCommerce_Api2_Error $error) {
+} catch(BigCommerce_Api_Error $error) {
 	echo $error->getCode();
 	echo $error->getMessage();
 }
 
-The exceptions thrown are subclasses of BigCommerce_Api2_Error, representing
+The exceptions thrown are subclasses of BigCommerce_Api_Error, representing
 client errors and server errors. The API documentation for response codes
 contains a list of all the possible error conditions the client may encounter.
 
