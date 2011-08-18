@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/Api2/Connection.php';
-require_once dirname(__FILE__).'/Api2/Resources.php';
+require_once dirname(__FILE__).'/Api/Connection.php';
+require_once dirname(__FILE__).'/Api/Resources.php';
 
 class BigCommerce_Api
 {
