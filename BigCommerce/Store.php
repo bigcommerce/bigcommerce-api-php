@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/Api2/Connection.php';
 require_once dirname(__FILE__).'/Api2/Resources.php';
 
-class BigCommerce_Store
+class BigCommerce_Api
 {
 
 	static private $api_path = '/api/v2';

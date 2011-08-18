@@ -1,6 +1,6 @@
 <?php
 
-class BigCommerce_Api2_Resource
+class BigCommerce_Api_Resource
 {
 	protected $fields;
 	protected $id;
@@ -29,162 +29,162 @@ class BigCommerce_Api2_Resource
 
 }
 
-class BigCommerce_Api2_Product extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 {
 
 	public function brand()
 	{
-		return BigCommerce_Api2::getResource($this->fields->brand->resource, 'Brand');
+		return BigCommerce_Api::getResource($this->fields->brand->resource, 'Brand');
 	}
 
 	public function images()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->images->resource, 'ProductImage');
+		return BigCommerce_Api::getCollection($this->fields->images->resource, 'ProductImage');
 	}
 
 	public function skus()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->skus->resource, 'Sku');
+		return BigCommerce_Api::getCollection($this->fields->skus->resource, 'Sku');
 	}
 
 	public function rules()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->rules->resource, 'Rule');
+		return BigCommerce_Api::getCollection($this->fields->rules->resource, 'Rule');
 	}
 
 	public function videos()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->videos->resource, 'Video');
+		return BigCommerce_Api::getCollection($this->fields->videos->resource, 'Video');
 	}
 
 	public function custom_fields()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->custom_fields->resource, 'CustomField');
+		return BigCommerce_Api::getCollection($this->fields->custom_fields->resource, 'CustomField');
 	}
 
 	public function configurable_fields()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->configurable_fields->resource, 'ConfigurableField');
+		return BigCommerce_Api::getCollection($this->fields->configurable_fields->resource, 'ConfigurableField');
 	}
 
 	public function discount_rules()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->discount_rules->resource, 'DiscountRule');
+		return BigCommerce_Api::getCollection($this->fields->discount_rules->resource, 'DiscountRule');
 	}
 
 	public function option_set()
 	{
-		return BigCommerce_Api2::getResource($this->fields->option_set->resource, 'OptionSet');
+		return BigCommerce_Api::getResource($this->fields->option_set->resource, 'OptionSet');
 	}
 
 	public function update()
 	{
-		return BigCommerce_Api2::updateProduct($this->id, $this->fields);
+		return BigCommerce_Api::updateProduct($this->id, $this->fields);
 	}
 
 }
 
-class BigCommerce_Api2_ProductImage extends BigCommerce_Api2_Resource
+class BigCommerce_Api_ProductImage extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_Sku extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Sku extends BigCommerce_Api_Resource
 {
 
 	public function options()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->options->resource, 'Option');
+		return BigCommerce_Api::getCollection($this->fields->options->resource, 'Option');
 	}
 
 }
 
-class BigCommerce_Api2_Option extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Option extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_CustomField extends BigCommerce_Api2_Resource
+class BigCommerce_Api_CustomField extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_ConfigurableField extends BigCommerce_Api2_Resource
+class BigCommerce_Api_ConfigurableField extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_DiscountRule extends BigCommerce_Api2_Resource
+class BigCommerce_Api_DiscountRule extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_Rule extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Rule extends BigCommerce_Api_Resource
 {
 
 	public function conditions()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->conditions->resource, 'RuleCondition');
+		return BigCommerce_Api::getCollection($this->fields->conditions->resource, 'RuleCondition');
 	}
 
 }
 
-class BigCommerce_Api2_Video extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Video extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_RuleCondition extends BigCommerce_Api2_Resource
+class BigCommerce_Api_RuleCondition extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_Category extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Category extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_Order extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Order extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_Customer extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Customer extends BigCommerce_Api_Resource
 {
 
 	public function addresses()
 	{
-		return BigCommerce_Api2::getCollection($this->fields->addresses->resource, 'Address');
+		return BigCommerce_Api::getCollection($this->fields->addresses->resource, 'Address');
 	}
 
 }
 
-class BigCommerce_Api2_Address extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Address extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_OptionSet extends BigCommerce_Api2_Resource
+class BigCommerce_Api_OptionSet extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api2_Brand extends BigCommerce_Api2_Resource
+class BigCommerce_Api_Brand extends BigCommerce_Api_Resource
 {
 
 	public function create()
 	{
-		return BigCommerce_Api2::createBrand($this->fields);
+		return BigCommerce_Api::createBrand($this->fields);
 	}
 
 	public function update()
 	{
-		return BigCommerce_Api2::updateBrand($this->id, $this->fields);
+		return BigCommerce_Api::updateBrand($this->id, $this->fields);
 	}
 
 }
 
-class BigCommerce_Api2_OrderStatus extends BigCommerce_Api2_Resource
+class BigCommerce_Api_OrderStatus extends BigCommerce_Api_Resource
 {
 
 }

@@ -7,7 +7,7 @@
    http://pear.php.net/dtd/package-2.0
    http://pear.php.net/dtd/package-2.0.xsd">
 	<name>BigCommerce_Api2</name>
-	<uri>http://beast.interspire/~mark.rickerby/BigCommerce_Api2-0.0.1</uri>
+	<uri>http://beast.interspire/~mark.rickerby/BigCommerce_Store-0.0.2</uri>
 	<summary>PHP package for connecting to the BigCommerce REST API.</summary>
 	<description>todo: actually write documentation for this.</description>
 	<lead>
@@ -16,11 +16,11 @@
 		<email>dev-accounts@bigcommerce.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2011-08-12</date>
-	<time>08:56:00</time>
+	<date>2011-08-19</date>
+	<time>09:05:00</time>
 	<version>
-		<release>0.0.1</release>
-		<api>0.0.1</api>
+		<release>0.0.2</release>
+		<api>0.0.2</api>
 	</version>
 	<stability>
 		<release>alpha</release>
@@ -33,8 +33,8 @@
 			<file name="README" role="doc" />
 			<file name="LICENSE" role="doc" />
 			<dir name="BigCommerce">
-				<file name="Api2.php" role="php" />
-				<dir name="Api2">
+				<file name="Store.php" role="php" />
+				<dir name="Store">
 					<file name="Connection.php" role="php" />
 					<file name="Resources.php" role="php" />
 				</dir>
