@@ -2,10 +2,10 @@
 require_once dirname(__FILE__).'/Api2/Connection.php';
 require_once dirname(__FILE__).'/Api2/Resources.php';
 
-class BigCommerce_Api2
+class BigCommerce_Store
 {
 
-	static private $api_path = '/api/v1';
+	static private $api_path = '/api/v2';
 	static private $store_url;
 	static private $username;
 	static private $api_key;
@@ -124,7 +124,7 @@ class BigCommerce_Api2
 		return $object->count;
 	}
 
-	public static function ping()
+	public static function getTime()
 	{
 		$response = self::connection()->get(self::$api_path . '/time');
 
