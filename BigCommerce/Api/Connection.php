@@ -196,7 +196,7 @@ class BigCommerce_Api_Connection
 	private function handleResponse()
 	{
 		if (curl_errno($this->curl)) {
-			throw new BigCommerce_Api2_NetworkError(curl_error($this->curl), curl_errno($this->curl));
+			throw new BigCommerce_Api_NetworkError(curl_error($this->curl), curl_errno($this->curl));
 		}
 
 		$body = ($this->useXml) ? $this->getBody() : json_decode($this->getBody());
@@ -205,14 +205,14 @@ class BigCommerce_Api_Connection
 
 		if ($status >= 400 && $status <= 499) {
 			if ($this->failOnError) {
-				throw new BigCommerce_Api2_ClientError($body, $status);
+				throw new BigCommerce_Api_ClientError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
 			}
 		} elseif ($status >= 500 && $status <= 599) {
 			if ($this->failOnError) {
-				throw new BigCommerce_Api2_ServerError($body, $status);
+				throw new BigCommerce_Api_ServerError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
@@ -264,7 +264,7 @@ class BigCommerce_Api_Connection
 
 			} else {
 				$errorString = "Too many redirects when trying to follow location.";
-				throw new BigCommerce_Api2_NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
+				throw new BigCommerce_Api_NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
 			}
 		} else {
 			$this->redirectsFollowed = 0;

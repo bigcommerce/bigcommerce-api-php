@@ -48,7 +48,7 @@ class BigCommerce_Api
 	private static function connection()
 	{
 		if (!self::$connection) {
-		 	self::$connection = new BigCommerce_Api2_Connection();
+		 	self::$connection = new BigCommerce_Api_Connection();
 			self::$connection->authenticate(self::$username, self::$api_key);
 		}
 
@@ -103,7 +103,7 @@ class BigCommerce_Api
 
 	private static function mapCollectionObject($object)
 	{
-		$class = 'BigCommerce_Api2_' . self::$resource;
+		$class = 'BigCommerce_Api_' . self::$resource;
 
 		return new $class($object);
 	}
@@ -112,7 +112,7 @@ class BigCommerce_Api
 	{
 		if ($object == false || is_string($object)) return $object;
 
-		$class = 'BigCommerce_Api2_' . $resource;
+		$class = 'BigCommerce_Api_' . $resource;
 
 		return new $class($object);
 	}
