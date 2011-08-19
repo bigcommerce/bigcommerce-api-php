@@ -2,6 +2,9 @@
 require_once dirname(__FILE__).'/Api/Connection.php';
 require_once dirname(__FILE__).'/Api/Resources.php';
 
+/**
+ * BigCommerce API wrapper.
+ */
 class BigCommerce_Api
 {
 
@@ -12,6 +15,9 @@ class BigCommerce_Api
 	static private $connection;
 	static private $resource;
 
+	/**
+	 * Configure the API client with the required credentials.
+	 */
 	public static function configure($store_url, $username, $api_key)
 	{
 		self::$username  = $username;
@@ -20,31 +26,60 @@ class BigCommerce_Api
 		self::$api_path = self::$store_url . self::$api_path;
 	}
 
+	/**
+	 * Configure the API client to throw exceptions when HTTP errors occur.
+	 *
+	 * Note that network faults will always cause an exception to be thrown.
+	 */
 	public static function failOnError($option=true)
 	{
 		self::connection()->failOnError($option);
 	}
 
+	/**
+	 * Return XML strings from the API instead of building objects.
+	 */
 	public static function useXml()
 	{
 		self::connection()->useXml();
 	}
 
+	/**
+	 * Switch SSL certificate verification on requests.
+	 */
 	public static function verifyPeer($option=false)
 	{
 		self::connection()->verifyPeer($option);
 	}
 
-	public static function useProxy($server, $port=false)
+	/**
+	 * Connect to the internet through a proxy server.
+	 *
+	 * @param string $host host server
+	 * @param string $port port
+	 */
+	public static function useProxy($host, $port=false)
 	{
-		self::connection()->useProxy($server, $port);
+		self::connection()->useProxy($host, $port);
 	}
 
+	/**
+	 * Get error message returned from the last API request if
+	 * failOnError is false (default).
+	 *
+	 * @return string
+	 */
 	public static function getLastError()
 	{
 		return self::connection()->getLastError();
 	}
 
+	/**
+	 * Get an instance of the HTTP connection object. Initializes
+	 * the connection if it is not already active.
+	 *
+	 * @return BigCommerce_Api_Connection
+	 */
 	private static function connection()
 	{
 		if (!self::$connection) {
@@ -55,6 +90,13 @@ class BigCommerce_Api
 		return self::$connection;
 	}
 
+	/**
+	 * Get a collection result from the specified endpoint.
+	 *
+	 * @param string $path api endpoint
+	 * @param string $resource resource class to map individual items
+	 * @return mixed array|string mapped collection or XML string if useXml is true
+	 */
 	public static function getCollection($path, $resource='Resource')
 	{
 		$response = self::connection()->get(self::$api_path . $path);
@@ -62,6 +104,13 @@ class BigCommerce_Api
 		return self::mapCollection($resource, $response);
 	}
 
+	/**
+	 * Get a resource entity from the specified endpoint.
+	 *
+	 * @param string $path api endpoint
+	 * @param string $resource resource class to map individual items
+	 * @return mixed BigCommerce_ApiResource|string resource object or XML string if useXml is true
+	 */
 	public static function getResource($path, $resource='Resource')
 	{
 		$response = self::connection()->get(self::$api_path . $path);
@@ -69,6 +118,12 @@ class BigCommerce_Api
 		return self::mapResource($resource, $response);
 	}
 
+	/**
+	 * Get a count value from the specified endpoint.
+	 *
+	 * @param string $path api endpoint
+	 * @return mixed int|string count value or XML string if useXml is true
+	 */
 	public static function getCount($path)
 	{
 		$response = self::connection()->get(self::$api_path . $path);
@@ -78,6 +133,12 @@ class BigCommerce_Api
 		return $response->count;
 	}
 
+	/**
+	 * Send a post request to create a resource on the specified collection.
+	 *
+	 * @param string $path api endpoint
+	 * @param mixed $object object or XML string to create
+	 */
 	public static function createResource($path, $object)
 	{
 		if (is_array($object)) $object = (object)$object;
@@ -85,6 +146,12 @@ class BigCommerce_Api
 		return self::connection()->post(self::$api_path . $path, $object);
 	}
 
+	/**
+	 * Send a put request to update the specified resource.
+	 *
+	 * @param string $path api endpoint
+	 * @param mixed $object object or XML string to update
+	 */
 	public static function updateResource($path, $object)
 	{
 		if (is_array($object)) $object = (object)$object;
@@ -92,6 +159,13 @@ class BigCommerce_Api
 		return self::connection()->put(self::$api_path . $path, $object);
 	}
 
+	/**
+	 * Internal method to wrap items in a collection to resource classes.
+	 *
+	 * @param string $resource name of the resource class
+	 * @param array $object object collection
+	 * @return array
+	 */
 	private static function mapCollection($resource, $object)
 	{
 		if ($object == false || is_string($object)) return $object;
@@ -101,6 +175,12 @@ class BigCommerce_Api
 		return array_map(array('self', 'mapCollectionObject'), $object);
 	}
 
+	/**
+	 * Callback for mapping collection objects resource classes.
+	 *
+	 * @param stdClass $object
+	 * @return BigCommerce_Api_Resource
+	 */
 	private static function mapCollectionObject($object)
 	{
 		$class = 'BigCommerce_Api_' . self::$resource;
@@ -108,6 +188,13 @@ class BigCommerce_Api
 		return new $class($object);
 	}
 
+	/**
+	 * Map a single object to a resource class.
+	 *
+	 * @param string $resource name of the resource class
+	 * @param stdClass $object
+	 * @return BigCommerce_Api_Resource
+	 */
 	private static function mapResource($resource, $object)
 	{
 		if ($object == false || is_string($object)) return $object;
@@ -117,6 +204,12 @@ class BigCommerce_Api
 		return new $class($object);
 	}
 
+	/**
+	 * Map object representing a count to an integer value.
+	 *
+	 * @param stdClass $object
+	 * @return int
+	 */
 	private static function mapCount($object)
 	{
 		if ($object == false || is_string($object)) return $object;
@@ -124,6 +217,11 @@ class BigCommerce_Api
 		return $object->count;
 	}
 
+	/**
+	 * Pings the time endpoint to test the connection to a store.
+	 *
+	 * @return DateTime
+	 */
 	public static function getTime()
 	{
 		$response = self::connection()->get(self::$api_path . '/time');
@@ -133,121 +231,203 @@ class BigCommerce_Api
 		return new DateTime("@{$response->time}");
 	}
 
+	/**
+	 * Returns the default collection of products.
+	 *
+	 * @return mixed array|string list of products or XML string if useXml is true
+	 */
 	public static function getProducts()
 	{
 		return self::getCollection('/products', 'Product');
 	}
 
+	/**
+	 * Returns the total number of products in the collection.
+	 *
+	 * @return mixed int|string number of products or XML string if useXml is true
+	 */
 	public static function getProductsCount()
 	{
 		return self::getCount('/products/count');
 	}
 
+	/**
+	 * Returns a single product resource by the given id.
+	 *
+	 * @param int $id product id
+	 * @return BigCommerce_Api_Product|string
+	 */
 	public static function getProduct($id)
 	{
 		return self::getResource('/products/' . $id, 'Product');
 	}
 
+	/**
+	 * Update the given product with given data.
+	 *
+	 * @param int $id product id
+	 * @param mixed $object fields to update
+	 */
 	public static function updateProduct($id, $object)
 	{
 		return self::updateResource('/products/' . $id, $object);
 	}
 
+	/**
+	 *
+	 */
 	public static function getCategories()
 	{
 		return self::getCollection('/categories', 'Category');
 	}
 
+	/**
+	 *
+	 */
 	public static function getCategoriesCount()
 	{
 		return self::getCount('/categories/count');
 	}
 
+	/**
+	 *
+	 */
 	public static function getCategory($id)
 	{
 		return self::getResource('/categories/' . $id, 'Category');
 	}
 
+	/**
+	 *
+	 */
 	public static function createCategory($object)
 	{
 		return self::createResource('/categories', $object);
 	}
 
+	/**
+	 *
+	 */
 	public static function updateCategory($id, $object)
 	{
 		return self::updateResource('/categories/' . $id, $object);
 	}
 
+	/**
+	 *
+	 */
 	public static function getBrands()
 	{
 		return self::getCollection('/brands', 'Brand');
 	}
 
+	/**
+	 *
+	 */
 	public static function getBrandsCount()
 	{
 		return self::getCount('/brands/count');
 	}
 
+	/**
+	 *
+	 */
 	public static function getBrand($id)
 	{
 		return self::getResource('/brands/' . $id, 'Brand');
 	}
 
+	/**
+	 *
+	 */
 	public static function createBrand($object)
 	{
 		return self::createResource('/brands', $object);
 	}
 
+	/**
+	 *
+	 */
 	public static function updateBrand($id, $object)
 	{
 		return self::updateResource('/brands/' . $id, $object);
 	}
 
+	/**
+	 *
+	 */
 	public static function getOrders()
 	{
 		return self::getCollection('/orders', 'Order');
 	}
 
+	/**
+	 *
+	 */
 	public static function getOrdersCount()
 	{
 		return self::getCount('/orders/count');
 	}
 
+	/**
+	 *
+	 */
 	public static function getOrder($id)
 	{
 		return self::getResource('/orders/' . $id, 'Order');
 	}
 
+	/**
+	 *
+	 */
 	public static function getCustomers()
 	{
 		return self::getCollection('/customers', 'Customer');
 	}
 
+	/**
+	 *
+	 */
 	public static function getCustomersCount()
 	{
 		return self::getCount('/customers/count');
 	}
 
+	/**
+	 *
+	 */
 	public static function getCustomer($id)
 	{
 		return self::getResource('/customers/' . $id, 'Customer');
 	}
 
+	/**
+	 *
+	 */
 	public static function getOptionSets()
 	{
 		return self::getCollection('/optionsets', 'OptionSet');
 	}
 
+	/**
+	 *
+	 */
 	public static function getOptionSetsCount()
 	{
 		return self::getCount('/optionsets/count');
 	}
 
+	/**
+	 *
+	 */
 	public static function getOptionSet($id)
 	{
 		return self::getResource('/optionsets/' . $id, 'OptionSet');
 	}
 
+	/**
+	 *
+	 */
 	public static function getOrderStatuses()
 	{
 		return self::getCollection('/orderstatuses', 'OrderStatus');
