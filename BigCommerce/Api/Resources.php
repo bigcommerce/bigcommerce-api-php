@@ -2,8 +2,26 @@
 
 class BigCommerce_Api_Resource
 {
+	/**
+	 *
+	 * @var stdclass
+	 */
 	protected $fields;
+
+	/**
+	 * @var int
+	 */
 	protected $id;
+
+	/**
+	 * @var array
+	 */
+	protected $ignoreOnCreate = array();
+
+	/**
+	 * @var array
+	 */
+	protected $ignoreOnUpdate = array();
 
 	public function __construct($object=false)
 	{
@@ -27,10 +45,45 @@ class BigCommerce_Api_Resource
 		$this->fields->$field = $value;
 	}
 
+	protected function getCreateFields()
+	{
+		$resource = $this->fields;
+		foreach($this->ignoreOnCreate as $field) {
+			if (isset($resource->$field)) unset($resource->$field);
+		}
+		return $resource;
+	}
+
+	protected function getUpdateFields()
+	{
+		$resource = $this->fields;
+		foreach($this->ignoreOnUpdate as $field) {
+			if (isset($resource->$field)) unset($resource->$field);
+		}
+		return $resource;
+	}
+
 }
 
+/**
+ * Represents a single product.
+ */
 class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 {
+
+	/**
+	 * @see https://developer.bigcommerce.com/display/API/Products#Products-ReadOnlyFields
+	 * @var array
+	 */
+	protected $ignoreOnUpdate = array(
+		'id',
+		'rating_total',
+		'rating_count',
+		'date_created',
+		'date_modified',
+		'date_last_imported',
+		'number_sold',
+	);
 
 	public function brand()
 	{
@@ -79,13 +132,37 @@ class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 
 	public function update()
 	{
-		return BigCommerce_Api::updateProduct($this->id, $this->fields);
+		return BigCommerce_Api::updateProduct($this->id, $this->getUpdateFields());
 	}
 
 }
 
+/**
+ * An image belonging to a product.
+ */
 class BigCommerce_Api_ProductImage extends BigCommerce_Api_Resource
 {
+
+	protected $ignoreOnCreate = array(
+		'id',
+		'date_created',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'date_created',
+		'product_id',
+	);
+
+	public function create()
+	{
+		return BigCommerce_Api::createProductImage($this->product_id, $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		return BigCommerce_Api::updateProductImage($this->product_id, $this->id, $this->getUpdateFields());
+	}
 
 }
 
