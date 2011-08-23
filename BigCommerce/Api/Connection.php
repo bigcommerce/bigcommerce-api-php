@@ -14,12 +14,12 @@ class BigCommerce_Api_Connection
 	/**
 	 * @var hash of HTTP request headers
 	 */
-	private $headers;
+	private $headers = array();
 
 	/**
 	 * @var hash of headers from HTTP response
 	 */
-	private $responseHeaders;
+	private $responseHeaders = array();
 
 	/**
 	 * The status line of the response.
@@ -79,7 +79,6 @@ class BigCommerce_Api_Connection
 	public function __construct()
 	{
 		$this->curl = curl_init();
-		$this->headers = array();
 		curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
 		curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, array($this, 'parseBody'));
 

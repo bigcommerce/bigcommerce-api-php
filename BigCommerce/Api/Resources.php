@@ -428,19 +428,35 @@ class BigCommerce_Api_OptionSet extends BigCommerce_Api_Resource
 class BigCommerce_Api_Brand extends BigCommerce_Api_Resource
 {
 
+	protected $ignoreOnCreate = array(
+		'id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+	);
+
 	public function create()
 	{
-		return BigCommerce_Api::createBrand($this->fields);
+		return BigCommerce_Api::createBrand($this->getCreateFields());
 	}
 
 	public function update()
 	{
-		return BigCommerce_Api::updateBrand($this->id, $this->fields);
+		return BigCommerce_Api::updateBrand($this->id, $this->getUpdateFields());
 	}
 
 }
 
 class BigCommerce_Api_OrderStatus extends BigCommerce_Api_Resource
+{
+
+}
+
+/**
+ * Represents a request to the API.
+ */
+class BigCommerce_Api_RequestLog extends BigCommerce_Api_Resource
 {
 
 }

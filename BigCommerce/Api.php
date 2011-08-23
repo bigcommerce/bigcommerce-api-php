@@ -477,4 +477,35 @@ class BigCommerce_Api
 	{
 		return self::getCollection('/orderstatuses', 'OrderStatus');
 	}
+
+	/**
+	 * The request logs with usage history statistics.
+	 */
+	public static function getRequestLogs()
+	{
+		return self::getCollection('/requestlogs');
+	}
+
+	/**
+	 * The number of requests remaining at the current time. Based on the
+	 * last request that was fetched within the current script. If no
+	 * requests have been made, pings the time endpoint to get the value.
+	 *
+	 * @return int
+	 */
+	public static function getRequestsRemaining()
+	{
+		$limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
+
+		if (!$limit) {
+			$result = self::getTime();
+
+			if (!$result) return false;
+
+			$limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
+		}
+
+		return intval($limit);
+	}
+
 }
