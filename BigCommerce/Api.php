@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/Api/Connection.php';
 require_once dirname(__FILE__).'/Api/Resources.php';
+require_once dirname(__FILE__).'/Api/Filter.php';
 
 /**
  * BigCommerce API wrapper.
@@ -235,11 +236,13 @@ class BigCommerce_Api
 	/**
 	 * Returns the default collection of products.
 	 *
+	 * @param array $filter
 	 * @return mixed array|string list of products or XML string if useXml is true
 	 */
-	public static function getProducts()
+	public static function getProducts($filter=false)
 	{
-		return self::getCollection('/products', 'Product');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/products' . $filter->toQuery(), 'Product');
 	}
 
 	/**
@@ -277,12 +280,23 @@ class BigCommerce_Api
 	/**
 	 * Return the collection of options.
 	 *
-	 * @param int $id option id
+	 * @param array $filter
 	 * @return array
 	 */
-	public static function getOptions()
+	public static function getOptions($filter=false)
 	{
-		return self::getCollection('/options', 'Option');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/options' . $filter->toQuery(), 'Option');
+	}
+
+	/**
+	 * Return the number of options in the collection
+	 *
+	 * @return int
+	 */
+	public static function getOptionsCount()
+	{
+		return self::getCount('/options/count');
 	}
 
 	/**
@@ -311,23 +325,31 @@ class BigCommerce_Api
 	/**
 	 * Return the collection of all option values.
 	 *
+	 * @param mixed $filter
 	 * @return array
 	 */
-	public static function getOptionValues()
+	public static function getOptionValues($filter=false)
 	{
-		return self::getCollection('/options/values', 'OptionValue');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/options/values' . $filter->toQuery(), 'OptionValue');
 	}
 
 	/**
+	 * The collection of categories.
 	 *
+	 * @param mixed $filter
+	 * @return array
 	 */
-	public static function getCategories()
+	public static function getCategories($filter=false)
 	{
-		return self::getCollection('/categories', 'Category');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/categories' . $filter->toQuery(), 'Category');
 	}
 
 	/**
+	 * The number of categories in the collection.
 	 *
+	 * @return int
 	 */
 	public static function getCategoriesCount()
 	{
@@ -335,7 +357,10 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * A single category by given id.
 	 *
+	 * @param int $id category id
+	 * @return BigCommerce_Api_Category
 	 */
 	public static function getCategory($id)
 	{
@@ -343,7 +368,9 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Create a new category from the given data.
 	 *
+	 * @param mixed $object
 	 */
 	public static function createCategory($object)
 	{
@@ -351,7 +378,10 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Update the given category.
 	 *
+	 * @param int $id category id
+	 * @param mixed $object
 	 */
 	public static function updateCategory($id, $object)
 	{
@@ -359,15 +389,21 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * The collection of brands.
 	 *
+	 * @param mixed $filter
+	 * @return array
 	 */
-	public static function getBrands()
+	public static function getBrands($filter=false)
 	{
-		return self::getCollection('/brands', 'Brand');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
 	}
 
 	/**
+	 * The total number of brands in the collection.
 	 *
+	 * @return int
 	 */
 	public static function getBrandsCount()
 	{
@@ -375,7 +411,10 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * A single brand by given id.
 	 *
+	 * @param int $id brand id
+	 * @return BigCommerce_Api_Brand
 	 */
 	public static function getBrand($id)
 	{
@@ -383,7 +422,9 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Create a new brand from the given data.
 	 *
+	 * @param mixed $object
 	 */
 	public static function createBrand($object)
 	{
@@ -391,7 +432,10 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Update the given brand.
 	 *
+	 * @param int $id brand id
+	 * @param mixed $object
 	 */
 	public static function updateBrand($id, $object)
 	{
@@ -399,15 +443,21 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * The collection of orders.
 	 *
+	 * @param mixed $filter
+	 * @return array
 	 */
-	public static function getOrders()
+	public static function getOrders($filter=false)
 	{
-		return self::getCollection('/orders', 'Order');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/orders' . $filter->toQuery(), 'Order');
 	}
 
 	/**
+	 * The number of orders in the collection.
 	 *
+	 * @return int
 	 */
 	public static function getOrdersCount()
 	{
@@ -415,7 +465,10 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * A single order.
 	 *
+	 * @param int $id order id
+	 * @return BigCommerce_Api_Order
 	 */
 	public static function getOrder($id)
 	{
@@ -423,15 +476,21 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * The list of customers.
 	 *
+	 * @param mixed $filter
+	 * @return array
 	 */
-	public static function getCustomers()
+	public static function getCustomers($filter=false)
 	{
-		return self::getCollection('/customers', 'Customer');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/customers' . $filter->toQuery(), 'Customer');
 	}
 
 	/**
+	 * The total number of customers in the collection.
 	 *
+	 * @return int
 	 */
 	public static function getCustomersCount()
 	{
@@ -439,7 +498,10 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * A single customer by given id.
 	 *
+	 * @param int $id customer id
+	 * @return BigCommerce_Api_Customer
 	 */
 	public static function getCustomer($id)
 	{
@@ -447,15 +509,21 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Returns the collection of option sets.
 	 *
+	 * @param array $filter
+	 * @return array
 	 */
-	public static function getOptionSets()
+	public static function getOptionSets($filter=false)
 	{
-		return self::getCollection('/optionsets', 'OptionSet');
+		$filter = BigCommerce_Api_Filter::create($filter);
+		return self::getCollection('/optionsets' . $filter->toQuery(), 'OptionSet');
 	}
 
 	/**
+	 * Returns the total number of option sets in the collection.
 	 *
+	 * @return int
 	 */
 	public static function getOptionSetsCount()
 	{
@@ -463,7 +531,10 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * A single option set by given id.
 	 *
+	 * @param int $id option set id
+	 * @return BigCommerce_Api_OptionSet
 	 */
 	public static function getOptionSet($id)
 	{
@@ -471,7 +542,9 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Status codes used to represent the state of an order.
 	 *
+	 * @return array
 	 */
 	public static function getOrderStatuses()
 	{
