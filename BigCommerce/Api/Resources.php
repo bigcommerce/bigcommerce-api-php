@@ -423,6 +423,77 @@ class BigCommerce_Api_Category extends BigCommerce_Api_Resource
 class BigCommerce_Api_Order extends BigCommerce_Api_Resource
 {
 
+	public function shipments()
+	{
+		return BigCommerce_Api::getCollection('/orders/'. $this->id . '/shipments', 'Shipment');
+	}
+
+	public function products()
+	{
+		return BigCommerce_Api::getCollection($this->fields->products->resource, 'OrderProduct');
+	}
+
+	public function shipping_addresses()
+	{
+		return BigCommerce_Api::getCollection($this->fields->shipping_addresses->resource, 'Address');
+	}
+
+	public function coupons()
+	{
+		return BigCommerce_Api::getCollection($this->fields->coupons->resource, 'Coupon');
+	}
+
+	public function update()
+	{
+		$order = new stdClass;
+		$order->status_id = $this->status_id;
+		$order->is_deleted = $this->is_deleted;
+
+		BigCommerce_Api::updateResource('/orders/' . $this->id, $order);
+	}
+
+}
+
+class BigCommerce_Api_OrderProduct extends BigCommerce_Api_Resource
+{
+
+}
+
+class BigCommerce_Api_Shipment extends BigCommerce_Api_Resource
+{
+
+	protected $ignoreOnCreate = array(
+		'id',
+		'order_id',
+		'date_created',
+		'customer_id',
+		'shipping_method',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'order_id',
+		'date_created',
+		'customer_id',
+		'shipping_method',
+		'items',
+	);
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/orders/' . $this->order_id . '/shipments', $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		return BigCommerce_Api::createResource('/orders/' . $this->order_id . '/shipments' . $this->id, $this->getCreateFields());
+	}
+
+}
+
+class BigCommerce_Api_Coupon extends BigCommerce_Api_Resource
+{
+
 }
 
 class BigCommerce_Api_Customer extends BigCommerce_Api_Resource
