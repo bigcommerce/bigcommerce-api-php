@@ -398,6 +398,26 @@ class BigCommerce_Api_RuleCondition extends BigCommerce_Api_Resource
 class BigCommerce_Api_Category extends BigCommerce_Api_Resource
 {
 
+	protected $ignoreOnCreate = array(
+		'id',
+		'parent_category_list',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'parent_category_list',
+	);
+
+	public function create()
+	{
+		return BigCommerce_Api::createCategory($this->getCreateFields());
+	}
+
+	public function update()
+	{
+		return BigCommerce_Api::updateCategory($this->id, $this->getUpdateFields());
+	}
+
 }
 
 class BigCommerce_Api_Order extends BigCommerce_Api_Resource
@@ -422,6 +442,60 @@ class BigCommerce_Api_Address extends BigCommerce_Api_Resource
 
 class BigCommerce_Api_OptionSet extends BigCommerce_Api_Resource
 {
+
+	protected $ignoreOnCreate = array(
+		'id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+	);
+
+	public function options()
+	{
+		return BigCommerce_Api::getCollection($this->fields->options->resource, 'OptionSetOption');
+	}
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/optionsets', $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		BigCommerce_Api::updateResource('/optionsets/' . $this->id, $this->getUpdateFields());
+	}
+
+}
+
+class BigCommerce_Api_OptionSetOption extends BigCommerce_Api_Resource
+{
+
+	protected $ignoreOnCreate = array(
+		'id',
+		'option_set_id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'option_set_id',
+		'option_id',
+	);
+
+	public function option()
+	{
+		return BigCommerce_Api::getCollection($this->fields->option->resource);
+	}
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/optionsets/options', $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		BigCommerce_Api::updateResource('/optionsets/options/' . $this->id, $this->getUpdateFields());
+	}
 
 }
 
