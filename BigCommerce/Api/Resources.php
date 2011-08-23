@@ -130,6 +130,11 @@ class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 		return BigCommerce_Api::getResource($this->fields->option_set->resource, 'OptionSet');
 	}
 
+	public function options()
+	{
+		return BigCommerce_Api::getCollection('/products/' . $this->id . '/options', 'ProductOption');
+	}
+
 	public function update()
 	{
 		return BigCommerce_Api::updateProduct($this->id, $this->getUpdateFields());
@@ -138,7 +143,7 @@ class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 }
 
 /**
- * An image belonging to a product.
+ * An image which is displayed on the storefront for a product.
  */
 class BigCommerce_Api_ProductImage extends BigCommerce_Api_Resource
 {
@@ -156,64 +161,238 @@ class BigCommerce_Api_ProductImage extends BigCommerce_Api_Resource
 
 	public function create()
 	{
-		return BigCommerce_Api::createProductImage($this->product_id, $this->getCreateFields());
+		return BigCommerce_Api::createResource('/products/' . $this->product_id . '/images' , $this->getCreateFields());
 	}
 
 	public function update()
 	{
-		return BigCommerce_Api::updateProductImage($this->product_id, $this->id, $this->getUpdateFields());
+		BigCommerce_Api::updateResource('/products/' . $this->product_id . '/images/' . $this->id , $this->getUpdateFields());
 	}
 
 }
 
+/**
+ * A stock keeping unit for a product.
+ */
 class BigCommerce_Api_Sku extends BigCommerce_Api_Resource
 {
 
+	protected $ignoreOnCreate = array(
+		'product_id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'product_id',
+	);
+
 	public function options()
 	{
-		return BigCommerce_Api::getCollection($this->fields->options->resource, 'Option');
+		$options = BigCommerce_Api::getCollection($this->fields->options->resource, 'SkuOption');
+
+		foreach($options as $option) {
+			$option->product_id = $this->product_id;
+		}
+
+		return $options;
+	}
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/products/' . $this->product_id . '/skus' , $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		BigCommerce_Api::updateResource('/products/' . $this->product_id . '/skus/' . $this->id , $this->getUpdateFields());
 	}
 
 }
 
-class BigCommerce_Api_Option extends BigCommerce_Api_Resource
+/**
+ * A relationship between a product SKU and an option.
+ */
+class BigCommerce_Api_SkuOption extends BigCommerce_Api_Resource
 {
+
+	protected $ignoreOnCreate = array(
+		'id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'sku_id',
+	);
+
+	public $product_id;
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/products/' . $this->product_id . '/skus/' . $this->sku_id . '/options' , $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		BigCommerce_Api::updateResource('/products/' . $this->product_id . '/skus/' . $this->sku_id . '/options/' .$this->id , $this->getUpdateFields());
+	}
 
 }
 
+/**
+ * Relationship between a product and an option applied from an option set.
+ */
+class BigCommerce_Api_ProductOption extends BigCommerce_Api_Resource
+{
+
+	public function option()
+	{
+		return self::getResource('/options/' . $this->option_id, 'Option');
+	}
+
+}
+
+/**
+ * An option.
+ */
+class BigCommerce_Api_Option extends BigCommerce_Api_Resource
+{
+
+	public function values()
+	{
+		return BigCommerce_Api::getCollection($this->fields->values->resource, 'OptionValue');
+	}
+
+}
+
+/**
+ * Selectable value of an option.
+ */
+class BigCommerce_Api_OptionValue extends BigCommerce_Api_Resource
+{
+
+	protected $ignoreOnCreate = array(
+		'id',
+		'option_id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'option_id',
+	);
+
+	public function option()
+	{
+		return self::getResource('/options/' . $this->option_id, 'Option');
+	}
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/options/' . $this->option_id . '/values', $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		BigCommerce_Api::updateResource('/options/' . $this->option_id . '/values/' . $this->id, $this->getUpdateFields());
+	}
+
+}
+
+/**
+ * A custom field on a product.
+ */
 class BigCommerce_Api_CustomField extends BigCommerce_Api_Resource
 {
 
 }
 
+/**
+ * A configurable field on a product.
+ */
 class BigCommerce_Api_ConfigurableField extends BigCommerce_Api_Resource
 {
 
 }
 
+/**
+ * A bulk discount rule.
+ */
 class BigCommerce_Api_DiscountRule extends BigCommerce_Api_Resource
 {
 
 }
 
-class BigCommerce_Api_Rule extends BigCommerce_Api_Resource
-{
-
-	public function conditions()
-	{
-		return BigCommerce_Api::getCollection($this->fields->conditions->resource, 'RuleCondition');
-	}
-
-}
-
+/**
+ * A product video.
+ */
 class BigCommerce_Api_Video extends BigCommerce_Api_Resource
 {
 
 }
 
+/**
+ * A product option rule.
+ */
+class BigCommerce_Api_Rule extends BigCommerce_Api_Resource
+{
+
+	protected $ignoreOnCreate = array(
+		'id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'product_id',
+	);
+
+	public function conditions()
+	{
+		$conditions = BigCommerce_Api::getCollection($this->fields->conditions->resource, 'RuleCondition');
+
+		foreach($conditions as $condition) {
+			$condition->product_id = $this->product_id;
+		}
+
+		return $conditions;
+	}
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/products/' . $this->product_id . '/rules', $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		BigCommerce_Api::updateResource('/products/' . $this->product_id . '/rules/' . $this->id, $this->getUpdateFields());
+	}
+
+}
+
+/**
+ * Conditions that will be applied to a product based on the rule.
+ */
 class BigCommerce_Api_RuleCondition extends BigCommerce_Api_Resource
 {
 
+	protected $ignoreOnCreate = array(
+		'id',
+	);
+
+	protected $ignoreOnUpdate = array(
+		'id',
+		'rule_id',
+	);
+
+	public $product_id;
+
+	public function create()
+	{
+		return BigCommerce_Api::createResource('/products/' . $this->product_id . '/rules/' . $this->rule_id . '/conditions' , $this->getCreateFields());
+	}
+
+	public function update()
+	{
+		BigCommerce_Api::updateResource('/products/' . $this->product_id . '/rules/' . $this->rule_id . '/conditions/' .$this->id , $this->getUpdateFields());
+	}
 }
 
 class BigCommerce_Api_Category extends BigCommerce_Api_Resource

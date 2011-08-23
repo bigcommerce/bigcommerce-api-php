@@ -22,7 +22,7 @@ class BigCommerce_Api
 	{
 		self::$username  = $username;
 		self::$api_key = $api_key;
-		self::$store_url = ($store_url[0] == '/') ? substr($store_url, 1) : $store_url;
+		self::$store_url = rtrim($store_url, '/');
 		self::$api_path = self::$store_url . self::$api_path;
 	}
 
@@ -95,6 +95,7 @@ class BigCommerce_Api
 	 *
 	 * @param string $path api endpoint
 	 * @param string $resource resource class to map individual items
+	 * @param array $fields additional key=>value properties to apply to the object
 	 * @return mixed array|string mapped collection or XML string if useXml is true
 	 */
 	public static function getCollection($path, $resource='Resource')
@@ -263,7 +264,7 @@ class BigCommerce_Api
 	}
 
 	/**
-	 * Update the given product with given data.
+	 * Update the given product.
 	 *
 	 * @param int $id product id
 	 * @param mixed $object fields to update
@@ -271,6 +272,50 @@ class BigCommerce_Api
 	public static function updateProduct($id, $object)
 	{
 		return self::updateResource('/products/' . $id, $object);
+	}
+
+	/**
+	 * Return the collection of options.
+	 *
+	 * @param int $id option id
+	 * @return array
+	 */
+	public static function getOptions()
+	{
+		return self::getCollection('/options', 'Option');
+	}
+
+	/**
+	 * Return a single option by given id.
+	 *
+	 * @param int $id option id
+	 * @return BigCommerce_Api_Option
+	 */
+	public static function getOption($id)
+	{
+		return self::getResource('/options/' . $id, 'Option');
+	}
+
+	/**
+	 * Return a single value for an option.
+	 *
+	 * @param int $option_id option id
+	 * @param int $id value id
+	 * @return BigCommerce_Api_OptionValue
+	 */
+	public static function getOptionValue($option_id, $id)
+	{
+		return self::getResource('/options/' . $option_id . '/values/' . $id, 'OptionValue');
+	}
+
+	/**
+	 * Return the collection of all option values.
+	 *
+	 * @return array
+	 */
+	public static function getOptionValues()
+	{
+		return self::getCollection('/options/values', 'OptionValue');
 	}
 
 	/**
