@@ -41,10 +41,10 @@ class BigCommerce_Api
 			throw new Exception("'api_key' must be provided");
 		}
 
-		self::$username  = $username;
-		self::$api_key = $api_key;
-		self::$store_url = rtrim($store_url, '/');
-		self::$api_path = self::$store_url . self::$api_path;
+		self::$username  = $settings['username'];
+		self::$api_key 	 = $settings['api_key'];
+		self::$store_url = rtrim($settings['store_url'], '/');
+		self::$api_path  = self::$store_url . self::$api_path;
 	}
 
 	/**
