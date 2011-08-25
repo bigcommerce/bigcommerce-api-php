@@ -140,6 +140,11 @@ class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 		return BigCommerce_Api::updateProduct($this->id, $this->getUpdateFields());
 	}
 
+	public function delete()
+	{
+		return BigCommerce_Api::deleteProduct($this->id);
+	}
+
 }
 
 /**
@@ -151,6 +156,7 @@ class BigCommerce_Api_ProductImage extends BigCommerce_Api_Resource
 	protected $ignoreOnCreate = array(
 		'id',
 		'date_created',
+		'product_id',
 	);
 
 	protected $ignoreOnUpdate = array(
@@ -337,6 +343,7 @@ class BigCommerce_Api_Rule extends BigCommerce_Api_Resource
 
 	protected $ignoreOnCreate = array(
 		'id',
+		'product_id',
 	);
 
 	protected $ignoreOnUpdate = array(

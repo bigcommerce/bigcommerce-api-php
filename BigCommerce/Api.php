@@ -182,6 +182,16 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Send a delete request to remove the specified resource.
+	 *
+	 * @param string $path api endpoint
+	 */
+	public static function deleteResource($path)
+	{
+		return self::connection()->delete(self::$api_path . $path);
+	}
+
+	/**
 	 * Internal method to wrap items in a collection to resource classes.
 	 *
 	 * @param string $resource name of the resource class
@@ -295,6 +305,16 @@ class BigCommerce_Api
 	public static function updateProduct($id, $object)
 	{
 		return self::updateResource('/products/' . $id, $object);
+	}
+
+	/**
+	 * Delete the given product.
+	 *
+	 * @param int $id product id
+	 */
+	public static function deleteProduct($id)
+	{
+		return self::deleteResource('/products/' . $id);
 	}
 
 	/**
