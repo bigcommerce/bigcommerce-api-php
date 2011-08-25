@@ -18,9 +18,29 @@ class BigCommerce_Api
 
 	/**
 	 * Configure the API client with the required credentials.
+	 *
+	 * Requires a settings array to be passed in with the following keys:
+	 *
+	 * - store_url
+	 * - username
+	 * - api_key
+	 *
+	 * @param array $settings
 	 */
-	public static function configure($store_url, $username, $api_key)
+	public static function configure(array $settings)
 	{
+		if (!isset($settings['store_url'])) {
+			throw new Exception("'store_url' must be provided");
+		}
+
+		if (!isset($settings['username'])) {
+			throw new Exception("'username' must be provided");
+		}
+
+		if (!isset($settings['api_key'])) {
+			throw new Exception("'api_key' must be provided");
+		}
+
 		self::$username  = $username;
 		self::$api_key = $api_key;
 		self::$store_url = rtrim($store_url, '/');
