@@ -4,7 +4,7 @@ BigCommerce REST API V2
 PHP package for connecting to the BigCommerce REST API.
 
 To find out more, visit the official documentation website:
-http://{confluence}.bigcommerce.com/
+http://developer.bigcommerce.com/
 
 Requirements
 ------------
