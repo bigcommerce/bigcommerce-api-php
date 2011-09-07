@@ -351,6 +351,16 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Delete the given option.
+	 *
+	 * @param int $id option id
+	 */
+	public static function deleteOption($id)
+	{
+		return self::deleteResource('/options/' . $id);
+	}
+
+	/**
 	 * Return a single value for an option.
 	 *
 	 * @param int $option_id option id
@@ -429,6 +439,16 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Delete the given category.
+	 *
+	 * @param int $id category id
+	 */
+	public static function deleteCategory($id)
+	{
+		return self::deleteResource('/categories/' . $id);
+	}
+
+	/**
 	 * The collection of brands.
 	 *
 	 * @param mixed $filter
@@ -483,6 +503,16 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Delete the given brand.
+	 *
+	 * @param int $id brand id
+	 */
+	public static function deleteBrand($id)
+	{
+		return self::deleteResource('/brands/' . $id);
+	}
+
+	/**
 	 * The collection of orders.
 	 *
 	 * @param mixed $filter
@@ -514,6 +544,18 @@ class BigCommerce_Api
 	{
 		return self::getResource('/orders/' . $id, 'Order');
 	}
+
+	/**
+	 * Delete the given order (unlike in the Control Panel, this will permanently
+	 * delete the order).
+	 *
+	 * @param int $id order id
+	 */
+	public static function deleteOrder($id)
+	{
+		return self::deleteResource('/orders/' . $id);
+	}
+
 
 	/**
 	 * The list of customers.
