@@ -24,14 +24,14 @@ class BigCommerce_Api_Filter
 		return new self($filter);
 	}
 
-	public function __construct($filter=false)
+	public function __construct($filter=array())
 	{
-		$this->parameters = (is_array($filter)) ? array_map('urlencode', $filter) : array();
+		$this->parameters = $filter;
 	}
 
 	public function __set($parameter, $value)
 	{
-		$this->parameters[$parameter] = urlencode($value);
+		$this->parameters[$parameter] = $value;
 	}
 
 	/**
