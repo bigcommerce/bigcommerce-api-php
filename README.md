@@ -34,7 +34,7 @@ To use the API client in your PHP code, require the package from your include
 path and provide the required credentials as follows:
 
 ```
-require_once 'BigCommerce/Api2.php';
+require_once 'BigCommerce/Api.php';
 
 BigCommerce_Api::configure(array(
 	'store_url' => 'http://bigcommerce.local',
@@ -54,9 +54,7 @@ unsuccessful:
 ```
 $ping = BigCommerce_Api::getTime();
 
-if ($ping) {
-	echo $ping->format('H:i:s');
-}
+if ($ping) echo $ping->format('H:i:s');
 ```
 
 Accessing collections and resources (GET)
@@ -86,6 +84,8 @@ To view the total count of resources in a collection:
 
 ```
 $count = BigCommerce_Api::getProductsCount();
+
+echo $count;
 ```
 
 Updating existing resources (PUT)
@@ -205,11 +205,9 @@ This would most often be when you tried to save some data that did not validate
 correctly.
 
 ```
-$count = BigCommerce_Api::getProductsCount();
+$orders = BigCommerce_Api::getOrders();
 
-if ($count) {
-	echo $count;
-} else {
+if (!$orders) {
 	$error = BigCommerce_Api::getLastError();
 	echo $error->code;
 	echo $error->message;
@@ -261,8 +259,5 @@ need to configure the client to recognize this. Provide the URL of the proxy
 server and (optionally) a port to the useProxy method:
 
 ```
-$proxy = "http://proxy.example.com";
-$port = "81";
-
-BigCommerce_Api::useProxy($proxy, $port);
+BigCommerce_Api::useProxy("http://proxy.example.com", 81);
 ```
