@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>http://bigcommerce.github.com/bigcommerce-api-php</id>
+    <updated>2011-09-12T15:34:40+10:00</updated>
+    <title>BigCommerce PEAR Channel Latest Releases</title>
+    <link href="http://bigcommerce.github.com/bigcommerce-api-php/feed.xml" rel="self" />
+    <author>
+        <name>http://bigcommerce.github.com/bigcommerce-api-php</name>
+    </author>
+
+
+</feed>
