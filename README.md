@@ -9,6 +9,9 @@ http://developer.bigcommerce.com/
 Requirements
 ------------
 
+- PHP5.1+
+- cUrl
+
 To connect to the API, you need the following credentials:
 
 - Secure URL pointing to a BigCommerce store
@@ -18,17 +21,20 @@ To connect to the API, you need the following credentials:
 To generate an API key, go to Control Panel > Users > Edit User and make sure
 the 'Enable the XML API?' is ticked.
 
-Configuration
--------------
+Installation
+------------
 
 Download the required PHP code for the BigCommerce REST API client and copy it
 to your PHP include path, or use the following command to install the package
-directly:
+directly (note: you may need to use sudo):
 
 ```
- $ sudo pear channel-discover http://bigcommerce.lib.pear.somewhere
- $ sudo pear install bigcommerce/api-v2-client
+ $ pear channel-discover bigcommerce.github.com/bigcommerce-api-php
+ $ pear install bigcommerce/BigCommerce_Api-alpha
 ```
+
+Configuration
+-------------
 
 To use the API client in your PHP code, require the package from your include
 path and provide the required credentials as follows:
@@ -37,7 +43,7 @@ path and provide the required credentials as follows:
 require_once 'BigCommerce/Api.php';
 
 BigCommerce_Api::configure(array(
-	'store_url' => 'http://bigcommerce.local',
+	'store_url' => 'https://store.mybigcommerce.com',
 	'username'	=> 'admin',
 	'api_key'	=> 'd81aada4c19c34d913e18f07fd7f36ca'
 ));

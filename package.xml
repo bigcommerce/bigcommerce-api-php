@@ -7,20 +7,20 @@
    http://pear.php.net/dtd/package-2.0
    http://pear.php.net/dtd/package-2.0.xsd">
 	<name>BigCommerce_Api</name>
-	<uri>http://beast.interspire/~mark.rickerby/BigCommerce_Api-0.0.2</uri>
-	<summary>PHP package for using the BigCommerce REST API.</summary>
-	<description>Connects to a BigCommerce store and provides get, post, put, and delete operations on resources.</description>
+	<channel>bigcommerce.github.com/bigcommerce-api-php</channel>
+	<summary>Enables PHP applications to communicate with the BigCommerce API.</summary>
+	<description>Enables PHP applications to communicate with the BigCommerce API.</description>
 	<lead>
 		<name>BigCommerce</name>
-		<user>bigcommerce.dev</user>
+		<user>bigcommerce</user>
 		<email>dev-accounts@bigcommerce.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2011-08-19</date>
-	<time>09:05:00</time>
+	<date>2011-09-12</date>
+	<time>15:13:00</time>
 	<version>
-		<release>0.0.2</release>
-		<api>0.0.2</api>
+		<release>0.1.0</release>
+		<api>0.1.0</api>
 	</version>
 	<stability>
 		<release>alpha</release>
@@ -30,12 +30,13 @@
 	<notes>-</notes>
 	<contents>
 		<dir name="/">
-			<file name="README" role="doc" />
+			<file name="README.md" role="doc" />
 			<file name="LICENSE" role="doc" />
 			<dir name="BigCommerce">
 				<file name="Api.php" role="php" />
 				<dir name="Api">
 					<file name="Connection.php" role="php" />
+					<file name="Filter.php" role="php" />
 					<file name="Resources.php" role="php" />
 				</dir>
 			</dir>
