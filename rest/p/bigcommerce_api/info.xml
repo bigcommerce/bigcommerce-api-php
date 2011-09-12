@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<p xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package    http://pear.php.net/dtd/rest.package.xsd">
+<n>BigCommerce_Api</n>
+<c>bigcommerce.github.com/bigcommerce-api-php</c>
+<ca xlink:href="/rest/c/Default">Default</ca>
+<l>MIT</l>
+<s>Enables PHP applications to communicate with the BigCommerce API.</s>
+<d>Enables PHP applications to communicate with the BigCommerce API.</d>
+<r xlink:href="/rest/r/bigcommerce_api" />
+</p>
