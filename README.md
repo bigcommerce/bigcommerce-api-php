@@ -93,13 +93,34 @@ $count = BigCommerce_Api::getProductsCount();
 
 echo $count;
 ```
+Paging and Filtering
+--------------------
 
-To filter a collection, you can pass filter parameters to
-the method:
+All the default collection methods support paging, by passing
+the page number to the method as an integer:
 
 ```
-$featured = BigCommerce_Api::getProducts(array("is_featured"=>true));
+$products = BigCommerce_Api::getProducts(3);
 ```
+If you require more specific numbering and paging, you can explicitly specify
+a limit parameter:
+
+```
+$filter = array("page" => 3, "limit" => 30);
+
+$products = BigCommerce_Api::getProducts($filter);
+```
+
+To filter a collection, you can also pass parameters to filter by as key-value
+pairs:
+
+```
+$filter = array("is_featured" => true);
+
+$featured = BigCommerce_Api::getProducts($filter);
+```
+See the API documentation for each resource for a list of supported filter
+parameters.
 
 Updating existing resources (PUT)
 ---------------------------------
