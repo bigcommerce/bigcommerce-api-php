@@ -94,6 +94,13 @@ $count = BigCommerce_Api::getProductsCount();
 echo $count;
 ```
 
+To filter a collection, you can pass filter parameters to
+the method:
+
+```
+$featured = BigCommerce_Api::getProducts(array("is_featured"=>true));
+```
+
 Updating existing resources (PUT)
 ---------------------------------
 
