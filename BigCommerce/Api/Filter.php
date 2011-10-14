@@ -26,7 +26,7 @@ class BigCommerce_Api_Filter
 
 	public function __construct($filter=array())
 	{
-		$this->parameters = $filter;
+		$this->parameters = ($filter) ? $filter : array();
 	}
 
 	public function __set($parameter, $value)
