@@ -3,6 +3,11 @@
     <p>BigCommerce_Api</p>
     <c>bigcommerce.github.com/bigcommerce-api-php</c>
     <r>
+        <v>0.2.0</v>
+        <s>beta</s>
+        <m>5.2.4</m>
+    </r>
+    <r>
         <v>0.1.0</v>
         <s>alpha</s>
         <m>5.2.4</m>

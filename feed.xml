@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://bigcommerce.github.com/bigcommerce-api-php</id>
-    <updated>2011-09-12T15:49:23+10:00</updated>
+    <updated>2011-10-14T18:02:04+11:00</updated>
     <title>BigCommerce PEAR Channel Latest Releases</title>
     <link href="http://bigcommerce.github.com/bigcommerce-api-php/feed.xml" rel="self" />
     <author>
@@ -9,6 +9,17 @@
     </author>
 
     <entry>
+        <title>BigCommerce_Api 0.2.0 (beta)</title>
+        <link href="http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.2.0.tgz" />
+        <id>http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.2.0.tgz</id>
+        <author>
+            <name>bigcommerce</name>
+        </author>
+        <updated>2011-10-14T06:59:15+11:00</updated>
+        <content>
+            Enables PHP applications to communicate with the BigCommerce API.
+        </content>
+    </entry>    <entry>
         <title>BigCommerce_Api 0.1.0 (alpha)</title>
         <link href="http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.1.0.tgz" />
         <id>http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.1.0.tgz</id>
