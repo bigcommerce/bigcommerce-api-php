@@ -449,13 +449,13 @@ class BigCommerce_Api_Connection
 class BigCommerce_Api_Error extends Exception
 {
 
-	public function __construct($message, $code, Exception $previous=null)
+	public function __construct($message, $code)
 	{
 		if (is_array($message)) {
 			$message = $message[0]->message;
 		}
 
-		parent::__construct($message, $code, $previous);
+		parent::__construct($message, $code);
 	}
 
 }
