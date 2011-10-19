@@ -23,6 +23,11 @@ class BigCommerce_Api_Resource
 	 */
 	protected $ignoreOnUpdate = array();
 
+	/**
+	 * @var array
+	 */
+	protected $ignoreIfZero = array();
+
 	public function __construct($object=false)
 	{
 		if (is_array($object)) {
@@ -48,19 +53,38 @@ class BigCommerce_Api_Resource
 	protected function getCreateFields()
 	{
 		$resource = $this->fields;
+
 		foreach($this->ignoreOnCreate as $field) {
 			if (isset($resource->$field)) unset($resource->$field);
 		}
+
 		return $resource;
 	}
 
 	protected function getUpdateFields()
 	{
 		$resource = $this->fields;
+
 		foreach($this->ignoreOnUpdate as $field) {
 			if (isset($resource->$field)) unset($resource->$field);
 		}
+
+		foreach($resource as $field => $value) {
+			if ($this->isIgnoredField($field, $value)) unset($resource->$field);
+		}
+
 		return $resource;
+	}
+
+	private function isIgnoredField($field, $value)
+	{
+		if ($value === null) return true;
+
+		if ((strpos($field, "date") !== FALSE) && $value === "") return true;
+
+		if (in_array($field, $this->ignoreIfZero) && $value === 0) return true;
+
+		return false;
 	}
 
 }
@@ -70,6 +94,11 @@ class BigCommerce_Api_Resource
  */
 class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 {
+
+	protected $ignoreOnCreate = array(
+		'date_created',
+		'date_modified',
+	);
 
 	/**
 	 * @see https://developer.bigcommerce.com/display/API/Products#Products-ReadOnlyFields
@@ -83,6 +112,21 @@ class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 		'date_modified',
 		'date_last_imported',
 		'number_sold',
+		'brand',
+		'images',
+		'discount_rules',
+		'configurable_fields',
+		'custom_fields',
+		'videos',
+		'skus',
+		'rules',
+		'option_set',
+		'options',
+		'tax_class',
+	);
+
+	protected $ignoreIfZero = array(
+		'tax_class_id',
 	);
 
 	public function brand()
@@ -133,6 +177,11 @@ class BigCommerce_Api_Product extends BigCommerce_Api_Resource
 	public function options()
 	{
 		return BigCommerce_Api::getCollection('/products/' . $this->id . '/options', 'ProductOption');
+	}
+
+	public function create()
+	{
+		return BigCommerce_Api::createProduct($this->getCreateFields());
 	}
 
 	public function update()

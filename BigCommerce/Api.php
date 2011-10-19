@@ -297,6 +297,16 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * Create a new product.
+	 *
+	 * @param mixed $object fields to create
+	 */
+	public static function createProduct($object)
+	{
+		return self::createResource('/products', $object);
+	}
+
+	/**
 	 * Update the given product.
 	 *
 	 * @param int $id product id
