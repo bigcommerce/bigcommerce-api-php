@@ -601,6 +601,17 @@ class BigCommerce_Api
 	}
 
 	/**
+	 * A list of addresses belonging to the given customer.
+	 *
+	 * @param int $id customer id
+	 * @return array
+	 */
+	public static function getAddresses($id)
+	{
+		return self::getCollection('/customer/' . $id . '/addresses', 'Address');
+	}
+
+	/**
 	 * Returns the collection of option sets.
 	 *
 	 * @param array $filter
