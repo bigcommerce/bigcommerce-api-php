@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://bigcommerce.github.com/bigcommerce-api-php</id>
-    <updated>2011-10-25T09:32:41+11:00</updated>
+    <updated>2011-10-25T09:56:08+11:00</updated>
     <title>BigCommerce API Client (PHP) Latest Releases</title>
     <link href="http://bigcommerce.github.com/bigcommerce-api-php/feed.xml" rel="self" />
     <author>
@@ -9,6 +9,17 @@
     </author>
 
     <entry>
+        <title>BigCommerce_Api 0.3.2 (beta)</title>
+        <link href="http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.3.2.tgz" />
+        <id>http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.3.2.tgz</id>
+        <author>
+            <name>bigcommerce</name>
+        </author>
+        <updated>2011-10-25T09:55:24+11:00</updated>
+        <content>
+            Enables PHP applications to communicate with the BigCommerce API.
+        </content>
+    </entry>    <entry>
         <title>BigCommerce_Api 0.3.1 (beta)</title>
         <link href="http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.3.1.tgz" />
         <id>http://bigcommerce.github.com/bigcommerce-api-php/get/BigCommerce_Api-0.3.1.tgz</id>
