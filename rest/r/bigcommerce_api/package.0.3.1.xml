@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0    http://pear.php.net/dtd/tasks-1.0.xsd    http://pear.php.net/dtd/package-2.0    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>BigCommerce_Api</name>
+ <channel>bigcommerce.github.com/bigcommerce-api-php</channel>
+ <summary>Enables PHP applications to communicate with the BigCommerce API.</summary>
+ <description>Enables PHP applications to communicate with the BigCommerce API.</description>
+ <lead>
+  <name>BigCommerce</name>
+  <user>bigcommerce</user>
+  <email>dev-accounts@bigcommerce.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2011-10-25</date>
+ <time>09:31:42</time>
+ <version>
+  <release>0.3.1</release>
+  <api>0.3.1</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/mit-license.php">MIT</license>
+ <notes>
+-
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="0a60a378f328627b98c676a7fcba8d87" name="BigCommerce/Api/Connection.php" role="php" />
+   <file md5sum="a1fea948ca3ff020be78897ca30bd9dc" name="BigCommerce/Api/Filter.php" role="php" />
+   <file md5sum="714c0d96d3d9c6371647797edf2be254" name="BigCommerce/Api/Resources.php" role="php" />
+   <file md5sum="4ad86e118016d6c7d0686207613c8719" name="BigCommerce/Api.php" role="php" />
+   <file md5sum="243052cbd76bd4204ed0ac2ee1029fc2" name="README.md" role="doc" />
+   <file md5sum="7b9beb2d90b4b71cc1901fb3a90b663c" name="LICENSE" role="doc" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.4</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+</package>
