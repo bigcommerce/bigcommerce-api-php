@@ -19,8 +19,8 @@
 	<date>2011-10-20</date>
 	<time>10:00:00</time>
 	<version>
-		<release>0.3.0</release>
-		<api>0.3.0</api>
+		<release>0.3.1</release>
+		<api>0.3.1</api>
 	</version>
 	<stability>
 		<release>beta</release>
