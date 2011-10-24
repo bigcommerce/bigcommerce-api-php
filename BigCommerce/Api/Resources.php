@@ -50,7 +50,7 @@ class BigCommerce_Api_Resource
 		$this->fields->$field = $value;
 	}
 
-	protected function getCreateFields()
+	public function getCreateFields()
 	{
 		$resource = $this->fields;
 
@@ -61,7 +61,7 @@ class BigCommerce_Api_Resource
 		return $resource;
 	}
 
-	protected function getUpdateFields()
+	public function getUpdateFields()
 	{
 		$resource = $this->fields;
 
