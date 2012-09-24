@@ -608,7 +608,7 @@ class BigCommerce_Api
 	 */
 	public static function getAddresses($id)
 	{
-		return self::getCollection('/customer/' . $id . '/addresses', 'Address');
+		return self::getCollection('/customers/' . $id . '/addresses', 'Address');
 	}
 
 	/**
