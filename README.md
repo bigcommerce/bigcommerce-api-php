@@ -273,6 +273,18 @@ The exceptions thrown are subclasses of BigCommerce_Api_Error, representing
 client errors and server errors. The API documentation for response codes
 contains a list of all the possible error conditions the client may encounter.
 
+Specifying the SSL cipher
+-------------------------
+
+The API requires that all client SSL connections use the rsa_rc4_128_sha cipher.
+This should not be an issue as curl will use this by default. In those
+situations where this is not the case the you will need to use the setCipher
+method to force curl to use the correct cipher.
+
+```
+BigCommerce_Api::setCipher('RC4-SHA');
+```
+
 Verifying SSL certificates
 --------------------------
 
