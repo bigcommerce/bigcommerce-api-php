@@ -157,6 +157,15 @@ class BigCommerce_Api_Connection
 	}
 
 	/**
+	 * Set which cipher to use during SSL requests.
+	 * @param string $cipher the name of the cipher
+	 */
+	public function setCipher($cipher='RC4-SHA')
+	{
+		curl_setopt($this->curl, CURLOPT_SSL_CIPHER_LIST, $cipher);
+	}
+
+	/**
 	 * Add a custom header to the request.
 	 */
 	public function addHeader($header, $value)
