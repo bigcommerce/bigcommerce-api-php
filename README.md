@@ -276,10 +276,10 @@ contains a list of all the possible error conditions the client may encounter.
 Specifying the SSL cipher
 -------------------------
 
-The API requires that all client SSL connections use the rsa_rc4_128_sha cipher.
-This should not be an issue as curl will use this by default. In those
-situations where this is not the case the you will need to use the setCipher
-method to force curl to use the correct cipher.
+The API requires that all client SSL connections use the RC4-SHA (rsa_rc4_128_sha) cipher.
+The client will set this cipher to be used by default.
+
+The setCipher method can be used to override this setting if required.
 
 ```
 BigCommerce_Api::setCipher('RC4-SHA');

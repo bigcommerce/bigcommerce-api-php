@@ -82,6 +82,9 @@ class BigCommerce_Api_Connection
 		curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
 		curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, array($this, 'parseBody'));
 
+		// Bigcommerce only supports RC4-SHA
+		$this->setCipher('RC4-SHA');
+
 		if (!ini_get("open_basedir")) {
 			curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
 		} else {
