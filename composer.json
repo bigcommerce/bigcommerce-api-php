@@ -1,5 +1,5 @@
 {
-    "name": "bigcommerce/api-v2",
+    "name": "bigcommerce/api-client",
     "type": "library",
     "description": "Enables PHP applications to communicate with the Bigcommerce V2 API.",
     "keywords": ["api","http","rest","ecommerce","business"],
