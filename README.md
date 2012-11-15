@@ -30,7 +30,7 @@ directly (note: you may need to use sudo):
 
 ```
  $ pear channel-discover bigcommerce.github.com/bigcommerce-api-php
- $ pear install bigcommerce/Bigcommerce_Api-beta
+ $ pear install bigcommerce/Bigcommerce_Api
 ```
 
 Configuration
