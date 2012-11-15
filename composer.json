@@ -1,14 +1,14 @@
 {
     "name": "bigcommerce/api-client",
     "type": "library",
-    "description": "Enables PHP applications to communicate with the Bigcommerce V2 API.",
+    "description": "Enables PHP applications to communicate with the Bigcommerce API.",
     "keywords": ["api","http","rest","ecommerce","business"],
     "homepage": "http://developer.bigcommerce.com",
     "license": "MIT",
     "authors": [
         {
             "name": "Bigcommerce",
-            "homepage": "http://www.bigcommerce.com",
+            "homepage": "http://www.bigcommerce.com"
         }
     ],
     "require": {
