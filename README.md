@@ -9,8 +9,8 @@ http://developer.bigcommerce.com/
 Requirements
 ------------
 
-- PHP5.1+
-- cUrl
+- PHP 5.2.4 or greater
+- cUrl extension enabled
 
 To connect to the API, you need the following credentials:
 
