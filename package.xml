@@ -6,12 +6,12 @@
    http://pear.php.net/dtd/tasks-1.0.xsd
    http://pear.php.net/dtd/package-2.0
    http://pear.php.net/dtd/package-2.0.xsd">
-	<name>BigCommerce_Api</name>
+	<name>Bigcommerce_Api</name>
 	<channel>bigcommerce.github.com/bigcommerce-api-php</channel>
-	<summary>Enables PHP applications to communicate with the BigCommerce API.</summary>
-	<description>Enables PHP applications to communicate with the BigCommerce API.</description>
+	<summary>Enables PHP applications to communicate with the Bigcommerce API.</summary>
+	<description>Enables PHP applications to communicate with the Bigcommerce API.</description>
 	<lead>
-		<name>BigCommerce</name>
+		<name>Bigcommerce</name>
 		<user>bigcommerce</user>
 		<email>dev-accounts@bigcommerce.com</email>
 		<active>yes</active>
@@ -32,7 +32,7 @@
 		<dir name="/">
 			<file name="README.md" role="doc" />
 			<file name="LICENSE" role="doc" />
-			<dir name="BigCommerce">
+			<dir name="Bigcommerce">
 				<file name="Api.php" role="php" />
 				<dir name="Api">
 					<file name="Connection.php" role="php" />

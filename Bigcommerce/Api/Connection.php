@@ -3,7 +3,7 @@
 /**
  * HTTP connection.
  */
-class BigCommerce_Api_Connection
+class Bigcommerce_Api_Connection
 {
 
 	/**
@@ -207,7 +207,7 @@ class BigCommerce_Api_Connection
 	private function handleResponse()
 	{
 		if (curl_errno($this->curl)) {
-			throw new BigCommerce_Api_NetworkError(curl_error($this->curl), curl_errno($this->curl));
+			throw new Bigcommerce_Api_NetworkError(curl_error($this->curl), curl_errno($this->curl));
 		}
 
 		$body = ($this->useXml) ? $this->getBody() : json_decode($this->getBody());
@@ -216,14 +216,14 @@ class BigCommerce_Api_Connection
 
 		if ($status >= 400 && $status <= 499) {
 			if ($this->failOnError) {
-				throw new BigCommerce_Api_ClientError($body, $status);
+				throw new Bigcommerce_Api_ClientError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
 			}
 		} elseif ($status >= 500 && $status <= 599) {
 			if ($this->failOnError) {
-				throw new BigCommerce_Api_ServerError($body, $status);
+				throw new Bigcommerce_Api_ServerError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
@@ -275,7 +275,7 @@ class BigCommerce_Api_Connection
 
 			} else {
 				$errorString = "Too many redirects when trying to follow location.";
-				throw new BigCommerce_Api_NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
+				throw new Bigcommerce_Api_NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
 			}
 		} else {
 			$this->redirectsFollowed = 0;
@@ -458,7 +458,7 @@ class BigCommerce_Api_Connection
 /**
  * Base class for API exceptions. Used if failOnError is true.
  */
-class BigCommerce_Api_Error extends Exception
+class Bigcommerce_Api_Error extends Exception
 {
 
 	public function __construct($message, $code)
@@ -475,7 +475,7 @@ class BigCommerce_Api_Error extends Exception
 /**
  * Raised if a network fault occurs.
  */
-class BigCommerce_Api_NetworkError extends BigCommerce_Api_Error
+class Bigcommerce_Api_NetworkError extends Bigcommerce_Api_Error
 {
 
 }
@@ -483,7 +483,7 @@ class BigCommerce_Api_NetworkError extends BigCommerce_Api_Error
 /**
  * Raised when a client error (400+) is returned from the API.
  */
-class BigCommerce_Api_ClientError extends BigCommerce_Api_Error
+class Bigcommerce_Api_ClientError extends Bigcommerce_Api_Error
 {
 
 	public function __toString()
@@ -496,7 +496,7 @@ class BigCommerce_Api_ClientError extends BigCommerce_Api_Error
 /**
  * Raised when a server error (500+) is returned from the API.
  */
-class BigCommerce_Api_ServerError extends BigCommerce_Api_Error
+class Bigcommerce_Api_ServerError extends Bigcommerce_Api_Error
 {
 
 }

@@ -1,7 +1,7 @@
-BigCommerce REST API V2
+Bigcommerce REST API V2
 =======================
 
-PHP package for connecting to the BigCommerce REST API.
+PHP package for connecting to the Bigcommerce V2 REST API.
 
 To find out more, visit the official documentation website:
 http://developer.bigcommerce.com/
@@ -14,7 +14,7 @@ Requirements
 
 To connect to the API, you need the following credentials:
 
-- Secure URL pointing to a BigCommerce store
+- Secure URL pointing to a Bigcommerce store
 - Username of an authorized admin user of the store
 - API key for the user
 
@@ -24,13 +24,13 @@ the 'Enable the XML API?' is ticked.
 Installation
 ------------
 
-Download the required PHP code for the BigCommerce REST API client and copy it
+Download the required PHP code for the Bigcommerce REST API client and copy it
 to your PHP include path, or use the following command to install the package
 directly (note: you may need to use sudo):
 
 ```
  $ pear channel-discover bigcommerce.github.com/bigcommerce-api-php
- $ pear install bigcommerce/BigCommerce_Api-beta
+ $ pear install bigcommerce/Bigcommerce_Api-beta
 ```
 
 Configuration
@@ -40,9 +40,9 @@ To use the API client in your PHP code, require the package from your include
 path and provide the required credentials as follows:
 
 ```
-require_once 'BigCommerce/Api.php';
+require_once 'Bigcommerce/Api.php';
 
-BigCommerce_Api::configure(array(
+Bigcommerce_Api::configure(array(
 	'store_url' => 'https://store.mybigcommerce.com',
 	'username'	=> 'admin',
 	'api_key'	=> 'd81aada4c19c34d913e18f07fd7f36ca'
@@ -58,7 +58,7 @@ representing the current timestamp of the store if successful or false if
 unsuccessful:
 
 ```
-$ping = BigCommerce_Api::getTime();
+$ping = Bigcommerce_Api::getTime();
 
 if ($ping) echo $ping->format('H:i:s');
 ```
@@ -69,7 +69,7 @@ Accessing collections and resources (GET)
 To list all the resources in a collection:
 
 ```
-$products = BigCommerce_Api::getProducts();
+$products = Bigcommerce_Api::getProducts();
 
 foreach($products as $product) {
 	echo $product->name;
@@ -80,7 +80,7 @@ foreach($products as $product) {
 To access a single resource and its connected sub-resources:
 
 ```
-$product = BigCommerce_Api::getProduct(11);
+$product = Bigcommerce_Api::getProduct(11);
 
 echo $product->name;
 echo $product->price;
@@ -89,7 +89,7 @@ echo $product->price;
 To view the total count of resources in a collection:
 
 ```
-$count = BigCommerce_Api::getProductsCount();
+$count = Bigcommerce_Api::getProductsCount();
 
 echo $count;
 ```
@@ -100,7 +100,7 @@ All the default collection methods support paging, by passing
 the page number to the method as an integer:
 
 ```
-$products = BigCommerce_Api::getProducts(3);
+$products = Bigcommerce_Api::getProducts(3);
 ```
 If you require more specific numbering and paging, you can explicitly specify
 a limit parameter:
@@ -108,7 +108,7 @@ a limit parameter:
 ```
 $filter = array("page" => 3, "limit" => 30);
 
-$products = BigCommerce_Api::getProducts($filter);
+$products = Bigcommerce_Api::getProducts($filter);
 ```
 
 To filter a collection, you can also pass parameters to filter by as key-value
@@ -117,7 +117,7 @@ pairs:
 ```
 $filter = array("is_featured" => true);
 
-$featured = BigCommerce_Api::getProducts($filter);
+$featured = Bigcommerce_Api::getProducts($filter);
 ```
 See the API documentation for each resource for a list of supported filter
 parameters.
@@ -128,7 +128,7 @@ Updating existing resources (PUT)
 To update a single resource:
 
 ```
-$product = BigCommerce_Api::getProduct(11);
+$product = Bigcommerce_Api::getProduct(11);
 
 $product->name = "MacBook Air";
 $product->price = 99.95;
@@ -144,7 +144,7 @@ $fields = array(
 	"price" => 999.95
 );
 
-BigCommerce_Api::updateProduct(11, $fields);
+Bigcommerce_Api::updateProduct(11, $fields);
 ```
 
 Creating new resources (POST)
@@ -159,14 +159,14 @@ $fields = array(
 	"name" => "Apple"
 );
 
-BigCommerce_Api::createBrand($fields);
+Bigcommerce_Api::createBrand($fields);
 ```
 
 You can also create a resource by making a new instance of the resource class
 and calling the create method once you have set the fields you want to save:
 
 ```
-$brand = new BigCommerce_Api_Brand();
+$brand = new Bigcommerce_Api_Brand();
 
 $brand->name = "Apple";
 $brand->create();
@@ -178,21 +178,21 @@ Deleting resources and collections (DELETE)
 To delete a single resource you can call the delete method on the resource object:
 
 ```
-$category = BigCommerce_Api::getCategory(22);
+$category = Bigcommerce_Api::getCategory(22);
 $category->delete();
 ```
 
 You can also delete resources by calling the global wrapper method:
 
 ```
-BigCommerce_Api::deleteCategory(22);
+Bigcommerce_Api::deleteCategory(22);
 ```
 
 Some resources support deletion of the entire collection. You can use the
 deleteAll methods to do this:
 
 ```
-BigCommerce_Api::deleteAllOptionSets();
+Bigcommerce_Api::deleteAllOptionSets();
 ```
 
 Using The XML API
@@ -203,7 +203,7 @@ JSON strings and their PHP object representations. If you need to work with XML
 you can switch the API into XML mode with the useXml method:
 
 ```
-BigCommerce_Api::useXml();
+Bigcommerce_Api::useXml();
 ```
 
 This will configure the API client to use XML for all subsequent requests. Note
@@ -214,7 +214,7 @@ containing valid XML, and all responses from collection and resource methods
 objects. An example transaction using XML would look like:
 
 ```
-BigCommerce_Api::useXml();
+Bigcommerce_Api::useXml();
 
 $xml = "<?xml version="1.0" encoding="UTF-8"?>
 		<brand>
@@ -222,7 +222,7 @@ $xml = "<?xml version="1.0" encoding="UTF-8"?>
 		 	<search_keywords>computers laptops</search_keywords>
 		</brand>";
 
-$result = BigCommerce_Api::createBrand($xml);
+$result = Bigcommerce_Api::createBrand($xml);
 ```
 
 Handling Errors And Timeouts
@@ -239,10 +239,10 @@ This would most often be when you tried to save some data that did not validate
 correctly.
 
 ```
-$orders = BigCommerce_Api::getOrders();
+$orders = Bigcommerce_Api::getOrders();
 
 if (!$orders) {
-	$error = BigCommerce_Api::getLastError();
+	$error = Bigcommerce_Api::getLastError();
 	echo $error->code;
 	echo $error->message;
 }
@@ -258,18 +258,18 @@ need to catch and handle the exception in code yourself. The exception throwing
 behavior of the client is controlled using the failOnError method:
 
 ```
-BigCommerce_Api::failOnError();
+Bigcommerce_Api::failOnError();
 
 try {
-	$orders = BigCommerce_Api::getOrders();
+	$orders = Bigcommerce_Api::getOrders();
 
-} catch(BigCommerce_Api_Error $error) {
+} catch(Bigcommerce_Api_Error $error) {
 	echo $error->getCode();
 	echo $error->getMessage();
 }
 ```
 
-The exceptions thrown are subclasses of BigCommerce_Api_Error, representing
+The exceptions thrown are subclasses of Bigcommerce_Api_Error, representing
 client errors and server errors. The API documentation for response codes
 contains a list of all the possible error conditions the client may encounter.
 
@@ -282,19 +282,19 @@ The client will set this cipher to be used by default.
 The setCipher method can be used to override this setting if required.
 
 ```
-BigCommerce_Api::setCipher('RC4-SHA');
+Bigcommerce_Api::setCipher('RC4-SHA');
 ```
 
 Verifying SSL certificates
 --------------------------
 
 By default, the client will attempt to verify the SSL certificate used by the
-BigCommerce store. In cases where this is undesirable, or where an unsigned
+Bigcommerce store. In cases where this is undesirable, or where an unsigned
 certificate is being used, you can turn off this behavior using the verifyPeer
 switch, which will disable certificate checking on all subsequent requests:
 
 ```
-BigCommerce_Api::verifyPeer(false);
+Bigcommerce_Api::verifyPeer(false);
 ```
 
 Connecting through a proxy server
@@ -305,5 +305,5 @@ need to configure the client to recognize this. Provide the URL of the proxy
 server and (optionally) a port to the useProxy method:
 
 ```
-BigCommerce_Api::useProxy("http://proxy.example.com", 81);
+Bigcommerce_Api::useProxy("http://proxy.example.com", 81);
 ```

@@ -3,7 +3,7 @@
 /**
  * Builds a query to filter the results of a collection request.
  */
-class BigCommerce_Api_Filter
+class Bigcommerce_Api_Filter
 {
 	private $parameters;
 

@@ -1,12 +1,17 @@
 <?php
-require_once dirname(__FILE__).'/Api/Connection.php';
-require_once dirname(__FILE__).'/Api/Resources.php';
-require_once dirname(__FILE__).'/Api/Filter.php';
+
+if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 3) {
+	// shim for legacy PEAR installer or manual linking
+	// (otherwise we assume Composer autoloader)
+	require_once dirname(__FILE__).'/Api/Connection.php';
+	require_once dirname(__FILE__).'/Api/Resources.php';
+	require_once dirname(__FILE__).'/Api/Filter.php';	
+}
 
 /**
- * BigCommerce API wrapper.
+ * Bigcommerce API wrapper.
  */
-class BigCommerce_Api
+class Bigcommerce_Api
 {
 
 	static private $api_path = '/api/v2';
@@ -107,12 +112,12 @@ class BigCommerce_Api
 	 * Get an instance of the HTTP connection object. Initializes
 	 * the connection if it is not already active.
 	 *
-	 * @return BigCommerce_Api_Connection
+	 * @return Bigcommerce_Api_Connection
 	 */
 	private static function connection()
 	{
 		if (!self::$connection) {
-		 	self::$connection = new BigCommerce_Api_Connection();
+		 	self::$connection = new Bigcommerce_Api_Connection();
 			self::$connection->authenticate(self::$username, self::$api_key);
 		}
 
@@ -139,7 +144,7 @@ class BigCommerce_Api
 	 *
 	 * @param string $path api endpoint
 	 * @param string $resource resource class to map individual items
-	 * @return mixed BigCommerce_ApiResource|string resource object or XML string if useXml is true
+	 * @return mixed Bigcommerce_ApiResource|string resource object or XML string if useXml is true
 	 */
 	public static function getResource($path, $resource='Resource')
 	{
@@ -219,11 +224,11 @@ class BigCommerce_Api
 	 * Callback for mapping collection objects resource classes.
 	 *
 	 * @param stdClass $object
-	 * @return BigCommerce_Api_Resource
+	 * @return Bigcommerce_Api_Resource
 	 */
 	private static function mapCollectionObject($object)
 	{
-		$class = 'BigCommerce_Api_' . self::$resource;
+		$class = 'Bigcommerce_Api_' . self::$resource;
 
 		return new $class($object);
 	}
@@ -233,13 +238,13 @@ class BigCommerce_Api
 	 *
 	 * @param string $resource name of the resource class
 	 * @param stdClass $object
-	 * @return BigCommerce_Api_Resource
+	 * @return Bigcommerce_Api_Resource
 	 */
 	private static function mapResource($resource, $object)
 	{
 		if ($object == false || is_string($object)) return $object;
 
-		$class = 'BigCommerce_Api_' . $resource;
+		$class = 'Bigcommerce_Api_' . $resource;
 
 		return new $class($object);
 	}
@@ -279,7 +284,7 @@ class BigCommerce_Api
 	 */
 	public static function getProducts($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/products' . $filter->toQuery(), 'Product');
 	}
 
@@ -297,7 +302,7 @@ class BigCommerce_Api
 	 * Returns a single product resource by the given id.
 	 *
 	 * @param int $id product id
-	 * @return BigCommerce_Api_Product|string
+	 * @return Bigcommerce_Api_Product|string
 	 */
 	public static function getProduct($id)
 	{
@@ -343,7 +348,7 @@ class BigCommerce_Api
 	 */
 	public static function getOptions($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/options' . $filter->toQuery(), 'Option');
 	}
 
@@ -361,7 +366,7 @@ class BigCommerce_Api
 	 * Return a single option by given id.
 	 *
 	 * @param int $id option id
-	 * @return BigCommerce_Api_Option
+	 * @return Bigcommerce_Api_Option
 	 */
 	public static function getOption($id)
 	{
@@ -383,7 +388,7 @@ class BigCommerce_Api
 	 *
 	 * @param int $option_id option id
 	 * @param int $id value id
-	 * @return BigCommerce_Api_OptionValue
+	 * @return Bigcommerce_Api_OptionValue
 	 */
 	public static function getOptionValue($option_id, $id)
 	{
@@ -398,7 +403,7 @@ class BigCommerce_Api
 	 */
 	public static function getOptionValues($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/options/values' . $filter->toQuery(), 'OptionValue');
 	}
 
@@ -410,7 +415,7 @@ class BigCommerce_Api
 	 */
 	public static function getCategories($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/categories' . $filter->toQuery(), 'Category');
 	}
 
@@ -428,7 +433,7 @@ class BigCommerce_Api
 	 * A single category by given id.
 	 *
 	 * @param int $id category id
-	 * @return BigCommerce_Api_Category
+	 * @return Bigcommerce_Api_Category
 	 */
 	public static function getCategory($id)
 	{
@@ -474,7 +479,7 @@ class BigCommerce_Api
 	 */
 	public static function getBrands($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
 	}
 
@@ -492,7 +497,7 @@ class BigCommerce_Api
 	 * A single brand by given id.
 	 *
 	 * @param int $id brand id
-	 * @return BigCommerce_Api_Brand
+	 * @return Bigcommerce_Api_Brand
 	 */
 	public static function getBrand($id)
 	{
@@ -538,7 +543,7 @@ class BigCommerce_Api
 	 */
 	public static function getOrders($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/orders' . $filter->toQuery(), 'Order');
 	}
 
@@ -556,7 +561,7 @@ class BigCommerce_Api
 	 * A single order.
 	 *
 	 * @param int $id order id
-	 * @return BigCommerce_Api_Order
+	 * @return Bigcommerce_Api_Order
 	 */
 	public static function getOrder($id)
 	{
@@ -583,7 +588,7 @@ class BigCommerce_Api
 	 */
 	public static function getCustomers($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/customers' . $filter->toQuery(), 'Customer');
 	}
 
@@ -601,7 +606,7 @@ class BigCommerce_Api
 	 * A single customer by given id.
 	 *
 	 * @param int $id customer id
-	 * @return BigCommerce_Api_Customer
+	 * @return Bigcommerce_Api_Customer
 	 */
 	public static function getCustomer($id)
 	{
@@ -627,7 +632,7 @@ class BigCommerce_Api
 	 */
 	public static function getOptionSets($filter=false)
 	{
-		$filter = BigCommerce_Api_Filter::create($filter);
+		$filter = Bigcommerce_Api_Filter::create($filter);
 		return self::getCollection('/optionsets' . $filter->toQuery(), 'OptionSet');
 	}
 
@@ -645,7 +650,7 @@ class BigCommerce_Api
 	 * A single option set by given id.
 	 *
 	 * @param int $id option set id
-	 * @return BigCommerce_Api_OptionSet
+	 * @return Bigcommerce_Api_OptionSet
 	 */
 	public static function getOptionSet($id)
 	{
