@@ -81,7 +81,7 @@ class Bigcommerce_Api
 	/**
 	 * Set which cipher to use during SSL requests.
 	 */
-	public static function setCipher($cipher='RC4-SHA')
+	public static function setCipher($cipher='rsa_rc4_128_sha')
 	{
 		self::connection()->setCipher($cipher);
 	}
