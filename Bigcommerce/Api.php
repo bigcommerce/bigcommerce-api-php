@@ -1,6 +1,6 @@
 <?php
 
-if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 3) {
+if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 5) {
 	// shim for legacy PEAR installer or manual linking
 	// (otherwise we assume Composer autoloader)
 	require_once dirname(__FILE__).'/Api/Connection.php';
