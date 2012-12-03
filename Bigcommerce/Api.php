@@ -1,6 +1,6 @@
 <?php
 
-if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 3) {
+if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 5) {
 	// shim for legacy PEAR installer or manual linking
 	// (otherwise we assume Composer autoloader)
 	require_once dirname(__FILE__).'/Api/Connection.php';
@@ -81,7 +81,7 @@ class Bigcommerce_Api
 	/**
 	 * Set which cipher to use during SSL requests.
 	 */
-	public static function setCipher($cipher='RC4-SHA')
+	public static function setCipher($cipher='rsa_rc4_128_sha')
 	{
 		self::connection()->setCipher($cipher);
 	}
