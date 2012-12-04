@@ -11,6 +11,7 @@ Requirements
 
 - PHP 5.2.4 or greater
 - cUrl extension enabled
+- RC4-SHA (rsa_rc4_128_sha) cipher
 
 To connect to the API, you need the following credentials:
 
@@ -47,6 +48,19 @@ Bigcommerce_Api::configure(array(
 	'username'	=> 'admin',
 	'api_key'	=> 'd81aada4c19c34d913e18f07fd7f36ca'
 ));
+```
+
+Specifying the SSL cipher
+-------------------------
+
+The API requires that all client SSL connections use the RC4-SHA (rsa_rc4_128_sha) cipher.
+The client will set the cipher to "rsa_rc4_128_sha" by default.
+
+Sometimes the cipher is named different on a server.
+The setCipher method can be used to override this setting if required.
+
+```
+Bigcommerce_Api::setCipher('RC4-SHA');
 ```
 
 Connecting to the store
@@ -273,17 +287,6 @@ The exceptions thrown are subclasses of Bigcommerce_Api_Error, representing
 client errors and server errors. The API documentation for response codes
 contains a list of all the possible error conditions the client may encounter.
 
-Specifying the SSL cipher
--------------------------
-
-The API requires that all client SSL connections use the RC4-SHA (rsa_rc4_128_sha) cipher.
-The client will set this cipher to be used by default.
-
-The setCipher method can be used to override this setting if required.
-
-```
-Bigcommerce_Api::setCipher('RC4-SHA');
-```
 
 Verifying SSL certificates
 --------------------------
