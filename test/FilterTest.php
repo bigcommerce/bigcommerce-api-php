@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../Bigcommerce/Api/Filter.php';
+require_once dirname(__FILE__).'/../src/Bigcommerce/Api.php';
 
 class Bigcommerce_Api_FilterTest extends PHPUnit_Framework_TestCase
 {

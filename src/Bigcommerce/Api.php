@@ -4,7 +4,9 @@ if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 5) {
     // shim for legacy PEAR installer or manual linking
     // (otherwise we assume Composer autoloader)
     require_once dirname(__FILE__) . '/Api/Connection.php';
+    require_once dirname(__FILE__) . '/Api/Resource.php';
     require_once dirname(__FILE__) . '/Api/Filter.php';
+
     require_once dirname(__FILE__) . '/Api/Address.php';
     require_once dirname(__FILE__) . '/Api/Brand.php';
     require_once dirname(__FILE__) . '/Api/Category.php';
