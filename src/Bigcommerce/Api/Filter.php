@@ -1,9 +1,11 @@
 <?php
 
+namespace Bigcommerce\Api;
+
 /**
  * Builds a query to filter the results of a collection request.
  */
-class Bigcommerce_Api_Filter
+class Filter
 {
 	private $parameters;
 
