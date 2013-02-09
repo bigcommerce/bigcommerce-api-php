@@ -1,9 +1,11 @@
 <?php
 
+namespace Bigcommerce\Api;
+
 /**
  * HTTP connection.
  */
-class Bigcommerce_Api_Connection
+class Connection
 {
 
 	/**
@@ -207,7 +209,7 @@ class Bigcommerce_Api_Connection
 	private function handleResponse()
 	{
 		if (curl_errno($this->curl)) {
-			throw new Bigcommerce_Api_NetworkError(curl_error($this->curl), curl_errno($this->curl));
+			throw new NetworkError(curl_error($this->curl), curl_errno($this->curl));
 		}
 
 		$body = ($this->useXml) ? $this->getBody() : json_decode($this->getBody());
@@ -216,14 +218,14 @@ class Bigcommerce_Api_Connection
 
 		if ($status >= 400 && $status <= 499) {
 			if ($this->failOnError) {
-				throw new Bigcommerce_Api_ClientError($body, $status);
+				throw new ClientError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
 			}
 		} elseif ($status >= 500 && $status <= 599) {
 			if ($this->failOnError) {
-				throw new Bigcommerce_Api_ServerError($body, $status);
+				throw new ServerError($body, $status);
 			} else {
 				$this->lastError = $body;
 				return false;
@@ -275,7 +277,7 @@ class Bigcommerce_Api_Connection
 
 			} else {
 				$errorString = "Too many redirects when trying to follow location.";
-				throw new Bigcommerce_Api_NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
+				throw new NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
 			}
 		} else {
 			$this->redirectsFollowed = 0;
@@ -452,51 +454,5 @@ class Bigcommerce_Api_Connection
 	{
 		curl_close($this->curl);
 	}
-
-}
-
-/**
- * Base class for API exceptions. Used if failOnError is true.
- */
-class Bigcommerce_Api_Error extends Exception
-{
-
-	public function __construct($message, $code)
-	{
-		if (is_array($message)) {
-			$message = $message[0]->message;
-		}
-
-		parent::__construct($message, $code);
-	}
-
-}
-
-/**
- * Raised if a network fault occurs.
- */
-class Bigcommerce_Api_NetworkError extends Bigcommerce_Api_Error
-{
-
-}
-
-/**
- * Raised when a client error (400+) is returned from the API.
- */
-class Bigcommerce_Api_ClientError extends Bigcommerce_Api_Error
-{
-
-	public function __toString()
-	{
-		return "Client Error ({$this->code}): " . $this->message;
-	}
-
-}
-
-/**
- * Raised when a server error (500+) is returned from the API.
- */
-class Bigcommerce_Api_ServerError extends Bigcommerce_Api_Error
-{
 
 }
