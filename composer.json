@@ -1,5 +1,5 @@
 {
-    "name": "bigcommerce/api-client",
+    "name": "bigcommerce/api",
     "type": "library",
     "description": "Enables PHP applications to communicate with the Bigcommerce API.",
     "keywords": ["api","http","rest","ecommerce","business"],
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Bigcommerce_": "Bigcommerce"
+            "Bigcommerce": "src/"
         }
     }
 }
