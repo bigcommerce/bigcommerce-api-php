@@ -690,6 +690,24 @@ class Client
 		return self::getCollection('/orderstatuses', 'OrderStatus');
 	}
 
+	/* product skus */
+	public static function getSkus($filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getCollection('/products/skus' . $filter->toQuery(), 'Sku');
+	}
+
+	public static function createSku($object)
+	{
+		return self::createResource('/product/skus', $object);
+	}
+
+	public static function updateSku($id, $object)
+	{
+		return self::updateResource('/product/skus' . $id, $object);
+	}
+
+
 	/**
 	 * The request logs with usage history statistics.
 	 */
@@ -719,5 +737,7 @@ class Client
 
 		return intval($limit);
 	}
+
+	
 
 }
