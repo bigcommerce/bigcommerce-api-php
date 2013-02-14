@@ -35,7 +35,7 @@ class Resource
 		if (is_array($object)) {
 			$object = (isset($object[0])) ? $object[0] : false;
 		}
-		$this->fields = ($object) ? $object : new stdClass;
+		$this->fields = ($object) ? $object : new \stdClass;
 		$this->id = ($object) ? $object->id : 0;
 	}
 
