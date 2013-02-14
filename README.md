@@ -174,7 +174,7 @@ You can also create a resource by making a new instance of the resource class
 and calling the create method once you have set the fields you want to save:
 
 ```
-$brand = new Brand();
+$brand = new Bigcommerce\Api\Resources\Brand();
 
 $brand->name = "Apple";
 $brand->create();
