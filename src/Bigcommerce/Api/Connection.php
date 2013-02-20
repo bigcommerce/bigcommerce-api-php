@@ -376,6 +376,9 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
 		curl_setopt($this->curl, CURLOPT_URL, $uri);
 		curl_exec($this->curl);
+		
+		// reset back to the default request method
+		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
 
 		return $this->handleResponse();
 	}
