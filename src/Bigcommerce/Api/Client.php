@@ -595,6 +595,18 @@ class Client
 	}
 
 	/**
+	 * Bulk delete customers.
+	 *
+	 * @param mixed $filter
+	 * @return array
+	 */
+	public static function deleteCustomers($filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::deleteResource('/customers' . $filter->toQuery());
+	}
+
+	/**
 	 * A single customer by given id.
 	 *
 	 * @param int $id customer id
