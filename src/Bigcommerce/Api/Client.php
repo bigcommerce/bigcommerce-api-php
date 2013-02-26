@@ -7,12 +7,19 @@ namespace Bigcommerce\Api;
  */
 class Client
 {
-	static private $api_path = '/api/v2';
 	static private $store_url;
 	static private $username;
 	static private $api_key;
 	static private $connection;
 	static private $resource;
+	static private $path_prefix = '/api/v2';
+	
+	/**
+	 * Full URL path to the configured store API.
+	 *
+	 * @var string
+	 */
+	static public $api_path;
 
 	/**
 	 * Configure the API client with the required credentials.
@@ -42,7 +49,7 @@ class Client
 		self::$username  = $settings['username'];
 		self::$api_key 	 = $settings['api_key'];
 		self::$store_url = rtrim($settings['store_url'], '/');
-		self::$api_path  = self::$store_url . self::$api_path;
+		self::$api_path  = self::$store_url . self::$path_prefix;
 	}
 
 	/**
