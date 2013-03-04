@@ -727,6 +727,23 @@ class Client
 	}
 
 
+	/* coupons */
+	public static function getCoupons($filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getCollection('/coupons' . $filter->toQuery(), 'Sku');
+	}
+
+	public static function createCoupon($object)
+	{
+		return self::createResource('/coupons', $object);
+	}
+
+	public static function updateCoupon($id, $object)
+	{
+		return self::updateResource('/coupons' . $id, $object);
+	}
+
 	/**
 	 * The request logs with usage history statistics.
 	 */
