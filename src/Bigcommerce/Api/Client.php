@@ -7,12 +7,19 @@ namespace Bigcommerce\Api;
  */
 class Client
 {
-	static private $api_path = '/api/v2';
 	static private $store_url;
 	static private $username;
 	static private $api_key;
 	static private $connection;
 	static private $resource;
+	static private $path_prefix = '/api/v2';
+	
+	/**
+	 * Full URL path to the configured store API.
+	 *
+	 * @var string
+	 */
+	static public $api_path;
 
 	/**
 	 * Configure the API client with the required credentials.
@@ -42,7 +49,7 @@ class Client
 		self::$username  = $settings['username'];
 		self::$api_key 	 = $settings['api_key'];
 		self::$store_url = rtrim($settings['store_url'], '/');
-		self::$api_path  = self::$store_url . self::$api_path;
+		self::$api_path  = self::$store_url . self::$path_prefix;
 	}
 
 	/**
@@ -595,6 +602,18 @@ class Client
 	}
 
 	/**
+	 * Bulk delete customers.
+	 *
+	 * @param mixed $filter
+	 * @return array
+	 */
+	public static function deleteCustomers($filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::deleteResource('/customers' . $filter->toQuery());
+	}
+
+	/**
 	 * A single customer by given id.
 	 *
 	 * @param int $id customer id
@@ -707,6 +726,23 @@ class Client
 		return self::updateResource('/product/skus' . $id, $object);
 	}
 
+
+	/* coupons */
+	public static function getCoupons($filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getCollection('/coupons' . $filter->toQuery(), 'Sku');
+	}
+
+	public static function createCoupon($object)
+	{
+		return self::createResource('/coupons', $object);
+	}
+
+	public static function updateCoupon($id, $object)
+	{
+		return self::updateResource('/coupons' . $id, $object);
+	}
 
 	/**
 	 * The request logs with usage history statistics.
