@@ -26,7 +26,7 @@ Installation
 
 Download the required PHP code for the Bigcommerce REST API client and copy it
 to your PHP include path, or use the following Composer command to install the
-API client from [the Bigcommerce vendor on Packagist](http://packagist.org):
+API client from [the Bigcommerce vendor on Packagist](https://packagist.org/packages/bigcommerce/api):
 
 ```
  $ composer require bigcommerce/api
