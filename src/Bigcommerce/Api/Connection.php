@@ -295,8 +295,10 @@ class Connection
 			$url .= '?' . http_build_query($query);
 		}
 
+		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_HTTPGET, true);
+
 		curl_exec($this->curl);
 
 		return $this->handleResponse();
@@ -313,11 +315,17 @@ class Connection
 			$body = json_encode($body);
 		}
 
+		if (strstr($url, '/products')) {
+			echo $body;
+		}
+
 		$this->initializeRequest();
 
+		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_POST, true);
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $body);
+
 		curl_exec($this->curl);
 
 		return $this->handleResponse();
@@ -330,6 +338,7 @@ class Connection
 	{
 		$this->initializeRequest();
 
+		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'HEAD');
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_NOBODY, true);
 		curl_exec($this->curl);
@@ -359,8 +368,10 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_INFILE, $handle);
 		curl_setopt($this->curl, CURLOPT_INFILESIZE, strlen($body));
 
+		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_PUT, true);
+		
 		curl_exec($this->curl);
 
 		return $this->handleResponse();
@@ -376,9 +387,6 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
 		curl_setopt($this->curl, CURLOPT_URL, $uri);
 		curl_exec($this->curl);
-		
-		// reset back to the default request method
-		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
 
 		return $this->handleResponse();
 	}
