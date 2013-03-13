@@ -39,6 +39,14 @@ into the scope with the following namespace declaration:
 ```
 use Bigcommerce\Api\Client as Bigcommerce;
 ```
+You can also install composer for this specific project by running the following in the library folder.
+
+```
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+composer install
+
+```
 
 Configuration
 -------------
