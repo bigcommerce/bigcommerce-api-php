@@ -1,7 +1,7 @@
 Bigcommerce API Client
 ======================
 
-PHP package for connecting to the Bigcommerce V2 REST API.
+PHP client for connecting to the Bigcommerce V2 REST API.
 
 To find out more, visit the official documentation website:
 http://developer.bigcommerce.com/
@@ -24,8 +24,7 @@ the 'Enable the XML API?' is ticked.
 Installation
 ------------
 
-Download the required PHP code for the Bigcommerce REST API client and copy it
-to your PHP include path, or use the following Composer command to install the
+Use the following Composer command to install the
 API client from [the Bigcommerce vendor on Packagist](https://packagist.org/packages/bigcommerce/api):
 
 ```
@@ -33,19 +32,29 @@ API client from [the Bigcommerce vendor on Packagist](https://packagist.org/pack
  $ composer update
 ```
 
-All the examples below assume the `Bigcommerce\Api\Client` class is imported
-into the scope with the following namespace declaration:
-
-```
-use Bigcommerce\Api\Client as Bigcommerce;
-```
-You can also install composer for this specific project by running the following in the library folder.
+You can also install composer for your specific project by running the following in the library folder.
 
 ```
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 composer install
+```
 
+If you don’t want to use Composer and Packagist, the API client is also distributed as a single
+PHP file (`bigcommerce.php`) which you can include directly into your project:
+
+```
+require 'path/to/bigcommerce.php';
+```
+
+Namespace
+---------
+
+All the examples below assume the `Bigcommerce\Api\Client` class is imported
+into the scope with the following namespace declaration:
+
+```
+use Bigcommerce\Api\Client as Bigcommerce;
 ```
 
 Configuration

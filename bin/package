@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$pkg = new JuggleCode();
+$pkg->masterfile = 'src/Bigcommerce/Api.php';
+$pkg->outfile = 'bigcommerce.php';
+$pkg->mergeScripts = true;
+$pkg->comments = false;
+$pkg->run();
+
+// clean up statement/parser error from the JuggleCode output
+file_put_contents('bigcommerce.php', str_replace('};', '}', file_get_contents('bigcommerce.php')));
+
