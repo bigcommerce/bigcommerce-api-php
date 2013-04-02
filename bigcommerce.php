@@ -305,11 +305,34 @@ namespace Bigcommerce\Api {
         }
         public static function createSku($object)
         {
-            return self::createResource('/product/skus', $object);
+            return self::createResource('/products/skus', $object);
         }
         public static function updateSku($id, $object)
         {
-            return self::updateResource('/product/skus' . $id, $object);
+            return self::updateResource('/products/skus/' . $id, $object);
+        }
+        public static function getProductsImages($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/products/images' . $filter->toQuery(), 'ProductImage');
+        }
+        public static function getProductImages($product_id, $filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getResource('/products/' . $product_id . '/images', 'ProductImage');
+        }
+        public static function getProductImage($product_id, $image_id, $filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getResource('/products/' . $product_id . '/images/' . $image_id, 'ProductImage');
+        }
+        public static function createProductImage($product_id, $object)
+        {
+            return self::createResource('/products/' . $product_id . '/images', $object);
+        }
+        public static function updateProductImage($product_id, $image_id, $object)
+        {
+            return self::updateResource('/products/' . $product_id . '/images/' . $image_id, $object);
         }
         public static function getCoupons($filter = false)
         {
