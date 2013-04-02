@@ -338,8 +338,6 @@ class Client
 		return self::deleteResource('/products/' . $id);
 	}
 
-	
-
 	/**
 	 * Return the collection of options.
 	 *
@@ -709,7 +707,6 @@ class Client
 		return self::getCollection('/orderstatuses', 'OrderStatus');
 	}
 
-	/* product skus */
 	public static function getSkus($filter=false)
 	{
 		$filter = Filter::create($filter);
@@ -726,30 +723,34 @@ class Client
 		return self::updateResource('/products/skus/' . $id, $object);
 	}
 
-	/* product images */
-	public static function getImages($filter=false)
+	public static function getProductsImages($filter=false)
 	{
 		$filter = Filter::create($filter);
 		return self::getCollection('/products/images' . $filter->toQuery(), 'ProductImage');
 	}
 
-	public static function getImage($product_id, $id, $filter=false)
+	public static function getProductImages($product_id, $filter=false)
 	{
 		$filter = Filter::create($filter);
-		return self::getResource('/products/'.$product_id.'/images/'.$id, 'ProductImage');
+		return self::getResource('/products/' . $product_id . '/images', 'ProductImage');
 	}
 
-	public static function createImage($product_id,$object)
+	public static function getProductImage($product_id, $image_id, $filter=false)
 	{
-		return self::createResource('/products/'.$product_id.'/images', $object);
+		$filter = Filter::create($filter);
+		return self::getResource('/products/' . $product_id . '/images/' . $image_id, 'ProductImage');
 	}
 
-	public static function updateImage($id, $product_id, $object)
+	public static function createProductImage($product_id, $object)
 	{
-		return self::updateResource('/products/'.$product_id.'/images/' . $id, $object);
+		return self::createResource('/products/' . $product_id . '/images', $object);
 	}
 
-	/* coupons */
+	public static function updateProductImage($product_id, $image_id, $object)
+	{
+		return self::updateResource('/products/' . $product_id . '/images/' . $image_id, $object);
+	}
+
 	public static function getCoupons($filter=false)
 	{
 		$filter = Filter::create($filter);
@@ -796,6 +797,5 @@ class Client
 		return intval($limit);
 	}
 
-	
-
 }
+
