@@ -23,6 +23,8 @@ class ProductImage extends Resource
 		'product_id',
 	);
 
+	
+
 	public function create()
 	{
 		return Client::createResource('/products/' . $this->product_id . '/images' , $this->getCreateFields());

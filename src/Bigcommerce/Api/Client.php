@@ -135,7 +135,6 @@ class Client
 	public static function getCollection($path, $resource='Resource')
 	{
 		$response = self::connection()->get(self::$api_path . $path);
-
 		return self::mapCollection($resource, $response);
 	}
 
@@ -149,7 +148,6 @@ class Client
 	public static function getResource($path, $resource='Resource')
 	{
 		$response = self::connection()->get(self::$api_path . $path);
-
 		return self::mapResource($resource, $response);
 	}
 
@@ -339,6 +337,8 @@ class Client
 	{
 		return self::deleteResource('/products/' . $id);
 	}
+
+	
 
 	/**
 	 * Return the collection of options.
@@ -718,14 +718,36 @@ class Client
 
 	public static function createSku($object)
 	{
-		return self::createResource('/product/skus', $object);
+		return self::createResource('/products/skus', $object);
 	}
 
 	public static function updateSku($id, $object)
 	{
-		return self::updateResource('/product/skus' . $id, $object);
+		return self::updateResource('/products/skus/' . $id, $object);
 	}
 
+	/* product images */
+	public static function getImages($filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getCollection('/products/images' . $filter->toQuery(), 'ProductImage');
+	}
+
+	public static function getImage($product_id, $id, $filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getResource('/products/'.$product_id.'/images/'.$id, 'ProductImage');
+	}
+
+	public static function createImage($product_id,$object)
+	{
+		return self::createResource('/products/'.$product_id.'/images', $object);
+	}
+
+	public static function updateImage($id, $product_id, $object)
+	{
+		return self::updateResource('/products/'.$product_id.'/images/' . $id, $object);
+	}
 
 	/* coupons */
 	public static function getCoupons($filter=false)
