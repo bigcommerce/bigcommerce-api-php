@@ -135,6 +135,7 @@ class Client
 	public static function getCollection($path, $resource='Resource')
 	{
 		$response = self::connection()->get(self::$api_path . $path);
+
 		return self::mapCollection($resource, $response);
 	}
 
@@ -148,6 +149,7 @@ class Client
 	public static function getResource($path, $resource='Resource')
 	{
 		$response = self::connection()->get(self::$api_path . $path);
+
 		return self::mapResource($resource, $response);
 	}
 
@@ -213,7 +215,8 @@ class Client
 	{
 		if ($object == false || is_string($object)) return $object;
 
-		self::$resource = $resource;
+		$baseResource = __NAMESPACE__ . '\\' . $resource;
+		self::$resource = (class_exists($baseResource)) ?  $baseResource  :  'Bigcommerce\\Api\\Resources\\' . $resource;
 
 		return array_map(array('self', 'mapCollectionObject'), $object);
 	}
@@ -226,7 +229,7 @@ class Client
 	 */
 	private static function mapCollectionObject($object)
 	{
-		$class = 'Bigcommerce\\Api\\Resources\\' . self::$resource;
+		$class = self::$resource;
 
 		return new $class($object);
 	}
@@ -242,7 +245,8 @@ class Client
 	{
 		if ($object == false || is_string($object)) return $object;
 
-		$class = 'Bigcommerce\\Api\\Resources\\' . $resource;
+		$baseResource = __NAMESPACE__ . '\\' . $resource;
+		$class = (class_exists($baseResource)) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
 
 		return new $class($object);
 	}
@@ -707,6 +711,7 @@ class Client
 		return self::getCollection('/orderstatuses', 'OrderStatus');
 	}
 
+	/* product skus */
 	public static function getSkus($filter=false)
 	{
 		$filter = Filter::create($filter);
@@ -715,42 +720,16 @@ class Client
 
 	public static function createSku($object)
 	{
-		return self::createResource('/products/skus', $object);
+		return self::createResource('/product/skus', $object);
 	}
 
 	public static function updateSku($id, $object)
 	{
-		return self::updateResource('/products/skus/' . $id, $object);
+		return self::updateResource('/product/skus' . $id, $object);
 	}
 
-	public static function getProductsImages($filter=false)
-	{
-		$filter = Filter::create($filter);
-		return self::getCollection('/products/images' . $filter->toQuery(), 'ProductImage');
-	}
 
-	public static function getProductImages($product_id, $filter=false)
-	{
-		$filter = Filter::create($filter);
-		return self::getResource('/products/' . $product_id . '/images', 'ProductImage');
-	}
-
-	public static function getProductImage($product_id, $image_id, $filter=false)
-	{
-		$filter = Filter::create($filter);
-		return self::getResource('/products/' . $product_id . '/images/' . $image_id, 'ProductImage');
-	}
-
-	public static function createProductImage($product_id, $object)
-	{
-		return self::createResource('/products/' . $product_id . '/images', $object);
-	}
-
-	public static function updateProductImage($product_id, $image_id, $object)
-	{
-		return self::updateResource('/products/' . $product_id . '/images/' . $image_id, $object);
-	}
-
+	/* coupons */
 	public static function getCoupons($filter=false)
 	{
 		$filter = Filter::create($filter);
@@ -797,5 +776,6 @@ class Client
 		return intval($limit);
 	}
 
-}
+	
 
+}

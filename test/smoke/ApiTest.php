@@ -15,7 +15,8 @@ class ApiTest extends PHPUnit_Framework_TestCase
 		    'api_key'   => getenv('TEST_STORE_API_KEY'),
 		));
 
-		Bigcommerce::failOnError(true);		
+		Bigcommerce::setCipher('RC4-SHA');
+		Bigcommerce::failOnError(true);
 	}
 
 	public function testTimestampPing()
@@ -23,17 +24,29 @@ class ApiTest extends PHPUnit_Framework_TestCase
 		$time = Bigcommerce::getTime();
 		$this->assertTrue($time instanceOf DateTime);
 	}
+	
+	public function testBasicResource()
+	{
+		$resource = Bigcommerce::getResource('/store');
+		
+		$this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
+	}
 
 	public function testProductCollection()
 	{
 		$products = Bigcommerce::getProducts();
 		$this->assertTrue(is_array($products));
+		
+		return $products[0]->id;
 	}
 
-	public function testProductsResource()
+	/**
+	 * @depends testProductCollection
+	 */
+	public function testProductsResource($id)
 	{
-		$product = Bigcommerce::getProduct(1);
-		$this->assertEquals(1, $product->id);
+		$product = Bigcommerce::getProduct($id);
+		$this->assertEquals($id, $product->id);
 	}
 
 }
