@@ -315,10 +315,6 @@ class Connection
 			$body = json_encode($body);
 		}
 
-		if (strstr($url, '/products')) {
-			echo $body;
-		}
-
 		$this->initializeRequest();
 
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -373,6 +369,8 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_PUT, true);
 		
 		curl_exec($this->curl);
+
+		curl_setopt($this->curl, CURLOPT_PUT, false);
 
 		return $this->handleResponse();
 	}
