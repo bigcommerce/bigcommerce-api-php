@@ -354,6 +354,13 @@ class Client
 		return self::getCollection('/options' . $filter->toQuery(), 'Option');
 	}
 
+	/** create options **/
+	public static function createOptions($object)
+	{
+		return self::createResource('/options', $object);
+	}
+
+
 	/**
 	 * Return the number of options in the collection
 	 *
@@ -374,6 +381,8 @@ class Client
 	{
 		return self::getResource('/options/' . $id, 'Option');
 	}
+
+
 
 	/**
 	 * Delete the given option.
@@ -679,6 +688,19 @@ class Client
 		$filter = Filter::create($filter);
 		return self::getCollection('/optionsets' . $filter->toQuery(), 'OptionSet');
 	}
+
+	/** create optionsets **/
+	public static function createOptionsets($object)
+	{
+		return self::createResource('/optionsets', $object);
+	}
+
+	/** connect optionsets options **/
+	public static function createOptionsets_Options($object, $id)
+	{
+		return self::createResource('/optionsets/'.$id.'/options', $object);
+	}
+
 
 	/**
 	 * Returns the total number of option sets in the collection.
