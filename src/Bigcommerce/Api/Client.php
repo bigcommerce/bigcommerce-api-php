@@ -50,6 +50,7 @@ class Client
 		self::$api_key 	 = $settings['api_key'];
 		self::$store_url = rtrim($settings['store_url'], '/');
 		self::$api_path  = self::$store_url . self::$path_prefix;
+		self::$connection = false;
 	}
 
 	/**
