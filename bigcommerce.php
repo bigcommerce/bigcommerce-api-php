@@ -366,15 +366,6 @@ namespace Bigcommerce\Api {
     }
 }
 namespace Bigcommerce\Api {
-    class ClientError extends Error
-    {
-        public function __toString()
-        {
-            return "Client Error ({$this->code}): " . $this->message;
-        }
-    }
-}
-namespace Bigcommerce\Api {
     class Connection
     {
         private $curl;
@@ -621,6 +612,15 @@ namespace Bigcommerce\Api {
                 $message = $message[0]->message;
             }
             parent::__construct($message, $code);
+        }
+    }
+}
+namespace Bigcommerce\Api {
+    class ClientError extends Error
+    {
+        public function __toString()
+        {
+            return "Client Error ({$this->code}): " . $this->message;
         }
     }
 }
