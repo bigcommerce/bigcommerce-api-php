@@ -298,7 +298,6 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_HTTPGET, true);
-
 		curl_exec($this->curl);
 
 		return $this->handleResponse();
@@ -321,7 +320,6 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_POST, true);
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $body);
-
 		curl_exec($this->curl);
 
 		return $this->handleResponse();
@@ -367,10 +365,7 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_PUT, true);
-		
 		curl_exec($this->curl);
-
-		curl_setopt($this->curl, CURLOPT_PUT, false);
 
 		return $this->handleResponse();
 	}
@@ -378,12 +373,12 @@ class Connection
 	/**
 	 * Make an HTTP DELETE request to the specified endpoint.
 	 */
-	public function delete($uri)
+	public function delete($url)
 	{
 		$this->initializeRequest();
 
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
-		curl_setopt($this->curl, CURLOPT_URL, $uri);
+		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_exec($this->curl);
 
 		return $this->handleResponse();
