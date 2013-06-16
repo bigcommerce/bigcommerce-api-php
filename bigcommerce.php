@@ -129,14 +129,15 @@ namespace Bigcommerce\Api {
             }
             return new \DateTime("@{$response->time}");
         }
-        public static function getProducts($filter = false)
+        public static function getProducts($filter=false)
         {
             $filter = Filter::create($filter);
             return self::getCollection('/products' . $filter->toQuery(), 'Product');
         }
-        public static function getProductsCount()
+        public static function getProductsCount($filter=false)
         {
-            return self::getCount('/products/count');
+            $filter = Filter::create($filter);
+            return self::getCount('/products/count' . $filter->toQuery());
         }
         public static function getProduct($id)
         {
@@ -185,9 +186,10 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/categories' . $filter->toQuery(), 'Category');
         }
-        public static function getCategoriesCount()
+        public static function getCategoriesCount($filter=false)
         {
-            return self::getCount('/categories/count');
+            $filter = Filter::create($filter);
+            return self::getCount('/categories/count' . $filter->toQuery());
         }
         public static function getCategory($id)
         {
@@ -210,9 +212,10 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
         }
-        public static function getBrandsCount()
+        public static function getBrandsCount($filter=false)
         {
-            return self::getCount('/brands/count');
+            $filter = Filter::create($filter);
+            return self::getCount('/brands/count' . $filter->toQuery());
         }
         public static function getBrand($id)
         {
@@ -252,9 +255,10 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/customers' . $filter->toQuery(), 'Customer');
         }
-        public static function getCustomersCount()
+        public static function getCustomersCount($filter = false)
         {
-            return self::getCount('/customers/count');
+            $filter = Filter::create($filter);
+            return self::getCount('/customers/count' . $filter->toQuery());
         }
         public static function deleteCustomers($filter = false)
         {
