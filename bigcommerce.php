@@ -1,371 +1,5 @@
 <?php
 namespace Bigcommerce\Api {
-    class Client
-    {
-        private static $store_url;
-        private static $username;
-        private static $api_key;
-        private static $connection;
-        private static $resource;
-        private static $path_prefix = '/api/v2';
-        public static $api_path;
-        public static function configure($settings)
-        {
-            if (!isset($settings['store_url'])) {
-                throw new Exception('\'store_url\' must be provided');
-            }
-            if (!isset($settings['username'])) {
-                throw new Exception('\'username\' must be provided');
-            }
-            if (!isset($settings['api_key'])) {
-                throw new Exception('\'api_key\' must be provided');
-            }
-            self::$username = $settings['username'];
-            self::$api_key = $settings['api_key'];
-            self::$store_url = rtrim($settings['store_url'], '/');
-            self::$api_path = self::$store_url . self::$path_prefix;
-        }
-        public static function failOnError($option = true)
-        {
-            self::connection()->failOnError($option);
-        }
-        public static function useXml()
-        {
-            self::connection()->useXml();
-        }
-        public static function verifyPeer($option = false)
-        {
-            self::connection()->verifyPeer($option);
-        }
-        public static function setCipher($cipher = 'rsa_rc4_128_sha')
-        {
-            self::connection()->setCipher($cipher);
-        }
-        public static function useProxy($host, $port = false)
-        {
-            self::connection()->useProxy($host, $port);
-        }
-        public static function getLastError()
-        {
-            return self::connection()->getLastError();
-        }
-        private static function connection()
-        {
-            if (!self::$connection) {
-                self::$connection = new Connection();
-                self::$connection->authenticate(self::$username, self::$api_key);
-            }
-            return self::$connection;
-        }
-        public static function getCollection($path, $resource = 'Resource')
-        {
-            $response = self::connection()->get(self::$api_path . $path);
-            return self::mapCollection($resource, $response);
-        }
-        public static function getResource($path, $resource = 'Resource')
-        {
-            $response = self::connection()->get(self::$api_path . $path);
-            return self::mapResource($resource, $response);
-        }
-        public static function getCount($path)
-        {
-            $response = self::connection()->get(self::$api_path . $path);
-            if ($response == false || is_string($response)) {
-                return $response;
-            }
-            return $response->count;
-        }
-        public static function createResource($path, $object)
-        {
-            if (is_array($object)) {
-                $object = (object) $object;
-            }
-            return self::connection()->post(self::$api_path . $path, $object);
-        }
-        public static function updateResource($path, $object)
-        {
-            if (is_array($object)) {
-                $object = (object) $object;
-            }
-            return self::connection()->put(self::$api_path . $path, $object);
-        }
-        public static function deleteResource($path)
-        {
-            return self::connection()->delete(self::$api_path . $path);
-        }
-        private static function mapCollection($resource, $object)
-        {
-            if ($object == false || is_string($object)) {
-                return $object;
-            }
-            self::$resource = $resource;
-            return array_map(array('self', 'mapCollectionObject'), $object);
-        }
-        private static function mapCollectionObject($object)
-        {
-            $class = 'Bigcommerce\\Api\\Resources\\' . self::$resource;
-            return new $class($object);
-        }
-        private static function mapResource($resource, $object)
-        {
-            if ($object == false || is_string($object)) {
-                return $object;
-            }
-            $class = 'Bigcommerce\\Api\\Resources\\' . $resource;
-            return new $class($object);
-        }
-        private static function mapCount($object)
-        {
-            if ($object == false || is_string($object)) {
-                return $object;
-            }
-            return $object->count;
-        }
-        public static function getTime()
-        {
-            $response = self::connection()->get(self::$api_path . '/time');
-            if ($response == false || is_string($response)) {
-                return $response;
-            }
-            return new \DateTime("@{$response->time}");
-        }
-        public static function getProducts($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/products' . $filter->toQuery(), 'Product');
-        }
-        public static function getProductsCount()
-        {
-            return self::getCount('/products/count');
-        }
-        public static function getProduct($id)
-        {
-            return self::getResource('/products/' . $id, 'Product');
-        }
-        public static function createProduct($object)
-        {
-            return self::createResource('/products', $object);
-        }
-        public static function updateProduct($id, $object)
-        {
-            return self::updateResource('/products/' . $id, $object);
-        }
-        public static function deleteProduct($id)
-        {
-            return self::deleteResource('/products/' . $id);
-        }
-        public static function getOptions($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/options' . $filter->toQuery(), 'Option');
-        }
-        public static function getOptionsCount()
-        {
-            return self::getCount('/options/count');
-        }
-        public static function getOption($id)
-        {
-            return self::getResource('/options/' . $id, 'Option');
-        }
-        public static function deleteOption($id)
-        {
-            return self::deleteResource('/options/' . $id);
-        }
-        public static function getOptionValue($option_id, $id)
-        {
-            return self::getResource('/options/' . $option_id . '/values/' . $id, 'OptionValue');
-        }
-        public static function getOptionValues($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/options/values' . $filter->toQuery(), 'OptionValue');
-        }
-        public static function getCategories($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/categories' . $filter->toQuery(), 'Category');
-        }
-        public static function getCategoriesCount()
-        {
-            return self::getCount('/categories/count');
-        }
-        public static function getCategory($id)
-        {
-            return self::getResource('/categories/' . $id, 'Category');
-        }
-        public static function createCategory($object)
-        {
-            return self::createResource('/categories', $object);
-        }
-        public static function updateCategory($id, $object)
-        {
-            return self::updateResource('/categories/' . $id, $object);
-        }
-        public static function deleteCategory($id)
-        {
-            return self::deleteResource('/categories/' . $id);
-        }
-        public static function getBrands($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
-        }
-        public static function getBrandsCount()
-        {
-            return self::getCount('/brands/count');
-        }
-        public static function getBrand($id)
-        {
-            return self::getResource('/brands/' . $id, 'Brand');
-        }
-        public static function createBrand($object)
-        {
-            return self::createResource('/brands', $object);
-        }
-        public static function updateBrand($id, $object)
-        {
-            return self::updateResource('/brands/' . $id, $object);
-        }
-        public static function deleteBrand($id)
-        {
-            return self::deleteResource('/brands/' . $id);
-        }
-        public static function getOrders($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/orders' . $filter->toQuery(), 'Order');
-        }
-        public static function getOrdersCount()
-        {
-            return self::getCount('/orders/count');
-        }
-        public static function getOrder($id)
-        {
-            return self::getResource('/orders/' . $id, 'Order');
-        }
-        public static function deleteOrder($id)
-        {
-            return self::deleteResource('/orders/' . $id);
-        }
-        public static function getCustomers($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/customers' . $filter->toQuery(), 'Customer');
-        }
-        public static function getCustomersCount()
-        {
-            return self::getCount('/customers/count');
-        }
-        public static function deleteCustomers($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::deleteResource('/customers' . $filter->toQuery());
-        }
-        public static function getCustomer($id)
-        {
-            return self::getResource('/customers/' . $id, 'Customer');
-        }
-        public static function createCustomer($object)
-        {
-            return self::createResource('/customers', $object);
-        }
-        public static function updateCustomer($id, $object)
-        {
-            return self::updateResource('/customers/' . $id, $object);
-        }
-        public static function deleteCustomer($id)
-        {
-            return self::deleteResource('/customers/' . $id);
-        }
-        public static function getCustomerAddresses($id)
-        {
-            return self::getCollection('/customers/' . $id . '/addresses', 'Address');
-        }
-        public static function getOptionSets($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/optionsets' . $filter->toQuery(), 'OptionSet');
-        }
-        public static function getOptionSetsCount()
-        {
-            return self::getCount('/optionsets/count');
-        }
-        public static function getOptionSet($id)
-        {
-            return self::getResource('/optionsets/' . $id, 'OptionSet');
-        }
-        public static function getOrderStatuses()
-        {
-            return self::getCollection('/orderstatuses', 'OrderStatus');
-        }
-        public static function getSkus($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/products/skus' . $filter->toQuery(), 'Sku');
-        }
-        public static function createSku($object)
-        {
-            return self::createResource('/products/skus', $object);
-        }
-        public static function updateSku($id, $object)
-        {
-            return self::updateResource('/products/skus/' . $id, $object);
-        }
-        public static function getProductsImages($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/products/images' . $filter->toQuery(), 'ProductImage');
-        }
-        public static function getProductImages($product_id, $filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getResource('/products/' . $product_id . '/images', 'ProductImage');
-        }
-        public static function getProductImage($product_id, $image_id, $filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getResource('/products/' . $product_id . '/images/' . $image_id, 'ProductImage');
-        }
-        public static function createProductImage($product_id, $object)
-        {
-            return self::createResource('/products/' . $product_id . '/images', $object);
-        }
-        public static function updateProductImage($product_id, $image_id, $object)
-        {
-            return self::updateResource('/products/' . $product_id . '/images/' . $image_id, $object);
-        }
-        public static function getCoupons($filter = false)
-        {
-            $filter = Filter::create($filter);
-            return self::getCollection('/coupons' . $filter->toQuery(), 'Sku');
-        }
-        public static function createCoupon($object)
-        {
-            return self::createResource('/coupons', $object);
-        }
-        public static function updateCoupon($id, $object)
-        {
-            return self::updateResource('/coupons' . $id, $object);
-        }
-        public static function getRequestLogs()
-        {
-            return self::getCollection('/requestlogs');
-        }
-        public static function getRequestsRemaining()
-        {
-            $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
-            if (!$limit) {
-                $result = self::getTime();
-                if (!$result) {
-                    return false;
-                }
-                $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
-            }
-            return intval($limit);
-        }
-    }
-}
-namespace Bigcommerce\Api {
     class Connection
     {
         private $curl;
@@ -512,9 +146,6 @@ namespace Bigcommerce\Api {
             if (!is_string($body)) {
                 $body = json_encode($body);
             }
-            if (strstr($url, '/products')) {
-                echo $body;
-            }
             $this->initializeRequest();
             curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($this->curl, CURLOPT_URL, $url);
@@ -550,11 +181,11 @@ namespace Bigcommerce\Api {
             curl_exec($this->curl);
             return $this->handleResponse();
         }
-        public function delete($uri)
+        public function delete($url)
         {
             $this->initializeRequest();
             curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
-            curl_setopt($this->curl, CURLOPT_URL, $uri);
+            curl_setopt($this->curl, CURLOPT_URL, $url);
             curl_exec($this->curl);
             return $this->handleResponse();
         }
@@ -625,6 +256,380 @@ namespace Bigcommerce\Api {
     }
 }
 namespace Bigcommerce\Api {
+    class ServerError extends Error
+    {
+        
+    }
+}
+namespace Bigcommerce\Api {
+    class NetworkError extends Error
+    {
+        
+    }
+}
+namespace Bigcommerce\Api {
+    class Client
+    {
+        private static $store_url;
+        private static $username;
+        private static $api_key;
+        private static $connection;
+        private static $resource;
+        private static $path_prefix = '/api/v2';
+        public static $api_path;
+        public static function configure($settings)
+        {
+            if (!isset($settings['store_url'])) {
+                throw new Exception('\'store_url\' must be provided');
+            }
+            if (!isset($settings['username'])) {
+                throw new Exception('\'username\' must be provided');
+            }
+            if (!isset($settings['api_key'])) {
+                throw new Exception('\'api_key\' must be provided');
+            }
+            self::$username = $settings['username'];
+            self::$api_key = $settings['api_key'];
+            self::$store_url = rtrim($settings['store_url'], '/');
+            self::$api_path = self::$store_url . self::$path_prefix;
+            self::$connection = false;
+        }
+        public static function failOnError($option = true)
+        {
+            self::connection()->failOnError($option);
+        }
+        public static function useXml()
+        {
+            self::connection()->useXml();
+        }
+        public static function verifyPeer($option = false)
+        {
+            self::connection()->verifyPeer($option);
+        }
+        public static function setCipher($cipher = 'rsa_rc4_128_sha')
+        {
+            self::connection()->setCipher($cipher);
+        }
+        public static function useProxy($host, $port = false)
+        {
+            self::connection()->useProxy($host, $port);
+        }
+        public static function getLastError()
+        {
+            return self::connection()->getLastError();
+        }
+        private static function connection()
+        {
+            if (!self::$connection) {
+                self::$connection = new Connection();
+                self::$connection->authenticate(self::$username, self::$api_key);
+            }
+            return self::$connection;
+        }
+        public static function getCollection($path, $resource = 'Resource')
+        {
+            $response = self::connection()->get(self::$api_path . $path);
+            return self::mapCollection($resource, $response);
+        }
+        public static function getResource($path, $resource = 'Resource')
+        {
+            $response = self::connection()->get(self::$api_path . $path);
+            return self::mapResource($resource, $response);
+        }
+        public static function getCount($path)
+        {
+            $response = self::connection()->get(self::$api_path . $path);
+            if ($response == false || is_string($response)) {
+                return $response;
+            }
+            return $response->count;
+        }
+        public static function createResource($path, $object)
+        {
+            if (is_array($object)) {
+                $object = (object) $object;
+            }
+            return self::connection()->post(self::$api_path . $path, $object);
+        }
+        public static function updateResource($path, $object)
+        {
+            if (is_array($object)) {
+                $object = (object) $object;
+            }
+            return self::connection()->put(self::$api_path . $path, $object);
+        }
+        public static function deleteResource($path)
+        {
+            return self::connection()->delete(self::$api_path . $path);
+        }
+        private static function mapCollection($resource, $object)
+        {
+            if ($object == false || is_string($object)) {
+                return $object;
+            }
+            $baseResource = __NAMESPACE__ . '\\' . $resource;
+            self::$resource = class_exists($baseResource) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
+            return array_map(array('self', 'mapCollectionObject'), $object);
+        }
+        private static function mapCollectionObject($object)
+        {
+            $class = self::$resource;
+            return new $class($object);
+        }
+        private static function mapResource($resource, $object)
+        {
+            if ($object == false || is_string($object)) {
+                return $object;
+            }
+            $baseResource = __NAMESPACE__ . '\\' . $resource;
+            $class = class_exists($baseResource) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
+            return new $class($object);
+        }
+        private static function mapCount($object)
+        {
+            if ($object == false || is_string($object)) {
+                return $object;
+            }
+            return $object->count;
+        }
+        public static function getTime()
+        {
+            $response = self::connection()->get(self::$api_path . '/time');
+            if ($response == false || is_string($response)) {
+                return $response;
+            }
+            return new \DateTime("@{$response->time}");
+        }
+        public static function getProducts($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/products' . $filter->toQuery(), 'Product');
+        }
+        public static function getProductsCount()
+        {
+            return self::getCount('/products/count');
+        }
+        public static function getProduct($id)
+        {
+            return self::getResource('/products/' . $id, 'Product');
+        }
+        public static function createProduct($object)
+        {
+            return self::createResource('/products', $object);
+        }
+        public static function updateProduct($id, $object)
+        {
+            return self::updateResource('/products/' . $id, $object);
+        }
+        public static function deleteProduct($id)
+        {
+            return self::deleteResource('/products/' . $id);
+        }
+        public static function getOptions($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/options' . $filter->toQuery(), 'Option');
+        }
+        public static function createOptions($object)
+        {
+            return self::createResource('/options', $object);
+        }
+        public static function getOptionsCount()
+        {
+            return self::getCount('/options/count');
+        }
+        public static function getOption($id)
+        {
+            return self::getResource('/options/' . $id, 'Option');
+        }
+        public static function deleteOption($id)
+        {
+            return self::deleteResource('/options/' . $id);
+        }
+        public static function getOptionValue($option_id, $id)
+        {
+            return self::getResource('/options/' . $option_id . '/values/' . $id, 'OptionValue');
+        }
+        public static function getOptionValues($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/options/values' . $filter->toQuery(), 'OptionValue');
+        }
+        public static function getCategories($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/categories' . $filter->toQuery(), 'Category');
+        }
+        public static function getCategoriesCount()
+        {
+            return self::getCount('/categories/count');
+        }
+        public static function getCategory($id)
+        {
+            return self::getResource('/categories/' . $id, 'Category');
+        }
+        public static function createCategory($object)
+        {
+            return self::createResource('/categories/', $object);
+        }
+        public static function updateCategory($id, $object)
+        {
+            return self::updateResource('/categories/' . $id, $object);
+        }
+        public static function deleteCategory($id)
+        {
+            return self::deleteResource('/categories/' . $id);
+        }
+        public static function getBrands($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
+        }
+        public static function getBrandsCount()
+        {
+            return self::getCount('/brands/count');
+        }
+        public static function getBrand($id)
+        {
+            return self::getResource('/brands/' . $id, 'Brand');
+        }
+        public static function createBrand($object)
+        {
+            return self::createResource('/brands', $object);
+        }
+        public static function updateBrand($id, $object)
+        {
+            return self::updateResource('/brands/' . $id, $object);
+        }
+        public static function deleteBrand($id)
+        {
+            return self::deleteResource('/brands/' . $id);
+        }
+        public static function getOrders($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/orders' . $filter->toQuery(), 'Order');
+        }
+        public static function getOrdersCount()
+        {
+            return self::getCount('/orders/count');
+        }
+        public static function getOrder($id)
+        {
+            return self::getResource('/orders/' . $id, 'Order');
+        }
+        public static function deleteOrder($id)
+        {
+            return self::deleteResource('/orders/' . $id);
+        }
+        public static function createOrder($object)
+        {
+            return self::createResource('/orders', $object);
+        }
+        public static function getCustomers($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/customers' . $filter->toQuery(), 'Customer');
+        }
+        public static function getCustomersCount()
+        {
+            return self::getCount('/customers/count');
+        }
+        public static function deleteCustomers($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::deleteResource('/customers' . $filter->toQuery());
+        }
+        public static function getCustomer($id)
+        {
+            return self::getResource('/customers/' . $id, 'Customer');
+        }
+        public static function createCustomer($object)
+        {
+            return self::createResource('/customers', $object);
+        }
+        public static function updateCustomer($id, $object)
+        {
+            return self::updateResource('/customers/' . $id, $object);
+        }
+        public static function deleteCustomer($id)
+        {
+            return self::deleteResource('/customers/' . $id);
+        }
+        public static function getCustomerAddresses($id)
+        {
+            return self::getCollection('/customers/' . $id . '/addresses', 'Address');
+        }
+        public static function getOptionSets($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/optionsets' . $filter->toQuery(), 'OptionSet');
+        }
+        public static function createOptionsets($object)
+        {
+            return self::createResource('/optionsets', $object);
+        }
+        public static function createOptionsets_Options($object, $id)
+        {
+            return self::createResource('/optionsets/' . $id . '/options', $object);
+        }
+        public static function getOptionSetsCount()
+        {
+            return self::getCount('/optionsets/count');
+        }
+        public static function getOptionSet($id)
+        {
+            return self::getResource('/optionsets/' . $id, 'OptionSet');
+        }
+        public static function getOrderStatuses()
+        {
+            return self::getCollection('/orderstatuses', 'OrderStatus');
+        }
+        public static function getSkus($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/products/skus' . $filter->toQuery(), 'Sku');
+        }
+        public static function createSku($object)
+        {
+            return self::createResource('/product/skus', $object);
+        }
+        public static function updateSku($id, $object)
+        {
+            return self::updateResource('/product/skus' . $id, $object);
+        }
+        public static function getCoupons($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCollection('/coupons' . $filter->toQuery(), 'Sku');
+        }
+        public static function createCoupon($object)
+        {
+            return self::createResource('/coupons', $object);
+        }
+        public static function updateCoupon($id, $object)
+        {
+            return self::updateResource('/coupons' . $id, $object);
+        }
+        public static function getRequestLogs()
+        {
+            return self::getCollection('/requestlogs');
+        }
+        public static function getRequestsRemaining()
+        {
+            $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
+            if (!$limit) {
+                $result = self::getTime();
+                if (!$result) {
+                    return false;
+                }
+                $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
+            }
+            return intval($limit);
+        }
+    }
+}
+namespace Bigcommerce\Api {
     class Filter
     {
         private $parameters;
@@ -654,12 +659,6 @@ namespace Bigcommerce\Api {
     }
 }
 namespace Bigcommerce\Api {
-    class NetworkError extends Error
-    {
-        
-    }
-}
-namespace Bigcommerce\Api {
     class Resource
     {
         protected $fields;
@@ -673,7 +672,7 @@ namespace Bigcommerce\Api {
                 $object = isset($object[0]) ? $object[0] : false;
             }
             $this->fields = $object ? $object : new \stdClass();
-            $this->id = $object ? $object->id : 0;
+            $this->id = $object && isset($object->id) ? $object->id : 0;
         }
         public function __get($field)
         {
@@ -685,6 +684,10 @@ namespace Bigcommerce\Api {
         public function __set($field, $value)
         {
             $this->fields->{$field} = $value;
+        }
+        public function __isset($field)
+        {
+            return isset($this->fields->{$field});
         }
         public function getCreateFields()
         {
@@ -1161,11 +1164,5 @@ namespace Bigcommerce\Api\Resources {
         {
             Client::updateResource('/products/' . $this->product_id . '/skus/' . $this->sku_id . '/options/' . $this->id, $this->getUpdateFields());
         }
-    }
-}
-namespace Bigcommerce\Api {
-    class ServerError extends Error
-    {
-        
     }
 }

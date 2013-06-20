@@ -5,12 +5,13 @@
  *
  * Only use this file if you don't want autoloading or package management.
  */
-require_once './Api/Client.php';
-require_once './Api/ClientError.php';
 require_once './Api/Connection.php';
 require_once './Api/Error.php';
-require_once './Api/Filter.php';
+require_once './Api/ClientError.php';
+require_once './Api/ServerError.php';
 require_once './Api/NetworkError.php';
+require_once './Api/Client.php';
+require_once './Api/Filter.php';
 require_once './Api/Resource.php';
 require_once './Api/Resources/Address.php';
 require_once './Api/Resources/Brand.php';
@@ -37,4 +38,3 @@ require_once './Api/Resources/RuleCondition.php';
 require_once './Api/Resources/Shipment.php';
 require_once './Api/Resources/Sku.php';
 require_once './Api/Resources/SkuOption.php';
-require_once './Api/ServerError.php';
