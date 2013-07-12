@@ -8,7 +8,7 @@ use Bigcommerce\Api\Client;
 /**
  * A custom field on a product.
  */
-class CustomField extends Resource
+class ProductCustomField extends Resource
 {
 
 }

@@ -8,7 +8,7 @@ use Bigcommerce\Api\Client;
 /**
  * A configurable field on a product.
  */
-class ConfigurableField extends Resource
+class ProductConfigurableField extends Resource
 {
 
 }

@@ -8,7 +8,7 @@ use Bigcommerce\Api\Client;
 /**
  * A product video.
  */
-class Video extends Resource
+class ProductVideo extends Resource
 {
 
 }
