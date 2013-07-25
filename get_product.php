@@ -65,6 +65,6 @@ Bigcommerce::failOnError(true);
 // print_r($images)
 
 $images = Bigcommerce::getStore();
-print_r($images)
+print_r($images);
 
 ?>

@@ -796,7 +796,8 @@ class Client
 
 	public static function getStore()
 	{
-		return self::getCollection('/store');
+		$response = self::connection()->get(self::$api_path . '/store');
+		return $response;
 	}
 
 	/**
