@@ -61,7 +61,10 @@ Bigcommerce::failOnError(true);
 // $createFields = array('customer_id'=>0, 'date_created' => 'Tue, 20 Nov 2012 00:00:00 +0000','status_id'=>1,'billing_address' => array( "first_name"=> "Trisha", "last_name"=> "McLaughlin", "company"=> "", "street_1"=> "12345 W Anderson Ln", "street_2"=> "", "city"=> "Austin", "state"=> "Texas", "zip"=> "78757", "country"=> "United States", "country_iso2"=> "US", "phone"=> "", "email"=> "elsie@example.com" ), "shipping_addresses" => array(), "external_source" => "POS", "products" => array() );
 // print_r(Bigcommerce::createOrder($createFields));
 
-$images = Bigcommerce::getProductsImages(243);
+// $images = Bigcommerce::getProductsImages(243);
+// print_r($images)
+
+$images = Bigcommerce::getStore();
 print_r($images)
 
 ?>

@@ -794,10 +794,9 @@ class Client
 		return self::getCollection('/requestlogs');
 	}
 
-	public static function getStore($filter=false)
+	public static function getStore()
 	{
-		$filter = Filter::create($filter);
-		return self::getCollection('/store' . $filter->toQuery(), 'Store');
+		return self::getCollection('/store');
 	}
 
 	/**
