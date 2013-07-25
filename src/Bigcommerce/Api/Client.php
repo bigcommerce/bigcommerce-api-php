@@ -291,6 +291,14 @@ class Client
 		return self::getCollection('/products' . $filter->toQuery(), 'Product');
 	}
 
+	/* Get product images */
+	public static function getProductsImages($id, $filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getResource('/products/' . $id . '/images/', 'Product');
+	}
+
+
 	/**
 	 * Returns the total number of products in the collection.
 	 *
