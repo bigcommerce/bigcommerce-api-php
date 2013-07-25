@@ -794,6 +794,12 @@ class Client
 		return self::getCollection('/requestlogs');
 	}
 
+	public static function getStore($filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getCollection('/store' . $filter->toQuery(), 'Store');
+	}
+
 	/**
 	 * The number of requests remaining at the current time. Based on the
 	 * last request that was fetched within the current script. If no
