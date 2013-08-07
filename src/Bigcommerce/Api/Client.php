@@ -775,7 +775,7 @@ class Client
 
 	public static function updateCoupon($id, $object)
 	{
-		return self::updateResource('/coupons' . $id, $object);
+		return self::updateResource('/coupons/' . $id, $object);
 	}
 
 	/**
