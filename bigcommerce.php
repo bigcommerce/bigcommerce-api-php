@@ -405,9 +405,15 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/products' . $filter->toQuery(), 'Product');
         }
-        public static function getProductsCount()
+        public static function getProductImages($id, $filter = false)
         {
-            return self::getCount('/products/count');
+            $filter = Filter::create($filter);
+            return self::getResource('/products/' . $id . '/images/', 'ProductImage');
+        }
+        public static function getProductsCount($filter = false)
+        {
+            $filter = Filter::create($filter);
+            return self::getCount('/products/count' . $filter->toQuery());
         }
         public static function getProduct($id)
         {
@@ -460,9 +466,10 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/categories' . $filter->toQuery(), 'Category');
         }
-        public static function getCategoriesCount()
+        public static function getCategoriesCount($filter = false)
         {
-            return self::getCount('/categories/count');
+            $filter = Filter::create($filter);
+            return self::getCount('/categories/count' . $filter->toQuery());
         }
         public static function getCategory($id)
         {
@@ -485,9 +492,10 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
         }
-        public static function getBrandsCount()
+        public static function getBrandsCount($filter = false)
         {
-            return self::getCount('/brands/count');
+            $filter = Filter::create($filter);
+            return self::getCount('/brands/count' . $filter->toQuery());
         }
         public static function getBrand($id)
         {
@@ -531,9 +539,10 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/customers' . $filter->toQuery(), 'Customer');
         }
-        public static function getCustomersCount()
+        public static function getCustomersCount($filter = false)
         {
-            return self::getCount('/customers/count');
+            $filter = Filter::create($filter);
+            return self::getCount('/customers/count' . $filter->toQuery());
         }
         public static function deleteCustomers($filter = false)
         {
@@ -609,11 +618,16 @@ namespace Bigcommerce\Api {
         }
         public static function updateCoupon($id, $object)
         {
-            return self::updateResource('/coupons' . $id, $object);
+            return self::updateResource('/coupons/' . $id, $object);
         }
         public static function getRequestLogs()
         {
             return self::getCollection('/requestlogs');
+        }
+        public static function getStore()
+        {
+            $response = self::connection()->get(self::$api_path . '/store');
+            return $response;
         }
         public static function getRequestsRemaining()
         {
@@ -1006,7 +1020,7 @@ namespace Bigcommerce\Api\Resources {
 namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Resource;
     use Bigcommerce\Api\Client;
-    class ConfigurableField extends Resource
+    class ProductConfigurableField extends Resource
     {
         
     }
@@ -1014,7 +1028,7 @@ namespace Bigcommerce\Api\Resources {
 namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Resource;
     use Bigcommerce\Api\Client;
-    class CustomField extends Resource
+    class ProductCustomField extends Resource
     {
         
     }
@@ -1050,7 +1064,7 @@ namespace Bigcommerce\Api\Resources {
 namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Resource;
     use Bigcommerce\Api\Client;
-    class Video extends Resource
+    class ProductVideo extends Resource
     {
         
     }

@@ -307,11 +307,13 @@ class Client
 	/**
 	 * Returns the total number of products in the collection.
 	 *
+	 * @param array $filter
 	 * @return mixed int|string number of products or XML string if useXml is true
 	 */
-	public static function getProductsCount()
+	public static function getProductsCount($filter=false)
 	{
-		return self::getCount('/products/count');
+		$filter = Filter::create($filter);
+		return self::getCount('/products/count' . $filter->toQuery());
 	}
 
 	/**
@@ -447,11 +449,13 @@ class Client
 	/**
 	 * The number of categories in the collection.
 	 *
+	 * @param mixed $filter
 	 * @return int
 	 */
-	public static function getCategoriesCount()
+	public static function getCategoriesCount($filter=false)
 	{
-		return self::getCount('/categories/count');
+		$filter = Filter::create($filter);
+		return self::getCount('/categories/count' . $filter->toQuery());
 	}
 
 	/**
@@ -511,11 +515,13 @@ class Client
 	/**
 	 * The total number of brands in the collection.
 	 *
+	 * @param mixed $filter
 	 * @return int
 	 */
-	public static function getBrandsCount()
+	public static function getBrandsCount($filter=false)
 	{
-		return self::getCount('/brands/count');
+		$filter = Filter::create($filter);
+		return self::getCount('/brands/count' . $filter->toQuery());
 	}
 
 	/**
@@ -628,11 +634,13 @@ class Client
 	/**
 	 * The total number of customers in the collection.
 	 *
+	 * @param mixed $filter
 	 * @return int
 	 */
-	public static function getCustomersCount()
+	public static function getCustomersCount($filter=false)
 	{
-		return self::getCount('/customers/count');
+		$filter = Filter::create($filter);
+		return self::getCount('/customers/count' . $filter->toQuery());
 	}
 
 	/**
