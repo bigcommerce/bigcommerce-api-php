@@ -291,11 +291,16 @@ class Client
 		return self::getCollection('/products' . $filter->toQuery(), 'Product');
 	}
 
-	/* Get product images */
-	public static function getProductsImages($id, $filter=false)
+	/**
+	 * Gets collection of images for a product.
+	 *
+	 * @param array $filter
+	 * @return mixed array|string list of products or XML string if useXml is true
+	 */
+	public static function getProductImages($id, $filter=false)
 	{
 		$filter = Filter::create($filter);
-		return self::getResource('/products/' . $id . '/images/', 'Product');
+		return self::getResource('/products/' . $id . '/images/', 'ProductImage');
 	}
 
 
