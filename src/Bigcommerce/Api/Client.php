@@ -292,6 +292,19 @@ class Client
 	}
 
 	/**
+	 * Gets collection of images for a product.
+	 *
+	 * @param array $filter
+	 * @return mixed array|string list of products or XML string if useXml is true
+	 */
+	public static function getProductImages($id, $filter=false)
+	{
+		$filter = Filter::create($filter);
+		return self::getResource('/products/' . $id . '/images/', 'ProductImage');
+	}
+
+
+	/**
 	 * Returns the total number of products in the collection.
 	 *
 	 * @return mixed int|string number of products or XML string if useXml is true
@@ -784,6 +797,12 @@ class Client
 	public static function getRequestLogs()
 	{
 		return self::getCollection('/requestlogs');
+	}
+
+	public static function getStore()
+	{
+		$response = self::connection()->get(self::$api_path . '/store');
+		return $response;
 	}
 
 	/**
