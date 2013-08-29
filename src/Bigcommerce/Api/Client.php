@@ -2,6 +2,8 @@
 
 namespace Bigcommerce\Api;
 
+use \Exception as Exception;
+
 /**
  * Bigcommerce API Client.
  */
