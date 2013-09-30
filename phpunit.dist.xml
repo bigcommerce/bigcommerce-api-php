@@ -13,8 +13,9 @@
          strict="false"
          verbose="false">
     <logging>
-        <log type="coverage-clover" target="test/coverage/clover.xml"/>
-        <log type="coverage-text" target="test/coverage/coverage.txt" showUncoveredFiles="false"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-php" target="build/logs/coverage.cov"/>
+        <log type="coverage-text" target="build/logs/coverage.txt" showUncoveredFiles="false"/>
         <log type="junit" target="test/reports/junit.xml" logIncompleteSkipped="false"/>
     </logging>
     <testsuites>
