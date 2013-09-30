@@ -3,3 +3,7 @@ composer.lock
 *.sh
 script/*
 
+# Test coverage
+/phpunit.xml
+/test/coverage
+/test/reports
