@@ -109,5 +109,10 @@ class Product extends Resource
 	{
 		return Client::deleteProduct($this->id);
 	}
+	
+	public function tax_class()
+	{
+		return Client::getResource($this->fields->tax_class->resource, 'TaxClass');
+	}
 
 }
