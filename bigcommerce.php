@@ -258,13 +258,13 @@ namespace Bigcommerce\Api {
 namespace Bigcommerce\Api {
     class ServerError extends Error
     {
-        
+
     }
 }
 namespace Bigcommerce\Api {
     class NetworkError extends Error
     {
-        
+
     }
 }
 namespace Bigcommerce\Api {
@@ -405,11 +405,36 @@ namespace Bigcommerce\Api {
             $filter = Filter::create($filter);
             return self::getCollection('/products' . $filter->toQuery(), 'Product');
         }
-        public static function getProductImages($id, $filter = false)
+        public static function getProductImages($id)
         {
-            $filter = Filter::create($filter);
             return self::getResource('/products/' . $id . '/images/', 'ProductImage');
         }
+
+        public static function getProductCustomFields($id)
+        {
+            return self::getCollection('/products/' . $id . '/customfields/', 'ProductCustomField');
+        }
+
+        public static function getProductCustomField($product_id, $id)
+        {
+            return self::getResource('/products/' . $product_id . '/customfields/' . $id, 'ProductCustomField');
+        }
+
+        public static function createProductCustomField($product_id, $object)
+        {
+            return self::createResource('/products/' . $product_id . '/customfields', $object);
+        }
+
+        public static function updateProductCustomField($product_id, $id, $object)
+        {
+            return self::updateResource('/products/' . $product_id . '/customfields/' . $id, $object);
+        }
+
+        public static function deleteProductCustomField($product_id, $id)
+        {
+            return self::deleteResource('/products/' . $product_id . '/customfields/' . $id);
+        }
+
         public static function getProductsCount($filter = false)
         {
             $filter = Filter::create($filter);
@@ -748,7 +773,7 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class Address extends Resource
     {
-        
+
     }
 }
 namespace Bigcommerce\Api\Resources {
@@ -832,7 +857,7 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class DiscountRule extends Resource
     {
-        
+
     }
 }
 namespace Bigcommerce\Api\Resources {
@@ -944,7 +969,7 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class OrderProduct extends Resource
     {
-        
+
     }
 }
 namespace Bigcommerce\Api\Resources {
@@ -952,7 +977,7 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class OrderStatus extends Resource
     {
-        
+
     }
 }
 namespace Bigcommerce\Api\Resources {
@@ -1022,7 +1047,7 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class ProductConfigurableField extends Resource
     {
-        
+
     }
 }
 namespace Bigcommerce\Api\Resources {
@@ -1030,7 +1055,30 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class ProductCustomField extends Resource
     {
-        
+        protected $ignoreOnCreate = array(
+            'id',
+            'product_id'
+        );
+
+        protected $ignoreOnUpdate = array(
+            'id',
+            'product_id'
+        );
+
+        public function create()
+        {
+            return Client::createResource('/products/' . $this->product_id . '/customfields', $this->getCreateFields());
+        }
+
+        public function update()
+        {
+            Client::updateResource('/products/' . $this->product_id . '/customfields/' . $this->id, $this->getUpdateFields());
+        }
+
+        public function delete()
+        {
+            Client::deleteResource('/products/' . $this->product_id . '/customfields/' . $this->id);
+        }
     }
 }
 namespace Bigcommerce\Api\Resources {
@@ -1066,7 +1114,7 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class ProductVideo extends Resource
     {
-        
+
     }
 }
 namespace Bigcommerce\Api\Resources {
@@ -1074,7 +1122,7 @@ namespace Bigcommerce\Api\Resources {
     use Bigcommerce\Api\Client;
     class RequestLog extends Resource
     {
-        
+
     }
 }
 namespace Bigcommerce\Api\Resources {

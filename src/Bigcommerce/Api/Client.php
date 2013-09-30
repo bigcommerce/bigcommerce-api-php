@@ -13,7 +13,7 @@ class Client
 	static private $connection;
 	static private $resource;
 	static private $path_prefix = '/api/v2';
-	
+
 	/**
 	 * Full URL path to the configured store API.
 	 *
@@ -294,15 +294,71 @@ class Client
 	/**
 	 * Gets collection of images for a product.
 	 *
-	 * @param array $filter
+	 * @param int $id product id
 	 * @return mixed array|string list of products or XML string if useXml is true
 	 */
-	public static function getProductImages($id, $filter=false)
+	public static function getProductImages($id)
 	{
-		$filter = Filter::create($filter);
 		return self::getResource('/products/' . $id . '/images/', 'ProductImage');
 	}
 
+	/**
+	 * Gets collection of custom fields for a product.
+	 *
+	 * @param int $id product ID
+	 * @return mixed array|string list of products or XML string if useXml is true
+	 */
+	public static function getProductCustomFields($id)
+	{
+	    return self::getCollection('/products/' . $id . '/customfields/', 'ProductCustomField');
+	}
+
+	/**
+	 * Returns a single custom field by given id
+	 * @param  int $product_id product id
+	 * @param  int $id         custom field id
+	 * @return ProductCustomField|bool Returns ProductCustomField if exists, false if not exists
+	 */
+	public static function getProductCustomField($product_id, $id)
+	{
+	    return self::getResource('/products/' . $product_id . '/customfields/' . $id, 'ProductCustomField');
+	}
+
+	/**
+	 * Create a new custom field for a given product.
+	 *
+	 * @param int $product_id product id
+	 * @param int $id custom field id
+	 * @param mixed $object fields to create
+	 * @return Object Object with `id`, `product_id`, `name` and `text` keys
+	 */
+	public static function createProductCustomField($product_id, $object)
+	{
+	    return self::createResource('/products/' . $product_id . '/customfields', $object);
+	}
+
+	/**
+	 * Update the given custom field.
+	 *
+	 * @param int $product_id product id
+	 * @param int $id custom field id
+	 * @param mixed $object custom field to update
+	 */
+	public static function updateProductCustomField($product_id, $id, $object)
+	{
+	    return self::updateResource('/products/' . $product_id . '/customfields/' . $id, $object);
+	}
+
+	/**
+	 * Delete the given custom field.
+	 *
+	 * @param int $product_id product id
+	 * @param int $id custom field id
+	 */
+	public static function deleteProductCustomField($product_id, $id)
+	{
+	    return self::deleteResource('/products/' . $product_id . '/customfields/' . $id);
+	}
 
 	/**
 	 * Returns the total number of products in the collection.
@@ -610,7 +666,7 @@ class Client
 		return self::deleteResource('/orders/' . $id);
 	}
 
-	/** 
+	/**
 	* Create an order
 	**/
 
@@ -665,7 +721,7 @@ class Client
 	{
 		return self::getResource('/customers/' . $id, 'Customer');
 	}
-	
+
 	/**
 	 * Create a new customer from the given data.
 	 *
@@ -686,7 +742,7 @@ class Client
 	{
 		return self::updateResource('/customers/' . $id, $object);
 	}
-	
+
 	/**
 	 * Delete the given customer.
 	 *
@@ -835,6 +891,6 @@ class Client
 		return intval($limit);
 	}
 
-	
+
 
 }
