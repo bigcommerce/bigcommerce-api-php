@@ -1,0 +1,25 @@
+<phpunit backupGlobals="true"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         strict="false"
+         verbose="false">
+    <logging>
+        <log type="coverage-clover" target="test/coverage/clover.xml"/>
+        <log type="coverage-text" target="test/coverage/coverage.txt" showUncoveredFiles="false"/>
+        <log type="junit" target="test/reports/junit.xml" logIncompleteSkipped="false"/>
+    </logging>
+    <testsuites>
+        <testsuite>
+            <directory suffix="Test.php">test/</directory>
+          </testsuite>
+    </testsuites>
+</phpunit>

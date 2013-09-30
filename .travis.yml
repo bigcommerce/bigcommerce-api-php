@@ -1,0 +1,13 @@
+language: php
+php:
+- 5.5
+- 5.4
+- 5.3
+before_script:
+- composer install --dev --optimize-autoloader
+- cp -v phpunit.dist.xml phpunit.xml
+env:
+  global:
+  - secure: BI/lllRhvsCrTAV5VU0QRbnZ8gURoILBlHBn+UTMsRiz8pXk9f21xMgzKxqh8HhQr+Bt7JYWoYYcerRyReH9N9vTGMN4+OUbSTTGaiumwd6vQTdYDKgqTHfBqOY2SkrUuiRsRcT50AXur9O857+Jrn19REtrOR9nGR9hKaS/aFc=
+  - secure: e6hajpfvS3v8BzRO4PQG0cCJU5jlBtsnIWIEPbGGOu9t/CAaqCyMoR3cTOVV99dgUkatnzu8M1VWNTNQpZoRtjlRP471L1/+LWToom1JVEmdmKUanxETDqvibTC1vz4+tSElv0ji6/ErsrFZ8ojfzsQyeEAbiLqrZw0qEZ9gaQI=
+  - secure: MHSdlUy4gUrBqxLyPZoei/gJ+s75+0yF0wH9RVn+D/I4ROAw53wywkc4lUbVUqmkuoVwRQAPkRDNt1pZTTSuI3RAUd7Em9PITQvfp1ivjJa2bi9DGGf2ZjNBRUkx4BSaIi5O8Ke+yJmTj6Ri/nB1sGvspdfI7zM5ty06mQQD2nY=
