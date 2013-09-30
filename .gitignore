@@ -5,5 +5,5 @@ script/*
 
 # Test coverage
 /phpunit.xml
-/test/coverage
+/build
 /test/reports
