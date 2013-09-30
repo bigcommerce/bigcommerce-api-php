@@ -6,6 +6,8 @@ PHP client for connecting to the Bigcommerce V2 REST API.
 To find out more, visit the official documentation website:
 http://developer.bigcommerce.com/
 
+[![Build Status](https://travis-ci.org/bigcommerce/bigcommerce-api-php.png?branch=master)](https://travis-ci.org/bigcommerce/bigcommerce-api-php)
+
 Requirements
 ------------
 
