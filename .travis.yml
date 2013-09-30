@@ -6,6 +6,9 @@ php:
 before_script:
 - composer install --dev --optimize-autoloader
 - cp -v phpunit.dist.xml phpunit.xml
+- mkdir -p build/logs
+after_script:
+- php vendor/bin/coveralls -v
 env:
   global:
   - secure: BI/lllRhvsCrTAV5VU0QRbnZ8gURoILBlHBn+UTMsRiz8pXk9f21xMgzKxqh8HhQr+Bt7JYWoYYcerRyReH9N9vTGMN4+OUbSTTGaiumwd6vQTdYDKgqTHfBqOY2SkrUuiRsRcT50AXur9O857+Jrn19REtrOR9nGR9hKaS/aFc=
