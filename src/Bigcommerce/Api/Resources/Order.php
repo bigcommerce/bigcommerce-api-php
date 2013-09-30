@@ -30,7 +30,7 @@ class Order extends Resource
 
 	public function update()
 	{
-		$order = new stdClass;
+		$order = new \stdClass; // to use stdClass in global namespace use this...
 		$order->status_id = $this->status_id;
 		$order->is_deleted = $this->is_deleted;
 
