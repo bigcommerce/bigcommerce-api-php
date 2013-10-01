@@ -21,6 +21,6 @@
     <testsuites>
         <testsuite>
             <directory suffix="Test.php">test/</directory>
-          </testsuite>
+        </testsuite>
     </testsuites>
 </phpunit>
