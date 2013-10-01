@@ -7,13 +7,12 @@ before_script:
 - composer install --dev --optimize-autoloader
 - cp -v phpunit.dist.xml phpunit.xml
 - mkdir -p build/logs
+script:
+  - sh -c "if [ '$TRAVIS_REPO_SLUG' = 'bigcommerce/bigcommerce-api-php' ] then phpunit --include integration; else phpunit --exclude-group integration; fi"
 after_script:
 - php vendor/bin/coveralls -v
 env:
   global:
-  - secure: BI/lllRhvsCrTAV5VU0QRbnZ8gURoILBlHBn+UTMsRiz8pXk9f21xMgzKxqh8HhQr+Bt7JYWoYYcerRyReH9N9vTGMN4+OUbSTTGaiumwd6vQTdYDKgqTHfBqOY2SkrUuiRsRcT50AXur9O857+Jrn19REtrOR9nGR9hKaS/aFc=
-  - secure: e6hajpfvS3v8BzRO4PQG0cCJU5jlBtsnIWIEPbGGOu9t/CAaqCyMoR3cTOVV99dgUkatnzu8M1VWNTNQpZoRtjlRP471L1/+LWToom1JVEmdmKUanxETDqvibTC1vz4+tSElv0ji6/ErsrFZ8ojfzsQyeEAbiLqrZw0qEZ9gaQI=
-  - secure: MHSdlUy4gUrBqxLyPZoei/gJ+s75+0yF0wH9RVn+D/I4ROAw53wywkc4lUbVUqmkuoVwRQAPkRDNt1pZTTSuI3RAUd7Em9PITQvfp1ivjJa2bi9DGGf2ZjNBRUkx4BSaIi5O8Ke+yJmTj6Ri/nB1sGvspdfI7zM5ty06mQQD2nY=
   - secure: esQlDAcdxPtpwlOIFrC6d7/ejoOQyJJGeY/lhPv0qiWJ974+XxjLU7vGn0lKS5K4Z5WlZkGClEsfNok51Bm4JPnMsAZHTAO9f6bR7YpNrynmTyrwdv2NMUfAID8cJ9pUVZpbuT91M9aCuxUy4i2s+lx88myOVVr2r1YxQVcV1OA=
   - secure: c9AOiucZTzzQu5QSLycx5CnQObIvkLiGrAv7yZg9gEouCDd3p4InOrW28WwMJjvVlTSN5BzEe1FLDh+rvatO2q4dwTTbx6NQ2QMTfM4W/L3M/Iv5yBt7VjuqlPXb4oHIvydvr/GXoRL/hNtn9wL/EdU5sKfSu+n0xVwsmCql/3U=
   - secure: VKJgrYDePSIbdux5NodegW3vhLa3YSWLEkeTlScrGHBZVGK7K4F73s3v+32TeSNz/RYM8/MnSq2r9DUA7uPdms4UAWAFcz8uC36sOl1hkBy2gJAvYJJB5oLylR9TWXe+j20sDShdeGgfpFLcy/POcqdwQcJAx5XitDY4pw2ZwBI=
