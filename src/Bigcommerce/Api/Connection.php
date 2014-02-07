@@ -352,14 +352,28 @@ class Connection
 
 		if (!is_string($body)) {
 			$body = json_encode($body);
-		}
+		} 
 
 		$this->initializeRequest();
 
-		$handle = tmpfile();
-		fwrite($handle, $body);
-		fseek($handle, 0);
-		curl_setopt($this->curl, CURLOPT_INFILE, $handle);
+		$handle_type = ( isset( $this->handle ) ) ? get_resource_type( $this->handle ) : false;
+		if( $handle_type === false || strcmp( $handle_type, 'stream' ) !== 0 ){
+			$this->handle = tmpfile();
+		}
+
+		$current_content = fread( $this->handle, 8192 );
+		if( strlen( $current_content !== 0 ) ){
+			ftruncate( $this->handle, 0 );
+			fclose( $this->handle );
+			
+			$this->handle = tmpfile();
+			rewind( $this->handle );
+		}
+
+		fwrite( $this->handle, $body );
+		rewind( $this->handle );
+
+		curl_setopt($this->curl, CURLOPT_INFILE, $this->handle);
 		curl_setopt($this->curl, CURLOPT_INFILESIZE, strlen($body));
 
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
