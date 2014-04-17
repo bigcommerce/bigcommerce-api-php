@@ -1,4 +1,5 @@
 <phpunit backupGlobals="true"
+         backupStaticAttributes="false"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -11,7 +12,9 @@
          stopOnIncomplete="false"
          stopOnSkipped="false"
          strict="false"
-         verbose="false">
+         syntaxCheck="false"
+         verbose="false"
+         bootstrap="test/Bootstrap.php">
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-php" target="build/logs/coverage.cov"/>
@@ -20,7 +23,7 @@
     </logging>
     <testsuites>
         <testsuite>
-            <directory suffix="Test.php">test/</directory>
+            <directory>test/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

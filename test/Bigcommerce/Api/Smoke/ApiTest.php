@@ -1,13 +1,12 @@
 <?php
-
-require_once __DIR__ . '/../../vendor/autoload.php';
+namespace Tests\Bigcommerce\Api\Smoke;
 
 use Bigcommerce\Api\Client as Bigcommerce;
 
 /**
  * @group integration
  */
-class ApiTest extends PHPUnit_Framework_TestCase
+class ApiTest extends \PHPUnit_Framework_TestCase
 {
 
 	public static function setUpBeforeClass()
@@ -25,7 +24,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
 	public function testTimestampPing()
 	{
 		$time = Bigcommerce::getTime();
-		$this->assertTrue($time instanceOf DateTime);
+		$this->assertTrue($time instanceOf \DateTime);
 	}
 	
 	public function testBasicResource()

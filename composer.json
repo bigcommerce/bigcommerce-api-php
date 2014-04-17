@@ -15,9 +15,10 @@
         "php": ">=5.3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7",
+        "phpunit/phpunit": "4.0.15",
         "satooshi/php-coveralls": "dev-master",
-        "codeless/jugglecode": "1.0"
+        "codeless/jugglecode": "1.0",
+        "vlucas/phpdotenv": "1.0.6"
     },
     "autoload": {
         "psr-0": {
