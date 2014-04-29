@@ -259,13 +259,13 @@ namespace Bigcommerce\Api;
 
 class ServerError extends Error
 {
-    
+
 }
 namespace Bigcommerce\Api;
 
 class NetworkError extends Error
 {
-    
+
 }
 namespace Bigcommerce\Api;
 
@@ -620,6 +620,11 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/products/skus' . $filter->toQuery(), 'Sku');
     }
+    public static function getSkusCount($filter = false)
+    {
+        $filter = Filter::create($filter);
+        return self::getCount('/products/skus/count' . $filter->toQuery());
+    }
     public static function createSku($object)
     {
         return self::createResource('/product/skus', $object);
@@ -769,7 +774,7 @@ use Bigcommerce\Api\Resource;
 use Bigcommerce\Api\Client;
 class Address extends Resource
 {
-    
+
 }
 namespace Bigcommerce\Api\Resources;
 
@@ -853,7 +858,7 @@ use Bigcommerce\Api\Resource;
 use Bigcommerce\Api\Client;
 class DiscountRule extends Resource
 {
-    
+
 }
 namespace Bigcommerce\Api\Resources;
 
@@ -965,7 +970,7 @@ use Bigcommerce\Api\Resource;
 use Bigcommerce\Api\Client;
 class OrderProduct extends Resource
 {
-    
+
 }
 namespace Bigcommerce\Api\Resources;
 
@@ -973,7 +978,7 @@ use Bigcommerce\Api\Resource;
 use Bigcommerce\Api\Client;
 class OrderStatus extends Resource
 {
-    
+
 }
 namespace Bigcommerce\Api\Resources;
 
@@ -1047,7 +1052,7 @@ use Bigcommerce\Api\Resource;
 use Bigcommerce\Api\Client;
 class ProductConfigurableField extends Resource
 {
-    
+
 }
 namespace Bigcommerce\Api\Resources;
 
@@ -1104,7 +1109,7 @@ use Bigcommerce\Api\Resource;
 use Bigcommerce\Api\Client;
 class ProductVideo extends Resource
 {
-    
+
 }
 namespace Bigcommerce\Api\Resources;
 
@@ -1112,7 +1117,7 @@ use Bigcommerce\Api\Resource;
 use Bigcommerce\Api\Client;
 class RequestLog extends Resource
 {
-    
+
 }
 namespace Bigcommerce\Api\Resources;
 
