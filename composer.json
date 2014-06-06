@@ -19,7 +19,7 @@
         "satooshi/php-coveralls": "dev-master",
         "vlucas/phpdotenv": "1.0.6",
         "behat/behat": "2.4.*@stable",
-        "guzzlehttp/guzzle": "~4.0"
+        "guzzle/guzzle": ">=3.7.0,<=3.9.9"
     },
     "autoload": {
         "psr-0": {
@@ -27,6 +27,6 @@
         }
     },
     "archive": {
-        "exclude": ["bin", "bigcommerce.php"]
+        "exclude": ["bin"]
     }
 }
