@@ -39,6 +39,9 @@ class Product extends Resource
 		'option_set',
 		'options',
 		'tax_class',
+        'calculated_price',
+        'primary_image',
+        'downloads'
 	);
 
 	protected $ignoreIfZero = array(
