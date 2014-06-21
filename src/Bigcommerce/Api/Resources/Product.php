@@ -17,7 +17,7 @@ class Product extends Resource
 	);
 
 	/**
-	 * @see https://developer.bigcommerce.com/display/API/Products#Products-ReadOnlyFields
+	 * @see https://developer.bigcommerce.com/api/stores/v2/products#update-product-read-only
 	 * @var array
 	 */
 	protected $ignoreOnUpdate = array(
