@@ -896,18 +896,22 @@ class Client
     {
         return self::getResource('/hooks');
     }
+
     public static function getWebHook($id)
     {
         return self::getResource('/hooks/' . $id);
     }
+
     public static function createWebHook($object)
     {
         return self::createResource('/hooks', $object);
     }
+
     public static function updateWebHook($id, $object)
     {
         return self::updateResource('/hooks/' . $id, $object);
     }
+
     public static function deleteWebHook($id)
     {
         return self::deleteResource('/hooks/' . $id);
