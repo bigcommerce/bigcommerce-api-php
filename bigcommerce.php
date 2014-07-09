@@ -292,6 +292,9 @@ class Client
     public static $api_path;
     public static function configure($settings)
     {
+        if (isset($settings['auth_mode']) && in_array($settings['auth_mode'], array('oauth', 'basic'))) {
+            self::$auth_mode = $settings['auth_mode'];
+        }
         if (!isset($settings['store_url']) && self::$auth_mode === 'basic') {
             throw new Exception('\'store_url\' must be provided');
         }
@@ -673,6 +676,26 @@ class Client
     public static function updateCoupon($id, $object)
     {
         return self::updateResource('/coupons/' . $id, $object);
+    }
+    public static function listWebHook()
+    {
+        return self::getResource('/hooks');
+    }
+    public static function getWebHook($id)
+    {
+        return self::getResource('/hooks/' . $id);
+    }
+    public static function createWebHook($object)
+    {
+        return self::createResource('/hooks', $object);
+    }
+    public static function updateWebHook($id, $object)
+    {
+        return self::updateResource('/hooks/' . $id, $object);
+    }
+    public static function deleteWebHook($id)
+    {
+        return self::deleteResource('/hooks/' . $id);
     }
     public static function getRequestLogs()
     {
