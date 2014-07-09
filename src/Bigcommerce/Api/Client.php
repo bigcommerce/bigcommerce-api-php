@@ -42,19 +42,22 @@ class Client
 	 * @param array $settings
 	 */
 	public static function configure($settings)
-	{
+    {
+        if (isset($settings['auth_mode']) && in_array($settings['auth_mode'], array('oauth', 'basic'))) {
+            self::$auth_mode = $settings['auth_mode'];
+        }
         // Basic Auth specific settings
-		if (!isset($settings['store_url']) && self::$auth_mode === 'basic') {
-			throw new Exception("'store_url' must be provided");
-		}
+        if (!isset($settings['store_url']) && self::$auth_mode === 'basic') {
+            throw new Exception("'store_url' must be provided");
+        }
 
-		if (!isset($settings['username']) && self::$auth_mode === 'basic') {
-			throw new Exception("'username' must be provided");
-		}
+        if (!isset($settings['username']) && self::$auth_mode === 'basic') {
+            throw new Exception("'username' must be provided");
+        }
 
-		if (!isset($settings['api_key']) && self::$auth_mode === 'basic') {
-			throw new Exception("'api_key' must be provided");
-		}
+        if (!isset($settings['api_key']) && self::$auth_mode === 'basic') {
+            throw new Exception("'api_key' must be provided");
+        }
         // OAuth specific settings
         if (!isset($settings['client_id']) && self::$auth_mode === 'oauth') {
             throw new Exception("'client_id' must be provided");
@@ -80,8 +83,8 @@ class Client
             throw new Exception('Given Auth mode is not supported');
         }
 
-		self::$connection = false;
-	}
+        self::$connection = false;
+    }
 
 	/**
 	 * Configure the API client to throw exceptions when HTTP errors occur.
