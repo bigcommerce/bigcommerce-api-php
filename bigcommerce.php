@@ -39,6 +39,11 @@ class Connection
     {
         curl_setopt($this->curl, CURLOPT_USERPWD, "{$username}:{$password}");
     }
+    public function oAuthAuthenticate($client_id, $access_token)
+    {
+        $this->addHeader('X-Auth-Client', $client_id);
+        $this->addHeader('X-Auth-Token', $access_token);
+    }
     public function setTimeout($timeout)
     {
         curl_setopt($this->curl, CURLOPT_TIMEOUT, $timeout);
@@ -279,22 +284,49 @@ class Client
     private static $connection;
     private static $resource;
     private static $path_prefix = '/api/v2';
+    private static $oauth_api_path = 'https://api.bigcommerce.com/stores';
+    private static $auth_mode = 'oauth';
+    private static $oauth_client_id;
+    private static $oauth_access_token;
+    private static $oauth_store_hash;
+    private static $oauth_path_prefix = '/v2';
     public static $api_path;
     public static function configure($settings)
     {
-        if (!isset($settings['store_url'])) {
+        if (isset($settings['auth_mode']) && in_array($settings['auth_mode'], array('oauth', 'basic'))) {
+            self::$auth_mode = $settings['auth_mode'];
+        }
+        if (!isset($settings['store_url']) && self::$auth_mode === 'basic') {
             throw new Exception('\'store_url\' must be provided');
         }
-        if (!isset($settings['username'])) {
+        if (!isset($settings['username']) && self::$auth_mode === 'basic') {
             throw new Exception('\'username\' must be provided');
         }
-        if (!isset($settings['api_key'])) {
+        if (!isset($settings['api_key']) && self::$auth_mode === 'basic') {
             throw new Exception('\'api_key\' must be provided');
         }
-        self::$username = $settings['username'];
-        self::$api_key = $settings['api_key'];
-        self::$store_url = rtrim($settings['store_url'], '/');
-        self::$api_path = self::$store_url . self::$path_prefix;
+        if (!isset($settings['client_id']) && self::$auth_mode === 'oauth') {
+            throw new Exception('\'client_id\' must be provided');
+        }
+        if (!isset($settings['access_token']) && self::$auth_mode === 'oauth') {
+            throw new Exception('\'access_token\' must be provided');
+        }
+        if (!isset($settings['store_hash']) && self::$auth_mode === 'oauth') {
+            throw new Exception('\'store_hash\' must be provided');
+        }
+        if ('basic' === self::$auth_mode) {
+            self::$username = $settings['username'];
+            self::$api_key = $settings['api_key'];
+            self::$store_url = rtrim($settings['store_url'], '/');
+            self::$api_path = self::$store_url . self::$path_prefix;
+        } elseif ('oauth' === self::$auth_mode) {
+            self::$oauth_client_id = $settings['client_id'];
+            self::$oauth_access_token = $settings['access_token'];
+            self::$oauth_store_hash = $settings['store_hash'];
+            self::$api_path = self::$oauth_api_path . '/' . self::$oauth_store_hash . self::$oauth_path_prefix;
+        } else {
+            throw new Exception('Given Auth mode is not supported');
+        }
         self::$connection = false;
     }
     public static function failOnError($option = true)
@@ -325,7 +357,11 @@ class Client
     {
         if (!self::$connection) {
             self::$connection = new Connection();
-            self::$connection->authenticate(self::$username, self::$api_key);
+            if ('basic' === self::$auth_mode) {
+                self::$connection->authenticate(self::$username, self::$api_key);
+            } else {
+                self::$connection->oAuthAuthenticate(self::$oauth_client_id, self::$oauth_access_token);
+            }
         }
         return self::$connection;
     }
@@ -414,23 +450,23 @@ class Client
     }
     public static function getProductCustomFields($id)
     {
-        return self::getCollection('/products/' . $id . '/customfields/', 'ProductCustomField');
+        return self::getCollection('/products/' . $id . '/custom_fields', 'ProductCustomField');
     }
     public static function getProductCustomField($product_id, $id)
     {
-        return self::getResource('/products/' . $product_id . '/customfields/' . $id, 'ProductCustomField');
+        return self::getResource('/products/' . $product_id . '/custom_fields/' . $id, 'ProductCustomField');
     }
     public static function createProductCustomField($product_id, $object)
     {
-        return self::createResource('/products/' . $product_id . '/customfields', $object);
+        return self::createResource('/products/' . $product_id . '/custom_fields', $object);
     }
     public static function updateProductCustomField($product_id, $id, $object)
     {
-        return self::updateResource('/products/' . $product_id . '/customfields/' . $id, $object);
+        return self::updateResource('/products/' . $product_id . '/custom_fields/' . $id, $object);
     }
     public static function deleteProductCustomField($product_id, $id)
     {
-        return self::deleteResource('/products/' . $product_id . '/customfields/' . $id);
+        return self::deleteResource('/products/' . $product_id . '/custom_fields/' . $id);
     }
     public static function getProductsCount($filter = false)
     {
@@ -641,6 +677,26 @@ class Client
     public static function updateCoupon($id, $object)
     {
         return self::updateResource('/coupons/' . $id, $object);
+    }
+    public static function listWebHook()
+    {
+        return self::getResource('/hooks');
+    }
+    public static function getWebHook($id)
+    {
+        return self::getResource('/hooks/' . $id);
+    }
+    public static function createWebHook($object)
+    {
+        return self::createResource('/hooks', $object);
+    }
+    public static function updateWebHook($id, $object)
+    {
+        return self::updateResource('/hooks/' . $id, $object);
+    }
+    public static function deleteWebHook($id)
+    {
+        return self::deleteResource('/hooks/' . $id);
     }
     public static function getRequestLogs()
     {
@@ -983,7 +1039,7 @@ use Bigcommerce\Api\Client;
 class Product extends Resource
 {
     protected $ignoreOnCreate = array('date_created', 'date_modified');
-    protected $ignoreOnUpdate = array('id', 'rating_total', 'rating_count', 'date_created', 'date_modified', 'date_last_imported', 'number_sold', 'brand', 'images', 'discount_rules', 'configurable_fields', 'custom_fields', 'videos', 'skus', 'rules', 'option_set', 'options', 'tax_class');
+    protected $ignoreOnUpdate = array('id', 'rating_total', 'rating_count', 'date_created', 'date_modified', 'date_last_imported', 'number_sold', 'brand', 'images', 'discount_rules', 'configurable_fields', 'custom_fields', 'videos', 'skus', 'rules', 'option_set', 'options', 'tax_class', 'calculated_price', 'primary_image', 'downloads');
     protected $ignoreIfZero = array('tax_class_id');
     public function brand()
     {
@@ -1060,15 +1116,15 @@ class ProductCustomField extends Resource
     protected $ignoreOnUpdate = array('id', 'product_id');
     public function create()
     {
-        return Client::createResource('/products/' . $this->product_id . '/customfields', $this->getCreateFields());
+        return Client::createResource('/products/' . $this->product_id . '/custom_fields', $this->getCreateFields());
     }
     public function update()
     {
-        Client::updateResource('/products/' . $this->product_id . '/customfields/' . $this->id, $this->getUpdateFields());
+        Client::updateResource('/products/' . $this->product_id . '/custom_fields/' . $this->id, $this->getUpdateFields());
     }
     public function delete()
     {
-        Client::deleteResource('/products/' . $this->product_id . '/customfields/' . $this->id);
+        Client::deleteResource('/products/' . $this->product_id . '/custom_fields/' . $this->id);
     }
 }
 namespace Bigcommerce\Api\Resources;

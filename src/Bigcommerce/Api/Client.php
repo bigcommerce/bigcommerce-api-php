@@ -15,8 +15,15 @@ class Client
 	static private $connection;
 	static private $resource;
 	static private $path_prefix = '/api/v2';
+    static private $oauth_api_path = 'https://api.bigcommerce.com/stores';
+    static private $auth_mode = 'oauth';
+    static private $oauth_client_id;
+    static private $oauth_access_token;
+    static private $oauth_store_hash;
+    static private $oauth_path_prefix = '/v2';
 
-	/**
+
+    /**
 	 * Full URL path to the configured store API.
 	 *
 	 * @var string
@@ -35,25 +42,49 @@ class Client
 	 * @param array $settings
 	 */
 	public static function configure($settings)
-	{
-		if (!isset($settings['store_url'])) {
-			throw new Exception("'store_url' must be provided");
-		}
+    {
+        if (isset($settings['auth_mode']) && in_array($settings['auth_mode'], array('oauth', 'basic'))) {
+            self::$auth_mode = $settings['auth_mode'];
+        }
+        // Basic Auth specific settings
+        if (!isset($settings['store_url']) && self::$auth_mode === 'basic') {
+            throw new Exception("'store_url' must be provided");
+        }
 
-		if (!isset($settings['username'])) {
-			throw new Exception("'username' must be provided");
-		}
+        if (!isset($settings['username']) && self::$auth_mode === 'basic') {
+            throw new Exception("'username' must be provided");
+        }
 
-		if (!isset($settings['api_key'])) {
-			throw new Exception("'api_key' must be provided");
-		}
+        if (!isset($settings['api_key']) && self::$auth_mode === 'basic') {
+            throw new Exception("'api_key' must be provided");
+        }
+        // OAuth specific settings
+        if (!isset($settings['client_id']) && self::$auth_mode === 'oauth') {
+            throw new Exception("'client_id' must be provided");
+        }
+        if (!isset($settings['access_token']) && self::$auth_mode === 'oauth') {
+            throw new Exception("'access_token' must be provided");
+        }
+        if (!isset($settings['store_hash']) && self::$auth_mode === 'oauth') {
+            throw new Exception("'store_hash' must be provided");
+        }
 
-		self::$username  = $settings['username'];
-		self::$api_key 	 = $settings['api_key'];
-		self::$store_url = rtrim($settings['store_url'], '/');
-		self::$api_path  = self::$store_url . self::$path_prefix;
-		self::$connection = false;
-	}
+        if ('basic' === self::$auth_mode) {
+            self::$username  = $settings['username'];
+            self::$api_key 	 = $settings['api_key'];
+            self::$store_url = rtrim($settings['store_url'], '/');
+            self::$api_path  = self::$store_url . self::$path_prefix;
+        } elseif ('oauth' === self::$auth_mode) {
+            self::$oauth_client_id = $settings['client_id'];
+            self::$oauth_access_token = $settings['access_token'];
+            self::$oauth_store_hash = $settings['store_hash'];
+            self::$api_path = self::$oauth_api_path . '/' . self::$oauth_store_hash . self::$oauth_path_prefix;
+        } else {
+            throw new Exception('Given Auth mode is not supported');
+        }
+
+        self::$connection = false;
+    }
 
 	/**
 	 * Configure the API client to throw exceptions when HTTP errors occur.
@@ -121,7 +152,11 @@ class Client
 	{
 		if (!self::$connection) {
 		 	self::$connection = new Connection();
-			self::$connection->authenticate(self::$username, self::$api_key);
+            if ('basic' === self::$auth_mode) {
+                self::$connection->authenticate(self::$username, self::$api_key);
+            } else {
+                self::$connection->oAuthAuthenticate(self::$oauth_client_id, self::$oauth_access_token);
+            }
 		}
 
 		return self::$connection;
@@ -312,7 +347,7 @@ class Client
 	 */
 	public static function getProductCustomFields($id)
 	{
-	    return self::getCollection('/products/' . $id . '/customfields/', 'ProductCustomField');
+	    return self::getCollection('/products/' . $id . '/custom_fields', 'ProductCustomField');
 	}
 
 	/**
@@ -323,7 +358,7 @@ class Client
 	 */
 	public static function getProductCustomField($product_id, $id)
 	{
-	    return self::getResource('/products/' . $product_id . '/customfields/' . $id, 'ProductCustomField');
+	    return self::getResource('/products/' . $product_id . '/custom_fields/' . $id, 'ProductCustomField');
 	}
 
 	/**
@@ -336,7 +371,7 @@ class Client
 	 */
 	public static function createProductCustomField($product_id, $object)
 	{
-	    return self::createResource('/products/' . $product_id . '/customfields', $object);
+	    return self::createResource('/products/' . $product_id . '/custom_fields', $object);
 	}
 
 	/**
@@ -348,7 +383,7 @@ class Client
 	 */
 	public static function updateProductCustomField($product_id, $id, $object)
 	{
-	    return self::updateResource('/products/' . $product_id . '/customfields/' . $id, $object);
+	    return self::updateResource('/products/' . $product_id . '/custom_fields/' . $id, $object);
 	}
 
 	/**
@@ -359,7 +394,7 @@ class Client
 	 */
 	public static function deleteProductCustomField($product_id, $id)
 	{
-	    return self::deleteResource('/products/' . $product_id . '/customfields/' . $id);
+	    return self::deleteResource('/products/' . $product_id . '/custom_fields/' . $id);
 	}
 
 	/**
@@ -856,6 +891,31 @@ class Client
 	{
 		return self::updateResource('/coupons/' . $id, $object);
 	}
+
+    public static function listWebHook()
+    {
+        return self::getResource('/hooks');
+    }
+
+    public static function getWebHook($id)
+    {
+        return self::getResource('/hooks/' . $id);
+    }
+
+    public static function createWebHook($object)
+    {
+        return self::createResource('/hooks', $object);
+    }
+
+    public static function updateWebHook($id, $object)
+    {
+        return self::updateResource('/hooks/' . $id, $object);
+    }
+
+    public static function deleteWebHook($id)
+    {
+        return self::deleteResource('/hooks/' . $id);
+    }
 
 	/**
 	 * The request logs with usage history statistics.

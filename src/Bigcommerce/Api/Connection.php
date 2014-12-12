@@ -128,6 +128,17 @@ class Connection
 		curl_setopt($this->curl, CURLOPT_USERPWD, "$username:$password");
 	}
 
+    /**
+     * Sets headers for OAuth authentication
+     * @param string $client_id
+     * @param string $access_token
+     */
+    public function oAuthAuthenticate($client_id, $access_token)
+    {
+        $this->addHeader('X-Auth-Client', $client_id);
+        $this->addHeader('X-Auth-Token', $access_token);
+    }
+
 	/**
 	 * Set a default timeout for the request. The client will error if the
 	 * request takes longer than this to respond.
@@ -197,6 +208,7 @@ class Connection
 		$this->responseHeaders = array();
 		$this->lastError = false;
 		$this->addHeader('Accept', $this->getContentType());
+        // OAuth support
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers);
 	}
 
