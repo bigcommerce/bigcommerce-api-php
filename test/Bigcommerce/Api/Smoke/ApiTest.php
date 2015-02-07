@@ -13,8 +13,8 @@ class ApiTest extends \PHPUnit_Framework_TestCase
 	{
 		Bigcommerce::configure(array(
 		    'store_url' => getenv('TEST_STORE_URL'),
-		    'username'  => getenv('TEST_STORE_USER'),
-		    'api_key'   => getenv('TEST_STORE_API_KEY'),
+		    'user_id'   => getenv('TEST_STORE_USER'),
+		    'token'     => getenv('TEST_STORE_TOKEN'),
 		));
 
 		Bigcommerce::setCipher('RC4-SHA');
