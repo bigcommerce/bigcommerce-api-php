@@ -10,11 +10,11 @@ use \Exception as Exception;
 class Client
 {
 	static private $store_url;
-	static private $username;
-	static private $api_key;
+	static private $user_id;
+	static private $token;
 	static private $connection;
 	static private $resource;
-	static private $path_prefix = '/api/v2';
+	static private $path_prefix = '';
 
 	/**
 	 * Full URL path to the configured store API.
@@ -29,8 +29,8 @@ class Client
 	 * Requires a settings array to be passed in with the following keys:
 	 *
 	 * - store_url
-	 * - username
-	 * - api_key
+	 * - user_id
+	 * - token
 	 *
 	 * @param array $settings
 	 */
@@ -40,16 +40,16 @@ class Client
 			throw new Exception("'store_url' must be provided");
 		}
 
-		if (!isset($settings['username'])) {
-			throw new Exception("'username' must be provided");
+		if (!isset($settings['user_id'])) {
+			throw new Exception("'user_id' must be provided");
 		}
 
-		if (!isset($settings['api_key'])) {
-			throw new Exception("'api_key' must be provided");
+		if (!isset($settings['token'])) {
+			throw new Exception("'token' must be provided");
 		}
 
-		self::$username  = $settings['username'];
-		self::$api_key 	 = $settings['api_key'];
+		self::$user_id  = $settings['user_id'];
+		self::$token 	 = $settings['token'];
 		self::$store_url = rtrim($settings['store_url'], '/');
 		self::$api_path  = self::$store_url . self::$path_prefix;
 		self::$connection = false;
@@ -121,7 +121,7 @@ class Client
 	{
 		if (!self::$connection) {
 		 	self::$connection = new Connection();
-			self::$connection->authenticate(self::$username, self::$api_key);
+			self::$connection->authenticate(self::$user_id, self::$token);
 		}
 
 		return self::$connection;

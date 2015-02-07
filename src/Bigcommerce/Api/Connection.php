@@ -121,11 +121,12 @@ class Connection
 	}
 
 	/**
-	 * Sets the HTTP basic authentication.
+	 * Sets the Token and userId to the header.
 	 */
-	public function authenticate($username, $password)
+	public function authenticate($userid, $token)
 	{
-		curl_setopt($this->curl, CURLOPT_USERPWD, "$username:$password");
+		$this->addHeader('X-Auth-Client', $userid);
+		$this->addHeader('X-Auth-Token', $token);
 	}
 
 	/**

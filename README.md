@@ -76,9 +76,9 @@ for connecting to a store on the Bigcommerce platform:
 
 ```
 Bigcommerce::configure(array(
-	'store_url' => 'https://store.mybigcommerce.com',
-	'username'	=> 'admin',
-	'api_key'	=> 'd81aada4c19c34d913e18f07fd7f36ca'
+	'store_url' => 'https://api.bigcommerce.com/stores/{context}/v2',
+	'user_id'	=> '{user_id}',
+	'token'  	=> '{token}'
 ));
 ```
 
