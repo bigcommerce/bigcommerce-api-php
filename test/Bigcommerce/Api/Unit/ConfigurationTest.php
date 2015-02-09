@@ -9,21 +9,21 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 	{
 		Client::configure(array(
 			'store_url' => 'https://localhost',
-			'username' => 'admin',
-			'api_key' => 'onetwothreefour',
+			'user_id' => 'admin',
+			'token'   => 'onetwothreefour',
 		));
 		
-		$this->assertEquals('https://localhost/api/v2', Client::$api_path);
+		$this->assertEquals('https://localhost', Client::$api_path);
 	}
 	
 	public function testApiPathConfigurationWithPortAndTrailingSlash()
 	{
 		Client::configure(array(
 			'store_url' => 'https://127.0.0.1:3000/',
-			'username' => 'admin',
-			'api_key' => 'onetwothreefour',
+			'user_id' => 'admin',
+			'token'   => 'onetwothreefour',
 		));
 		
-		$this->assertEquals('https://127.0.0.1:3000/api/v2', Client::$api_path);
+		$this->assertEquals('https://127.0.0.1:3000', Client::$api_path);
 	}
 }
