@@ -94,4 +94,9 @@ class Resource
 		return false;
 	}
 
+    public function getAllFields()
+    {
+        return $this->fields;
+    }
+
 }
