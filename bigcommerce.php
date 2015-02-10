@@ -477,6 +477,10 @@ class Client
     public static function getOptionValue($option_id, $id)
     {
         return self::getResource('/options/' . $option_id . '/values/' . $id, 'OptionValue');
+    }    
+    public static function createOptionValue($option_id, $object)
+    {
+        return self::createResource('/options/' . $option_id . '/values', $object);
     }
     public static function getOptionValues($filter = false)
     {
