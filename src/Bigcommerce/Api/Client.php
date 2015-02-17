@@ -690,6 +690,15 @@ class Client
     }
 
     /**
+     * @param $id
+     * @return mixed
+     */
+    public static function getOrderProducts($id)
+    {
+        return self::getCollection('/orders/' . $id . '/products', 'OrderProduct');
+    }
+
+    /**
      * Delete the given order (unlike in the Control Panel, this will permanently
      * delete the order).
      *
