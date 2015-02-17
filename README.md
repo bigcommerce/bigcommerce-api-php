@@ -75,19 +75,6 @@ Bigcommerce::configure(array(
 ));
 ```
 
-Specifying the SSL cipher
------------------------
-
-The API requires that all client SSL connections use the RC4-SHA (rsa_rc4_128_sha) cipher.
-The client will set the cipher to "rsa_rc4_128_sha" by default.
-
-Sometimes the cipher is named different on a server.
-The setCipher method can be used to override this setting if required.
-
-```
-Bigcommerce_Api::setCipher('RC4-SHA');
-```
-
 Connecting to the store
 -----------------------
 
