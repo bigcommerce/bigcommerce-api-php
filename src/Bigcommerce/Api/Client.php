@@ -361,6 +361,17 @@ class Client
     }
 
     /**
+     * Gets collection of reviews for a product.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public static function getProductReviews($id)
+    {
+        return self::getCollection('/products/' . $id . '/reviews/', 'ProductReview');
+    }
+
+    /**
      * Update the given custom field.
      *
      * @param int $product_id product id
