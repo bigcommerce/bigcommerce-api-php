@@ -92,6 +92,8 @@ class Connection
         } else {
             $this->followLocation = true;
         }
+
+        $this->setTimeout(60);
     }
 
     /**
