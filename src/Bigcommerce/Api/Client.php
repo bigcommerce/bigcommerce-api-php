@@ -733,6 +733,18 @@ class Client
     }
 
     /**
+     * Update the given order.
+     *
+     * @param int $id order id
+     * @param mixed $object fields to update
+     * @return hash|bool|mixed
+     */
+    public static function updateOrder($id, $object)
+    {
+        return self::updateResource('/orders/' . $id, $object);
+    }
+
+    /**
      * The list of customers.
      *
      * @param array $filter
