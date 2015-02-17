@@ -74,6 +74,15 @@ class Client
 	}
 
 	/**
+	 * Return JSON objects from the API instead of XML Strings.
+	 * This is the default behavior.
+	 */
+	public static function useJson()
+	{
+		self::connection()->useXml(false);
+	}
+
+	/**
 	 * Switch SSL certificate verification on requests.
 	 */
 	public static function verifyPeer($option=false)
@@ -133,8 +142,18 @@ class Client
 	 * @param Connection $connection The connection to use
 	 */
 	public static function setConnection(Connection $connection = null)
+    {
+        self::$connection = $connection;
+    }
+
+    /**
+	 * Convenience method to return instance of the connection
+	 *
+	 * @return Connection
+	 */
+	public static function getConnection()
 	{
-		self::$connection = $connection;
+		return self::connection();
 	}
 
 	/**
