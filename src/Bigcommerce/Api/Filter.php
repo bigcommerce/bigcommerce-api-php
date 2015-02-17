@@ -13,7 +13,7 @@ class Filter
      * Factory method, creates an instance of a filter.
      * Used to build URLs to collection endpoints.
      */
-    public static function create($filter = false)
+    public static function create($filter = array())
     {
         if ($filter instanceof self) {
             return $filter;

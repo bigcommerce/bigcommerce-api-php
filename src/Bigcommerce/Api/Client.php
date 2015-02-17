@@ -33,6 +33,7 @@ class Client
      * - api_key
      *
      * @param array $settings
+     * @throws \Exception
      */
     public static function configure($settings)
     {
@@ -102,7 +103,7 @@ class Client
      * Connect to the internet through a proxy server.
      *
      * @param string $host host server
-     * @param string $port port
+     * @param bool $port port
      */
     public static function useProxy($host, $port = false)
     {
@@ -151,7 +152,6 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource resource class to map individual items
-     * @param array $fields additional key=>value properties to apply to the object
      * @return mixed array|string mapped collection or XML string if useXml is true
      */
     public static function getCollection($path, $resource = 'Resource')
@@ -195,6 +195,7 @@ class Client
      *
      * @param string $path api endpoint
      * @param mixed $object object or XML string to create
+     * @return hash|bool|mixed
      */
     public static function createResource($path, $object)
     {
@@ -208,6 +209,7 @@ class Client
      *
      * @param string $path api endpoint
      * @param mixed $object object or XML string to update
+     * @return hash|bool|mixed
      */
     public static function updateResource($path, $object)
     {
@@ -220,6 +222,7 @@ class Client
      * Send a delete request to remove the specified resource.
      *
      * @param string $path api endpoint
+     * @return hash|bool|mixed
      */
     public static function deleteResource($path)
     {
@@ -306,7 +309,7 @@ class Client
      * @param array $filter
      * @return mixed array|string list of products or XML string if useXml is true
      */
-    public static function getProducts($filter = false)
+    public static function getProducts($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/products' . $filter->toQuery(), 'Product');
@@ -349,7 +352,6 @@ class Client
      * Create a new custom field for a given product.
      *
      * @param int $product_id product id
-     * @param int $id custom field id
      * @param mixed $object fields to create
      * @return Object Object with `id`, `product_id`, `name` and `text` keys
      */
@@ -364,6 +366,7 @@ class Client
      * @param int $product_id product id
      * @param int $id custom field id
      * @param mixed $object custom field to update
+     * @return hash|bool|mixed
      */
     public static function updateProductCustomField($product_id, $id, $object)
     {
@@ -375,6 +378,7 @@ class Client
      *
      * @param int $product_id product id
      * @param int $id custom field id
+     * @return hash|bool|mixed
      */
     public static function deleteProductCustomField($product_id, $id)
     {
@@ -387,7 +391,7 @@ class Client
      * @param array $filter
      * @return mixed int|string number of products or XML string if useXml is true
      */
-    public static function getProductsCount($filter = false)
+    public static function getProductsCount($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCount('/products/count' . $filter->toQuery());
@@ -408,6 +412,7 @@ class Client
      * Create a new product.
      *
      * @param mixed $object fields to create
+     * @return hash|bool|mixed
      */
     public static function createProduct($object)
     {
@@ -419,6 +424,7 @@ class Client
      *
      * @param int $id product id
      * @param mixed $object fields to update
+     * @return hash|bool|mixed
      */
     public static function updateProduct($id, $object)
     {
@@ -429,6 +435,7 @@ class Client
      * Delete the given product.
      *
      * @param int $id product id
+     * @return hash|bool|mixed
      */
     public static function deleteProduct($id)
     {
@@ -441,7 +448,7 @@ class Client
      * @param array $filter
      * @return array
      */
-    public static function getOptions($filter = false)
+    public static function getOptions($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/options' . $filter->toQuery(), 'Option');
@@ -480,6 +487,7 @@ class Client
      * Delete the given option.
      *
      * @param int $id option id
+     * @return hash|bool|mixed
      */
     public static function deleteOption($id)
     {
@@ -501,10 +509,10 @@ class Client
     /**
      * Return the collection of all option values.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return array
      */
-    public static function getOptionValues($filter = false)
+    public static function getOptionValues($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/options/values' . $filter->toQuery(), 'OptionValue');
@@ -513,10 +521,10 @@ class Client
     /**
      * The collection of categories.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return array
      */
-    public static function getCategories($filter = false)
+    public static function getCategories($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/categories' . $filter->toQuery(), 'Category');
@@ -525,10 +533,10 @@ class Client
     /**
      * The number of categories in the collection.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return int
      */
-    public static function getCategoriesCount($filter = false)
+    public static function getCategoriesCount($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCount('/categories/count' . $filter->toQuery());
@@ -549,6 +557,7 @@ class Client
      * Create a new category from the given data.
      *
      * @param mixed $object
+     * @return hash|bool|mixed
      */
     public static function createCategory($object)
     {
@@ -560,6 +569,7 @@ class Client
      *
      * @param int $id category id
      * @param mixed $object
+     * @return hash|bool|mixed
      */
     public static function updateCategory($id, $object)
     {
@@ -570,6 +580,7 @@ class Client
      * Delete the given category.
      *
      * @param int $id category id
+     * @return hash|bool|mixed
      */
     public static function deleteCategory($id)
     {
@@ -579,10 +590,10 @@ class Client
     /**
      * The collection of brands.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return array
      */
-    public static function getBrands($filter = false)
+    public static function getBrands($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
@@ -591,10 +602,10 @@ class Client
     /**
      * The total number of brands in the collection.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return int
      */
-    public static function getBrandsCount($filter = false)
+    public static function getBrandsCount($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCount('/brands/count' . $filter->toQuery());
@@ -615,6 +626,7 @@ class Client
      * Create a new brand from the given data.
      *
      * @param mixed $object
+     * @return hash|bool|mixed
      */
     public static function createBrand($object)
     {
@@ -626,6 +638,7 @@ class Client
      *
      * @param int $id brand id
      * @param mixed $object
+     * @return hash|bool|mixed
      */
     public static function updateBrand($id, $object)
     {
@@ -636,6 +649,7 @@ class Client
      * Delete the given brand.
      *
      * @param int $id brand id
+     * @return hash|bool|mixed
      */
     public static function deleteBrand($id)
     {
@@ -645,10 +659,10 @@ class Client
     /**
      * The collection of orders.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return array
      */
-    public static function getOrders($filter = false)
+    public static function getOrders($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/orders' . $filter->toQuery(), 'Order');
@@ -680,6 +694,7 @@ class Client
      * delete the order).
      *
      * @param int $id order id
+     * @return hash|bool|mixed
      */
     public static function deleteOrder($id)
     {
@@ -698,10 +713,10 @@ class Client
     /**
      * The list of customers.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return array
      */
-    public static function getCustomers($filter = false)
+    public static function getCustomers($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/customers' . $filter->toQuery(), 'Customer');
@@ -710,10 +725,10 @@ class Client
     /**
      * The total number of customers in the collection.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return int
      */
-    public static function getCustomersCount($filter = false)
+    public static function getCustomersCount($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCount('/customers/count' . $filter->toQuery());
@@ -722,10 +737,10 @@ class Client
     /**
      * Bulk delete customers.
      *
-     * @param mixed $filter
+     * @param array $filter
      * @return array
      */
-    public static function deleteCustomers($filter = false)
+    public static function deleteCustomers($filter = array())
     {
         $filter = Filter::create($filter);
         return self::deleteResource('/customers' . $filter->toQuery());
@@ -746,6 +761,7 @@ class Client
      * Create a new customer from the given data.
      *
      * @param mixed $object
+     * @return hash|bool|mixed
      */
     public static function createCustomer($object)
     {
@@ -757,6 +773,7 @@ class Client
      *
      * @param int $id customer id
      * @param mixed $object
+     * @return hash|bool|mixed
      */
     public static function updateCustomer($id, $object)
     {
@@ -767,6 +784,7 @@ class Client
      * Delete the given customer.
      *
      * @param int $id customer id
+     * @return hash|bool|mixed
      */
     public static function deleteCustomer($id)
     {
@@ -790,19 +808,30 @@ class Client
      * @param array $filter
      * @return array
      */
-    public static function getOptionSets($filter = false)
+    public static function getOptionSets($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/optionsets' . $filter->toQuery(), 'OptionSet');
     }
 
-    /** create optionsets **/
+    /**
+     * Create Optionsets
+     *
+     * @param $object
+     * @return hash|bool|mixed
+     */
     public static function createOptionsets($object)
     {
         return self::createResource('/optionsets', $object);
     }
 
-    /** connect optionsets options **/
+    /**
+     * Create Optionset Options
+     *
+     * @param $object
+     * @param $id
+     * @return hash|bool|mixed
+     */
     public static function createOptionsets_Options($object, $id)
     {
         return self::createResource('/optionsets/' . $id . '/options', $object);
@@ -840,36 +869,72 @@ class Client
         return self::getCollection('/orderstatuses', 'OrderStatus');
     }
 
-    /* product skus */
-    public static function getSkus($filter = false)
+    /**
+     * Get collection of product skus
+     *
+     * @param array $filter
+     * @return mixed
+     */
+    public static function getSkus($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/products/skus' . $filter->toQuery(), 'Sku');
     }
 
+    /**
+     * Create sku
+     *
+     * @param $object
+     * @return hash|bool|mixed
+     */
     public static function createSku($object)
     {
         return self::createResource('/product/skus', $object);
     }
 
+    /**
+     * Update sku
+     *
+     * @param $id
+     * @param $object
+     * @return hash|bool|mixed
+     */
     public static function updateSku($id, $object)
     {
         return self::updateResource('/product/skus' . $id, $object);
     }
 
 
-    /* coupons */
-    public static function getCoupons($filter = false)
+    /**
+     * Get coupons
+     *
+     * @param array $filter
+     * @return mixed
+     */
+    public static function getCoupons($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/coupons' . $filter->toQuery(), 'Sku');
     }
 
+    /**
+     * Create coupon
+     *
+     * @param $object
+     * @return hash|bool|mixed
+     */
     public static function createCoupon($object)
     {
         return self::createResource('/coupons', $object);
     }
 
+    /**
+     * Update coupon
+     *
+     * @param $id
+     * @param $object
+     * @return hash|bool|mixed
+     */
     public static function updateCoupon($id, $object)
     {
         return self::updateResource('/coupons/' . $id, $object);
