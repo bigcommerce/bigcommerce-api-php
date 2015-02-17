@@ -10,34 +10,32 @@ use Bigcommerce\Api\Client;
  */
 class OptionValue extends Resource
 {
+    protected $ignoreOnCreate = array(
+        'id',
+        'option_id',
+    );
 
-	protected $ignoreOnCreate = array(
-		'id',
-		'option_id',
-	);
+    protected $ignoreOnUpdate = array(
+        'id',
+        'option_id',
+    );
 
-	protected $ignoreOnUpdate = array(
-		'id',
-		'option_id',
-	);
+    protected $fieldMap = array(
+        'option' => 'option_id'
+    );
 
-	protected $fieldMap = array(
-		'option' => 'option_id'
-	);
+    public function option()
+    {
+        return Client::getResource('/options/' . $this->fields->option_id, 'Option');
+    }
 
-	public function option()
-	{
-		return Client::getResource('/options/' . $this->fields->option_id, 'Option');
-	}
+    public function create()
+    {
+        return Client::createResource('/options/' . $this->fields->option_id . '/values', $this->getCreateFields());
+    }
 
-	public function create()
-	{
-		return Client::createResource('/options/' . $this->fields->option_id . '/values', $this->getCreateFields());
-	}
-
-	public function update()
-	{
-		Client::updateResource('/options/' . $this->fields->option_id . '/values/' . $this->id, $this->getUpdateFields());
-	}
-
+    public function update()
+    {
+        Client::updateResource('/options/' . $this->fields->option_id . '/values/' . $this->id, $this->getUpdateFields());
+    }
 }

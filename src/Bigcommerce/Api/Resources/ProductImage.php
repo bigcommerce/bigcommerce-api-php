@@ -10,29 +10,25 @@ use Bigcommerce\Api\Client;
  */
 class ProductImage extends Resource
 {
+    protected $ignoreOnCreate = array(
+        'id',
+        'date_created',
+        'product_id',
+    );
 
-	protected $ignoreOnCreate = array(
-		'id',
-		'date_created',
-		'product_id',
-	);
+    protected $ignoreOnUpdate = array(
+        'id',
+        'date_created',
+        'product_id',
+    );
 
-	protected $ignoreOnUpdate = array(
-		'id',
-		'date_created',
-		'product_id',
-	);
+    public function create()
+    {
+        return Client::createResource('/products/' . $this->fields->product_id . '/images' , $this->getCreateFields());
+    }
 
-	
-
-	public function create()
-	{
-		return Client::createResource('/products/' . $this->fields->product_id . '/images' , $this->getCreateFields());
-	}
-
-	public function update()
-	{
-		Client::updateResource('/products/' . $this->fields->product_id . '/images/' . $this->id , $this->getUpdateFields());
-	}
-
+    public function update()
+    {
+        Client::updateResource('/products/' . $this->fields->product_id . '/images/' . $this->id , $this->getUpdateFields());
+    }
 }

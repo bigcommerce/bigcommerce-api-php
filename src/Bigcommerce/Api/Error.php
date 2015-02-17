@@ -7,14 +7,12 @@ namespace Bigcommerce\Api;
  */
 class Error extends \Exception
 {
+    public function __construct($message, $code)
+    {
+        if (is_array($message)) {
+            $message = $message[0]->message;
+        }
 
-	public function __construct($message, $code)
-	{
-		if (is_array($message)) {
-			$message = $message[0]->message;
-		}
-
-		parent::__construct($message, $code);
-	}
-
+        parent::__construct($message, $code);
+    }
 }
