@@ -682,11 +682,13 @@ class Client
     /**
      * The number of orders in the collection.
      *
+     * @param array $filter
      * @return int
      */
-    public static function getOrdersCount()
+    public static function getOrdersCount($filter = array())
     {
-        return self::getCount('/orders/count');
+        $filter = Filter::create($filter);
+        return self::getCount('/orders/count' . $filter->toQuery());
     }
 
     /**
