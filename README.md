@@ -47,14 +47,6 @@ php composer.phar install
 composer install
 ```
 
-If you don’t want to use Composer and Packagist, the API client is also distributed as a [single
-PHP file](https://raw.github.com/bigcommerce/bigcommerce-api-php/master/bigcommerce.php) which you can 
-download and include directly into your project:
-
-```
-require 'path/to/bigcommerce.php';
-```
-
 Namespace
 ---------
 
