@@ -21,19 +21,23 @@ class OptionValue extends Resource
 		'option_id',
 	);
 
+	protected $fieldMap = array(
+		'option' => 'option_id'
+	);
+
 	public function option()
 	{
-		return self::getResource('/options/' . $this->option_id, 'Option');
+		return Client::getResource('/options/' . $this->fields->option_id, 'Option');
 	}
 
 	public function create()
 	{
-		return Client::createResource('/options/' . $this->option_id . '/values', $this->getCreateFields());
+		return Client::createResource('/options/' . $this->fields->option_id . '/values', $this->getCreateFields());
 	}
 
 	public function update()
 	{
-		Client::updateResource('/options/' . $this->option_id . '/values/' . $this->id, $this->getUpdateFields());
+		Client::updateResource('/options/' . $this->fields->option_id . '/values/' . $this->id, $this->getUpdateFields());
 	}
 
 }

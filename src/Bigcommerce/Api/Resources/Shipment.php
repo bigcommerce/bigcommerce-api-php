@@ -27,12 +27,12 @@ class Shipment extends Resource
 
 	public function create()
 	{
-		return Client::createResource('/orders/' . $this->order_id . '/shipments', $this->getCreateFields());
+		return Client::createResource('/orders/' . $this->fields->order_id . '/shipments', $this->getCreateFields());
 	}
 
 	public function update()
 	{
-		return Client::createResource('/orders/' . $this->order_id . '/shipments' . $this->id, $this->getCreateFields());
+		return Client::updateResource('/orders/' . $this->fields->order_id . '/shipments/' . $this->id, $this->getUpdateFields());
 	}
 
 }

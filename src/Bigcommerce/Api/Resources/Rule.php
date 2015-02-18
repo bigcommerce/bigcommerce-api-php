@@ -26,7 +26,7 @@ class Rule extends Resource
 		$conditions = Client::getCollection($this->fields->conditions->resource, 'RuleCondition');
 
 		foreach($conditions as $condition) {
-			$condition->product_id = $this->product_id;
+			$condition->product_id = $this->fields->product_id;
 		}
 
 		return $conditions;
@@ -34,12 +34,12 @@ class Rule extends Resource
 
 	public function create()
 	{
-		return Client::createResource('/products/' . $this->product_id . '/rules', $this->getCreateFields());
+		return Client::createResource('/products/' . $this->fields->product_id . '/rules', $this->getCreateFields());
 	}
 
 	public function update()
 	{
-		Client::updateResource('/products/' . $this->product_id . '/rules/' . $this->id, $this->getUpdateFields());
+		Client::updateResource('/products/' . $this->fields->product_id . '/rules/' . $this->fields->id, $this->getUpdateFields());
 	}
 
 }

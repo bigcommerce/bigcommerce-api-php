@@ -30,6 +30,11 @@ class Resource
 	 */
 	protected $ignoreIfZero = array();
 
+	/**
+	 * @var array
+	 */
+	protected $fieldMap = array();
+
 	public function __construct($object=false)
 	{
 		if (is_array($object)) {
@@ -41,9 +46,14 @@ class Resource
 
 	public function __get($field)
 	{
-		if (method_exists($this, $field) && isset($this->fields->$field)) {
+		// first, find the field we should actually be examining
+		$fieldName = isset($this->fieldMap[$field]) ? $this->fieldMap[$field] : $field;
+		// then, if a method exists for the specified field and the field we should actually be examining
+		// has a value, call the method instead
+		if (method_exists($this, $field) && isset($this->fields->$fieldName)) {
 			return $this->$field();
 		}
+		// otherwise, just return the field directly (or null)
 		return (isset($this->fields->$field)) ? $this->fields->$field : null;
 	}
 
