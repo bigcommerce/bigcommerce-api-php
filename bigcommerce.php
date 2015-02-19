@@ -642,6 +642,27 @@ class Client
     {
         return self::updateResource('/coupons/' . $id, $object);
     }
+    public static function listWebhook()
+    {
+        return self::getResource('/hooks');
+    }
+    public static function getWebhook($id)
+    {
+        return self::getResource('/hooks/' . $id);
+    }
+    public static function createWebhook($object)
+    {
+        return self::createResource('/hooks', $object);
+    }
+    public static function updateWebhook($id, $object)
+    {
+        return self::updateResource('/hooks/' . $id, $object);
+    }
+    public static function deleteWebhook($id)
+    {
+        return self::deleteResource('/hooks/' . $id);
+    }
+
     public static function getRequestLogs()
     {
         return self::getCollection('/requestlogs');
