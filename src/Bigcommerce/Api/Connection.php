@@ -70,10 +70,29 @@ class Connection
 	private $errorCode;
 
 	/**
-	 * Determines whether requests and responses should be treated
-	 * as XML. Defaults to false (using JSON).
+	 * Determines whether the response body should be returned as a raw string.
 	 */
-	private $useXml = false;
+	private $rawResponse = false;
+
+	/**
+	 * Determines the default content type to use with requests and responses.
+	 */
+	private $contentType;
+
+	/**
+	 * XML media type.
+	 */
+	const MEDIA_TYPE_XML = 'application/xml';
+
+	/**
+	 * JSON media type.
+	 */
+	const MEDIA_TYPE_JSON = 'application/json';
+
+	/**
+	 * Default urlencoded media type.
+	 */
+	const MEDIA_TYPE_WWW = 'application/x-www-form-urlencoded';
 
 	/**
 	 * Initializes the connection object.
@@ -99,7 +118,21 @@ class Connection
 	 * as XML. Defaults to false (using JSON).
 	 */
 	public function useXml($option=true) {
-		$this->useXml = $option;
+		if ($option) {
+			$this->contentType = self::MEDIA_TYPE_XML;
+			$this->rawResponse = true;
+		}
+	}
+
+	/**
+	 * Controls whether requests or responses should be treated
+	 * as urlencoded form data.
+	 */
+	public function useUrlencoded($option=true)
+	{
+		if ($option) {
+			$this->contentType = self::MEDIA_TYPE_WWW;
+		}
 	}
 
 	/**
@@ -180,10 +213,12 @@ class Connection
 
 	/**
 	 * Get the MIME type that should be used for this request.
+	 * 
+	 * Defaults to JSON.
 	 */
 	private function getContentType()
 	{
-		return ($this->useXml) ? 'application/xml' : 'application/json';
+		return ($this->contentType) ? $this->contentType : self::MEDIA_TYPE_JSON;
 	}
 
 	/**

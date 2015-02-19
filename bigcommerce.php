@@ -14,7 +14,11 @@ class Connection
     private $redirectsFollowed = 0;
     private $lastError = false;
     private $errorCode;
-    private $useXml = false;
+    private $rawResponse = false;
+    private $contentType;
+    const MEDIA_TYPE_XML = 'application/xml';
+    const MEDIA_TYPE_JSON = 'application/json';
+    const MEDIA_TYPE_WWW = 'application/x-www-form-urlencoded';
     public function __construct()
     {
         $this->curl = curl_init();
@@ -29,7 +33,16 @@ class Connection
     }
     public function useXml($option = true)
     {
-        $this->useXml = $option;
+        if ($option) {
+            $this->contentType = self::MEDIA_TYPE_XML;
+            $this->rawResponse = true;
+        }
+    }
+    public function useUrlencoded($option = true)
+    {
+        if ($option) {
+            $this->contentType = self::MEDIA_TYPE_WWW;
+        }
     }
     public function failOnError($option = true)
     {
@@ -65,7 +78,7 @@ class Connection
     }
     private function getContentType()
     {
-        return $this->useXml ? 'application/xml' : 'application/json';
+        return $this->contentType ? $this->contentType : self::MEDIA_TYPE_JSON;
     }
     private function initializeRequest()
     {
@@ -279,8 +292,13 @@ class Client
     private static $connection;
     private static $resource;
     private static $path_prefix = '/api/v2';
+    private static $client_id;
+    private static $auth_token;
+    private static $stores_prefix = '/stores/%s/v2';
+    private static $api_url = 'https://api.bigcommerce.com';
+    private static $login_url = 'https://login.bigcommerce.com';
     public static $api_path;
-    public static function configure($settings)
+    public static function configureBasicAuth($settings)
     {
         if (!isset($settings['store_url'])) {
             throw new Exception('\'store_url\' must be provided');
@@ -296,6 +314,28 @@ class Client
         self::$store_url = rtrim($settings['store_url'], '/');
         self::$api_path = self::$store_url . self::$path_prefix;
         self::$connection = false;
+    }
+    public static function configureOAuth($settings)
+    {
+        if (!isset($settings['auth_token'])) {
+            throw new Exception('\'auth_token\' must be provided');
+        }
+        if (!isset($settings['store_hash'])) {
+            throw new Exception('\'store_hash\' must be provided');
+        }
+        self::$client_id = $settings['client_id'];
+        self::$auth_token = $settings['auth_token'];
+        self::$store_hash = $settings['store_hash'];
+        self::$api_path = self::$api_url . sprintf(self::$stores_prefix, self::$store_hash);
+        self::$connection = false;
+    }
+    public static function configure($settings)
+    {
+        if (isset($settings['client_id'])) {
+            self::configureOAuth($settings);
+        } else {
+            self::configureBasicAuth($settings);
+        }
     }
     public static function failOnError($option = true)
     {
@@ -325,7 +365,12 @@ class Client
     {
         if (!self::$connection) {
             self::$connection = new Connection();
-            self::$connection->authenticate(self::$username, self::$api_key);
+            if (self::$client_id) {
+                self::$connection->setHeader('X-Auth-Client', self::$client_id);
+                self::$connection->setHeader('X-Auth-Token', self::$auth_token);
+            } else {
+                self::$connection->authenticate(self::$username, self::$api_key);
+            }
         }
         return self::$connection;
     }
@@ -394,6 +439,13 @@ class Client
             return $object;
         }
         return $object->count;
+    }
+    public static function getAuthToken($object)
+    {
+        $context = array_merge(array('grant_type' => 'authorization_code'), (array) $object);
+        $connection = new Connection();
+        $connection->useUrlencoded();
+        return $connection->post(self::$login_url . '/oauth2/token', $context);
     }
     public static function getTime()
     {
