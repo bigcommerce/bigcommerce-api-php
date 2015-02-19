@@ -7,37 +7,6 @@ use Bigcommerce\Api\Client;
 
 class Shipment extends Resource
 {
-<<<<<<< HEAD
-
-	protected $ignoreOnCreate = array(
-		'id',
-		'order_id',
-		'date_created',
-		'customer_id',
-		'shipping_method',
-	);
-
-	protected $ignoreOnUpdate = array(
-		'id',
-		'order_id',
-		'date_created',
-		'customer_id',
-		'shipping_method',
-		'items',
-	);
-
-	public function create()
-	{
-		return Client::createResource('/orders/' . $this->fields->order_id . '/shipments', $this->getCreateFields());
-	}
-
-	public function update()
-	{
-		return Client::updateResource('/orders/' . $this->fields->order_id . '/shipments/' . $this->id, $this->getUpdateFields());
-	}
-
-}
-=======
     protected $ignoreOnCreate = array(
         'id',
         'order_id',
@@ -57,12 +26,11 @@ class Shipment extends Resource
 
     public function create()
     {
-        return Client::createResource('/orders/' . $this->order_id . '/shipments', $this->getCreateFields());
+        return Client::createResource('/orders/' . $this->fields->order_id . '/shipments', $this->getCreateFields());
     }
 
     public function update()
     {
-        return Client::createResource('/orders/' . $this->order_id . '/shipments' . $this->id, $this->getCreateFields());
+        return Client::updateResource('/orders/' . $this->fields->order_id . '/shipments/' . $this->id, $this->getUpdateFields());
     }
 }
->>>>>>> BIG-15160: standardize spacing

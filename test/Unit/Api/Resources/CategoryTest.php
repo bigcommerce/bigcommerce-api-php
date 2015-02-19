@@ -10,8 +10,8 @@ class CategoryTest extends ResourceTestBase
     {
         $category = new Category();
         $this->connection->expects($this->once())
-             ->method('post')
-             ->with('/categories', $category->getCreateFields());
+            ->method('post')
+            ->with('/categories', $category->getCreateFields());
 
         $category->create();
     }
@@ -20,8 +20,8 @@ class CategoryTest extends ResourceTestBase
     {
         $category = new Category((object)(array('id' => 1)));
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/categories/1', $category->getUpdateFields());
+            ->method('put')
+            ->with('/categories/1', $category->getUpdateFields());
 
         $category->update();
     }

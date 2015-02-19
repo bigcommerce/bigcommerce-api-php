@@ -10,11 +10,11 @@ class CustomerTest extends ResourceTestBase
     {
         $customer = new Customer((object)array('addresses' => (object)array('resource' => '/customers/1/addresses')));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with('/customers/1/addresses')
-             ->will($this->returnValue(array(array(), array())));
+            ->method('get')
+            ->with('/customers/1/addresses')
+            ->will($this->returnValue(array(array(), array())));
 
-        foreach($customer->addresses as $address) {
+        foreach ($customer->addresses as $address) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $address);
         }
     }
@@ -23,8 +23,8 @@ class CustomerTest extends ResourceTestBase
     {
         $customer = new Customer();
         $this->connection->expects($this->once())
-             ->method('post')
-             ->with('/customers', $customer->getCreateFields());
+            ->method('post')
+            ->with('/customers', $customer->getCreateFields());
 
         $customer->create();
     }
@@ -33,8 +33,8 @@ class CustomerTest extends ResourceTestBase
     {
         $customer = new Customer((object)(array('id' => 1)));
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/customers/1', $customer->getUpdateFields());
+            ->method('put')
+            ->with('/customers/1', $customer->getUpdateFields());
 
         $customer->update();
     }
@@ -43,8 +43,8 @@ class CustomerTest extends ResourceTestBase
     {
         $customer = new Customer((object)(array('id' => 1)));
         $this->connection->expects($this->once())
-             ->method('delete')
-             ->with('/customers/1');
+            ->method('delete')
+            ->with('/customers/1');
 
         $customer->delete();
     }

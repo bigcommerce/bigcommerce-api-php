@@ -10,8 +10,8 @@ class ProductTest extends ResourceTestBase
     {
         $product = new Product((object)array('id' => 1));
         $this->connection->expects($this->once())
-             ->method('post')
-             ->with('/products', (object)array('id' => 1));
+            ->method('post')
+            ->with('/products', (object)array('id' => 1));
 
         $product->create();
     }
@@ -20,8 +20,8 @@ class ProductTest extends ResourceTestBase
     {
         $product = new Product((object)array('id' => 1));
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/products/1', (object)array());
+            ->method('put')
+            ->with('/products/1', (object)array());
 
         $product->update();
     }
@@ -30,8 +30,8 @@ class ProductTest extends ResourceTestBase
     {
         $product = new Product((object)array('id' => 1));
         $this->connection->expects($this->once())
-             ->method('delete')
-             ->with('/products/1');
+            ->method('delete')
+            ->with('/products/1');
 
         $product->delete();
     }
@@ -58,9 +58,9 @@ class ProductTest extends ResourceTestBase
         $url = '/products/1/' . $property;
         $product = new Product((object)array('id' => 1, $property => (object)array('resource' => $url)));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with($url)
-             ->will($this->returnValue(array(array(), array())));
+            ->method('get')
+            ->with($url)
+            ->will($this->returnValue(array(array(), array())));
 
         $collection = $product->$property;
         $this->assertInternalType('array', $collection);
@@ -86,9 +86,9 @@ class ProductTest extends ResourceTestBase
         $url = '/products/1/' . $property;
         $product = new Product((object)array($property => (object)array('resource' => $url)));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with($url)
-             ->will($this->returnValue(array(array())));
+            ->method('get')
+            ->with($url)
+            ->will($this->returnValue(array(array())));
 
         $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\' . $className, $product->$property);
     }

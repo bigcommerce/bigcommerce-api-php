@@ -2,7 +2,7 @@
     "name": "bigcommerce/api",
     "type": "library",
     "description": "Enables PHP applications to communicate with the Bigcommerce API.",
-    "keywords": ["api","http","rest","ecommerce","business"],
+    "keywords": ["api", "http", "rest", "ecommerce", "business"],
     "homepage": "http://developer.bigcommerce.com",
     "license": "MIT",
     "authors": [
@@ -26,9 +26,6 @@
         "psr-4": {
             "Bigcommerce\\Test\\": "test/"
         }
-    },
-    "archive": {
-        "exclude": ["bin", "bigcommerce.php"]
     },
     "scripts": {
         "test": "phpunit"

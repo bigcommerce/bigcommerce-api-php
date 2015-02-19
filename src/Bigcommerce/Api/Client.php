@@ -148,6 +148,16 @@ class Client
     }
 
     /**
+     * Set the HTTP connection object. DANGER: This can screw up your Client!
+     *
+     * @param Connection $connection The connection to use
+     */
+    public static function setConnection(Connection $connection = null)
+    {
+        self::$connection = $connection;
+    }
+
+    /**
      * Get a collection result from the specified endpoint.
      *
      * @param string $path api endpoint
@@ -323,7 +333,7 @@ class Client
      */
     public static function getProductImages($id)
     {
-        return self::getResource('/products/' . $id . '/images/', 'ProductImage');
+        return self::getCollection('/products/' . $id . '/images/', 'ProductImage');
     }
 
     /**
@@ -572,7 +582,7 @@ class Client
      */
     public static function createCategory($object)
     {
-        return self::createResource('/categories/', $object);
+        return self::createResource('/categories', $object);
     }
 
     /**
@@ -935,7 +945,7 @@ class Client
      */
     public static function updateSku($id, $object)
     {
-        return self::updateResource('/product/skus' . $id, $object);
+        return self::updateResource('/product/skus/' . $id, $object);
     }
 
 
@@ -948,7 +958,7 @@ class Client
     public static function getCoupons($filter = array())
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/coupons' . $filter->toQuery(), 'Sku');
+        return self::getCollection('/coupons' . $filter->toQuery(), 'Coupon');
     }
 
     /**
@@ -979,7 +989,7 @@ class Client
      */
     public static function getRequestLogs()
     {
-        return self::getCollection('/requestlogs');
+        return self::getCollection('/requestlogs', 'RequestLog');
     }
 
     public static function getStore()
