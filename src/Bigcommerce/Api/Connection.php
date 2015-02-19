@@ -9,17 +9,17 @@ class Connection
 {
 
     /**
-     * @var cURL resource
+     * @var resource cURL resource
      */
     private $curl;
 
     /**
-     * @var hash of HTTP request headers
+     * @var array Hash of HTTP request headers.
      */
     private $headers = array();
 
     /**
-     * @var hash of headers from HTTP response
+     * @var array Hash of headers from HTTP response
      */
     private $responseHeaders = array();
 
@@ -30,7 +30,7 @@ class Connection
     private $responseStatusLine;
 
     /**
-     * @var hash of headers from HTTP response
+     * @var string response body
      */
     private $responseBody;
 
@@ -60,14 +60,9 @@ class Connection
 
     /**
      * Deal with failed requests if failOnError is not set.
-     * @var mixed
+     * @var string | false
      */
     private $lastError = false;
-
-    /**
-     * Current cURL error code.
-     */
-    private $errorCode;
 
     /**
      * Determines whether requests and responses should be treated
@@ -200,6 +195,11 @@ class Connection
         $this->responseHeaders = array();
         $this->lastError = false;
         $this->addHeader('Accept', $this->getContentType());
+
+        curl_setopt($this->curl, CURLOPT_POST, false);
+        curl_setopt($this->curl, CURLOPT_PUT, false);
+        curl_setopt($this->curl, CURLOPT_HTTPGET, false);
+
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers);
     }
 
@@ -300,8 +300,6 @@ class Connection
 
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($this->curl, CURLOPT_URL, $url);
-        curl_setopt($this->curl, CURLOPT_POST, false);
-        curl_setopt($this->curl, CURLOPT_PUT, false);
         curl_setopt($this->curl, CURLOPT_HTTPGET, true);
         curl_exec($this->curl);
 
@@ -324,8 +322,6 @@ class Connection
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_PUT, false);
-        curl_setopt($this->curl, CURLOPT_HTTPGET, false);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $body);
         curl_exec($this->curl);
 
@@ -334,6 +330,9 @@ class Connection
 
     /**
      * Make an HTTP HEAD request to the specified endpoint.
+     *
+     * @param $url
+     * @return bool|mixed|string
      */
     public function head($url)
     {
@@ -352,6 +351,10 @@ class Connection
      *
      * Requires a tmpfile() handle to be opened on the system, as the cURL
      * API requires it to send data.
+     *
+     * @param $url
+     * @param $body
+     * @return bool|mixed|string
      */
     public function put($url, $body)
     {
@@ -371,8 +374,6 @@ class Connection
 
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($this->curl, CURLOPT_URL, $url);
-        curl_setopt($this->curl, CURLOPT_HTTPGET, false);
-        curl_setopt($this->curl, CURLOPT_POST, false);
         curl_setopt($this->curl, CURLOPT_PUT, true);
         curl_exec($this->curl);
 
@@ -384,44 +385,19 @@ class Connection
 
     /**
      * Make an HTTP DELETE request to the specified endpoint.
+     *
+     * @param $url
+     * @return bool|mixed|string
      */
     public function delete($url)
     {
         $this->initializeRequest();
 
-        curl_setopt($this->curl, CURLOPT_PUT, false);
-        curl_setopt($this->curl, CURLOPT_HTTPGET, false);
-        curl_setopt($this->curl, CURLOPT_POST, false);
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_exec($this->curl);
 
         return $this->handleResponse();
-    }
-
-    /**
-     * Callback method collects body content from the response.
-     */
-    private function parseBody($curl, $body)
-    {
-        $this->responseBody .= $body;
-        return strlen($body);
-    }
-
-    /**
-     * Callback methods collects header lines from the response.
-     */
-    private function parseHeader($curl, $headers)
-    {
-        if (!$this->responseStatusLine && strpos($headers, 'HTTP/') === 0) {
-            $this->responseStatusLine = $headers;
-        } else {
-            $parts = explode(': ', $headers);
-            if (isset($parts[1])) {
-                $this->responseHeaders[$parts[0]] = trim($parts[1]);
-            }
-        }
-        return strlen($headers);
     }
 
     /**

@@ -9,11 +9,51 @@ use \Exception as Exception;
  */
 class Client
 {
+    /**
+     * Default SSL Cipher to be used
+     */
+    const DEFAULT_SSL_CIPHER = 'rsa_rc4_128_sha';
+
+    /**
+     * Full Store URL to connect to
+     *
+     * @var string
+     */
     static private $store_url;
+
+    /**
+     * Username to connect to the store API with
+     *
+     * @var string
+     */
     static private $username;
+
+    /**
+     * API key
+     *
+     * @var string
+     */
     static private $api_key;
+
+    /**
+     * Connection instance
+     *
+     * @var Connection
+     */
     static private $connection;
+
+    /**
+     * Resource class name
+     *
+     * @var string
+     */
     static private $resource;
+
+    /**
+     * API path prefix to be added to store URL for requests
+     *
+     * @var string
+     */
     static private $path_prefix = '/api/v2';
 
     /**
@@ -35,7 +75,7 @@ class Client
      * @param array $settings
      * @throws \Exception
      */
-    public static function configure($settings)
+    public static function configure(array $settings)
     {
         if (!isset($settings['store_url'])) {
             throw new Exception("'store_url' must be provided");
@@ -94,7 +134,7 @@ class Client
     /**
      * Set which cipher to use during SSL requests.
      */
-    public static function setCipher($cipher = 'rsa_rc4_128_sha')
+    public static function setCipher($cipher = self::DEFAULT_SSL_CIPHER)
     {
         self::connection()->setCipher($cipher);
     }
