@@ -7,6 +7,9 @@ use Bigcommerce\Api\Client;
 
 class Order extends Resource
 {
+	protected $fieldMap = array(
+		'shipments' => 'id'
+	);
 
 	public function shipments()
 	{

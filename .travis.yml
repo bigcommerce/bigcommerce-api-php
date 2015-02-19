@@ -1,13 +1,12 @@
 language: php
 php:
+- 5.6
 - 5.5
 - 5.4
 - 5.3
 before_script:
 - composer install --dev --optimize-autoloader
 - mkdir -p build/logs
-script:
-  - sh -c "if [ '$TRAVIS_REPO_SLUG' = 'bigcommerce/bigcommerce-api-php' ]; then phpunit --exclude-group integration; else phpunit --include integration; fi"
 after_script:
 - php vendor/bin/coveralls -v
 env:

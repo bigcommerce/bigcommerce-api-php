@@ -23,17 +23,17 @@ class ProductCustomField extends Resource
 
 	public function create()
 	{
-	    return Client::createResource('/products/' . $this->product_id . '/customfields', $this->getCreateFields());
+	    return Client::createResource('/products/' . $this->fields->product_id . '/customfields', $this->getCreateFields());
 	}
 
 	public function update()
 	{
-	    Client::updateResource('/products/' . $this->product_id . '/customfields/' . $this->id, $this->getUpdateFields());
+	    Client::updateResource('/products/' . $this->fields->product_id . '/customfields/' . $this->id, $this->getUpdateFields());
 	}
 
 	public function delete()
 	{
-	    Client::deleteResource('/products/' . $this->product_id . '/customfields/' . $this->id);
+	    Client::deleteResource('/products/' . $this->fields->product_id . '/customfields/' . $this->id);
 	}
 }
 

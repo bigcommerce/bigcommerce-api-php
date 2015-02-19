@@ -10,10 +10,13 @@ use Bigcommerce\Api\Client;
  */
 class ProductOption extends Resource
 {
+    protected $fieldMap = array(
+        'option' => 'option_id'
+    );
 
 	public function option()
 	{
-		return self::getResource('/options/' . $this->option_id, 'Option');
+		return Client::getResource('/options/' . $this->fields->option_id, 'Option');
 	}
 
 }

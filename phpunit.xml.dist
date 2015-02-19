@@ -1,24 +1,17 @@
 <phpunit backupGlobals="true"
-         backupStaticAttributes="false"
+         backupStaticAttributes="true"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          forceCoversAnnotation="false"
-         mapTestClassNameToCoveredClassName="false"
          processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         stopOnIncomplete="false"
-         stopOnSkipped="false"
-         strict="false"
-         syntaxCheck="false"
-         verbose="false"
-         bootstrap="test/Bootstrap.php">
+         bootstrap="vendor/autoload.php">
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-php" target="build/logs/coverage.cov"/>
         <log type="coverage-text" target="build/logs/coverage.txt" showUncoveredFiles="false"/>
+        <log type="coverage-html" target="test/reports/coverage/" showUncoveredFiles="true"/>
         <log type="junit" target="test/reports/junit.xml" logIncompleteSkipped="false"/>
     </logging>
     <testsuites>
@@ -26,4 +19,12 @@
             <directory>test/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <blacklist>
+            <directory suffix=".php">vendor/</directory>
+        </blacklist>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
 </phpunit>
