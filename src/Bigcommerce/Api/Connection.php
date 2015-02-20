@@ -398,6 +398,39 @@ class Connection
     }
 
     /**
+     * Method that appears unused, but is in fact called by curl
+     *
+     * @param $curl
+     * @param $body
+     * @return int
+     */
+    private function parseBody($curl, $body)
+    {
+        $this->responseBody .= $body;
+        return strlen($body);
+    }
+
+    /**
+     * Method that appears unused, but is in fact called by curl
+     *
+     * @param $curl
+     * @param $headers
+     * @return int
+     */
+    private function parseHeader($curl, $headers)
+    {
+        if (!$this->responseStatusLine && strpos($headers, 'HTTP/') === 0) {
+            $this->responseStatusLine = $headers;
+        } else {
+            $parts = explode(': ', $headers);
+            if (isset($parts[1])) {
+                $this->responseHeaders[$parts[0]] = trim($parts[1]);
+            }
+        }
+        return strlen($headers);
+    }
+
+    /**
      * Access the status code of the response.
      */
     public function getStatus()
