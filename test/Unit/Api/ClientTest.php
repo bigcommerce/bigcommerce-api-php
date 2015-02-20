@@ -91,14 +91,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCipherPassesThroughToConnection()
     {
-        $this->connection->expects($this->exactly(2))
+        $this->connection->expects($this->once())
             ->method('setCipher')
             ->withConsecutive(
-                array('rsa'),
-                array('tls') // this is the default value
+                array('rsa')
             );
         Client::setCipher('rsa');
-        Client::setCipher('tls');
     }
 
     public function testUseProxyPassesThroughToConnection()
