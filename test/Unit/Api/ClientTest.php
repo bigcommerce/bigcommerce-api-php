@@ -304,15 +304,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function resources()
     {
         return array(
-            //     path              function          classname
-            array('products', '%sProduct', 'Product'),
-            array('brands', '%sBrand', 'Brand'),
-            array('orders', '%sOrder', 'Order'),
-            array('customers', '%sCustomer', 'Customer'),
-            array('categories', '%sCategory', 'Category'),
-            array('options', '%sOption', 'Option'),
-            array('optionsets', '%sOptionSet', 'OptionSet'),
-            array('coupons', '%sCoupon', 'Coupon'),
+            //    path               function          classname
+            array('products',        '%sProduct',      'Product'),
+            array('brands',          '%sBrand',        'Brand'),
+            array('orders',          '%sOrder',        'Order'),
+            array('customers',       '%sCustomer',     'Customer'),
+            array('categories',      '%sCategory',     'Category'),
+            array('options',         '%sOption',       'Option'),
+            array('optionsets',      '%sOptionSet',    'OptionSet'),
+            array('coupons',         '%sCoupon',       'Coupon'),
         );
     }
 
