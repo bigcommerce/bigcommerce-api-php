@@ -95,10 +95,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('setCipher')
             ->withConsecutive(
                 array('rsa'),
-                array('rsa_rc4_128_sha') // this is the default value
+                array('tls') // this is the default value
             );
         Client::setCipher('rsa');
-        Client::setCipher();
+        Client::setCipher('tls');
     }
 
     public function testUseProxyPassesThroughToConnection()

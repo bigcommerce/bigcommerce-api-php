@@ -10,11 +10,6 @@ use \Exception as Exception;
 class Client
 {
     /**
-     * Default SSL Cipher to be used
-     */
-    const DEFAULT_SSL_CIPHER = 'rsa_rc4_128_sha';
-
-    /**
      * Full Store URL to connect to
      *
      * @var string
@@ -134,7 +129,7 @@ class Client
     /**
      * Set which cipher to use during SSL requests.
      */
-    public static function setCipher($cipher = self::DEFAULT_SSL_CIPHER)
+    public static function setCipher($cipher)
     {
         self::connection()->setCipher($cipher);
     }
