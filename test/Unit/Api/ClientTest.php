@@ -17,7 +17,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'setTimeout',
             'useProxy',
             'verifyPeer',
-            'setCipher',
             'addHeader',
             'getLastError',
             'get',
@@ -87,16 +86,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             );
         Client::verifyPeer(true);
         Client::verifyPeer(false);
-    }
-
-    public function testSetCipherPassesThroughToConnection()
-    {
-        $this->connection->expects($this->once())
-            ->method('setCipher')
-            ->withConsecutive(
-                array('rsa')
-            );
-        Client::setCipher('rsa');
     }
 
     public function testUseProxyPassesThroughToConnection()

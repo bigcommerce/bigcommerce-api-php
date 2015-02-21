@@ -157,15 +157,6 @@ class Connection
     }
 
     /**
-     * Set which cipher to use during SSL requests.
-     * @param string $cipher the name of the cipher
-     */
-    public function setCipher($cipher)
-    {
-        curl_setopt($this->curl, CURLOPT_SSL_CIPHER_LIST, $cipher);
-    }
-
-    /**
      * Add a custom header to the request.
      */
     public function addHeader($header, $value)

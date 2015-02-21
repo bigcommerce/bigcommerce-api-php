@@ -16,7 +16,6 @@ class ResourceTestBase extends \PHPUnit_Framework_TestCase
             'setTimeout',
             'useProxy',
             'verifyPeer',
-            'setCipher',
             'addHeader',
             'getLastError',
             'get',
