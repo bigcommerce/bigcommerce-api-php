@@ -10,8 +10,8 @@ class OrderTest extends ResourceTestBase
     {
         $order = new Order((object)(array('id' => 1, 'status_id' => 5, 'is_deleted' => false)));
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/orders/1', (object)array('status_id' => 5, 'is_deleted' => false));
+            ->method('put')
+            ->with('/orders/1', (object)array('status_id' => 5, 'is_deleted' => false));
 
         $order->update();
     }
@@ -20,11 +20,11 @@ class OrderTest extends ResourceTestBase
     {
         $order = new Order((object)array('id' => 1));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with('/orders/1/shipments', false)
-             ->will($this->returnValue(array(array(), array())));
+            ->method('get')
+            ->with('/orders/1/shipments', false)
+            ->will($this->returnValue(array(array(), array())));
 
-        foreach($order->shipments as $shipment) {
+        foreach ($order->shipments as $shipment) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Shipment', $shipment);
         }
     }
@@ -33,11 +33,11 @@ class OrderTest extends ResourceTestBase
     {
         $order = new Order((object)array('products' => (object)array('resource' => '/orders/1/products')));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with('/orders/1/products')
-             ->will($this->returnValue(array(array(), array())));
+            ->method('get')
+            ->with('/orders/1/products')
+            ->will($this->returnValue(array(array(), array())));
 
-        foreach($order->products as $product) {
+        foreach ($order->products as $product) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\OrderProduct', $product);
         }
     }
@@ -46,11 +46,11 @@ class OrderTest extends ResourceTestBase
     {
         $order = new Order((object)array('shipping_addresses' => (object)array('resource' => '/orders/1/shippingaddresses')));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with('/orders/1/shippingaddresses')
-             ->will($this->returnValue(array(array(), array())));
+            ->method('get')
+            ->with('/orders/1/shippingaddresses')
+            ->will($this->returnValue(array(array(), array())));
 
-        foreach($order->shipping_addresses as $address) {
+        foreach ($order->shipping_addresses as $address) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $address);
         }
     }
@@ -59,11 +59,11 @@ class OrderTest extends ResourceTestBase
     {
         $order = new Order((object)array('coupons' => (object)array('resource' => '/orders/1/coupons')));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with('/orders/1/coupons')
-             ->will($this->returnValue(array(array(), array())));
+            ->method('get')
+            ->with('/orders/1/coupons')
+            ->will($this->returnValue(array(array(), array())));
 
-        foreach($order->coupons as $coupon) {
+        foreach ($order->coupons as $coupon) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Coupon', $coupon);
         }
     }

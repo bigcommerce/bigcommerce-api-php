@@ -10,36 +10,34 @@ use Bigcommerce\Api\Client;
  */
 class Rule extends Resource
 {
+    protected $ignoreOnCreate = array(
+        'id',
+        'product_id',
+    );
 
-	protected $ignoreOnCreate = array(
-		'id',
-		'product_id',
-	);
+    protected $ignoreOnUpdate = array(
+        'id',
+        'product_id',
+    );
 
-	protected $ignoreOnUpdate = array(
-		'id',
-		'product_id',
-	);
+    public function conditions()
+    {
+        $conditions = Client::getCollection($this->fields->conditions->resource, 'RuleCondition');
 
-	public function conditions()
-	{
-		$conditions = Client::getCollection($this->fields->conditions->resource, 'RuleCondition');
+        foreach ($conditions as $condition) {
+            $condition->product_id = $this->product_id;
+        }
 
-		foreach($conditions as $condition) {
-			$condition->product_id = $this->fields->product_id;
-		}
+        return $conditions;
+    }
 
-		return $conditions;
-	}
+    public function create()
+    {
+        return Client::createResource('/products/' . $this->fields->product_id . '/rules', $this->getCreateFields());
+    }
 
-	public function create()
-	{
-		return Client::createResource('/products/' . $this->fields->product_id . '/rules', $this->getCreateFields());
-	}
-
-	public function update()
-	{
-		Client::updateResource('/products/' . $this->fields->product_id . '/rules/' . $this->fields->id, $this->getUpdateFields());
-	}
-
+    public function update()
+    {
+        Client::updateResource('/products/' . $this->fields->product_id . '/rules/' . $this->fields->id, $this->getUpdateFields());
+    }
 }

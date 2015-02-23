@@ -11,8 +11,8 @@ class RuleConditionTest extends ResourceTestBase
         $rulecondition = new RuleCondition((object)array('rule_id' => 1));
         $rulecondition->product_id = 1;
         $this->connection->expects($this->once())
-             ->method('post')
-             ->with('/products/1/rules/1/conditions', $rulecondition->getCreateFields());
+            ->method('post')
+            ->with('/products/1/rules/1/conditions', $rulecondition->getCreateFields());
 
         $rulecondition->create();
     }
@@ -23,8 +23,8 @@ class RuleConditionTest extends ResourceTestBase
         $rulecondition = new RuleCondition((object)array('id' => 1, 'rule_id' => 1));
         $rulecondition->product_id = 1;
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/products/1/rules/1/conditions/1', $rulecondition->getUpdateFields());
+            ->method('put')
+            ->with('/products/1/rules/1/conditions/1', $rulecondition->getUpdateFields());
 
         $rulecondition->update();
     }

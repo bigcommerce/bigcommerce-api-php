@@ -7,6 +7,7 @@ use Bigcommerce\Api\Resources\Product;
 Because the Resource class is abstract, test it through one of its' children.
 We've picked Product here because it exhibits all behaviors of the Resource object.
 */
+
 class AbstractResourceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCreateFieldsReturnsAllFieldsNotMarkedIgnore()

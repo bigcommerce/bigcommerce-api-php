@@ -10,8 +10,8 @@ class SkuOptionTest extends ResourceTestBase
     {
         $skuoption = new SkuOption((object)array('id' => 1, 'sku_id' => 1, 'product_id' => 1));
         $this->connection->expects($this->once())
-             ->method('post')
-             ->with('/products/1/skus/1/options', (object)array('sku_id' => 1, 'product_id' => 1));
+            ->method('post')
+            ->with('/products/1/skus/1/options', (object)array('sku_id' => 1, 'product_id' => 1));
 
         $skuoption->create();
     }
@@ -20,8 +20,8 @@ class SkuOptionTest extends ResourceTestBase
     {
         $skuoption = new SkuOption((object)array('id' => 1, 'sku_id' => 1, 'product_id' => 1));
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/products/1/skus/1/options/1', (object)array('product_id' => 1));
+            ->method('put')
+            ->with('/products/1/skus/1/options/1', (object)array('product_id' => 1));
 
         $skuoption->update();
     }

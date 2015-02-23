@@ -10,8 +10,8 @@ class RuleTest extends ResourceTestBase
     {
         $rule = new Rule((object)array('id' => 1, 'product_id' => 1));
         $this->connection->expects($this->once())
-             ->method('post')
-             ->with('/products/1/rules', (object)array());
+            ->method('post')
+            ->with('/products/1/rules', (object)array());
 
         $rule->create();
     }
@@ -20,8 +20,8 @@ class RuleTest extends ResourceTestBase
     {
         $rule = new Rule((object)array('id' => 1, 'product_id' => 1));
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/products/1/rules/1', (object)array());
+            ->method('put')
+            ->with('/products/1/rules/1', (object)array());
 
         $rule->update();
     }
@@ -30,9 +30,9 @@ class RuleTest extends ResourceTestBase
     {
         $rule = new Rule((object)array('product_id' => 1, 'conditions' => (object)array('resource' => '/products/1/rules/1/conditions')));
         $this->connection->expects($this->once())
-             ->method('get')
-             ->with('/products/1/rules/1/conditions')
-             ->will($this->returnValue(array(array(), array())));
+            ->method('get')
+            ->with('/products/1/rules/1/conditions')
+            ->will($this->returnValue(array(array(), array())));
 
         $collection = $rule->conditions;
         $this->assertInternalType('array', $collection);

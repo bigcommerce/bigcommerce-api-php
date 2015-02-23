@@ -10,8 +10,8 @@ class ShipmentTest extends ResourceTestBase
     {
         $shipment = new Shipment((object)array('id' => 1, 'order_id' => 1));
         $this->connection->expects($this->once())
-             ->method('post')
-             ->with('/orders/1/shipments', (object)array());
+            ->method('post')
+            ->with('/orders/1/shipments', (object)array());
 
         $shipment->create();
     }
@@ -20,8 +20,8 @@ class ShipmentTest extends ResourceTestBase
     {
         $shipment = new Shipment((object)array('id' => 1, 'order_id' => 1));
         $this->connection->expects($this->once())
-             ->method('put')
-             ->with('/orders/1/shipments/1', (object)array());
+            ->method('put')
+            ->with('/orders/1/shipments/1', (object)array());
 
         $shipment->update();
     }

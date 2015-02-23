@@ -14,11 +14,8 @@ class ProductOption extends Resource
         'option' => 'option_id'
     );
 
-	public function option()
-	{
-		return Client::getResource('/options/' . $this->fields->option_id, 'Option');
-	}
-
+    public function option()
+    {
+        return Client::getResource('/options/' . $this->fields->option_id, 'Option');
+    }
 }
-
-
