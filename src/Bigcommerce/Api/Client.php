@@ -127,14 +127,6 @@ class Client
     }
 
     /**
-     * Set which cipher to use during SSL requests.
-     */
-    public static function setCipher($cipher)
-    {
-        self::connection()->setCipher($cipher);
-    }
-
-    /**
      * Connect to the internet through a proxy server.
      *
      * @param string $host host server
