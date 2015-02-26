@@ -181,12 +181,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->connection->expects($this->once())
             ->method('delete')
             ->with('http://storeurl/api/v2/whatever')
-            ->will($this->returnValue(5));
+            ->will($this->returnValue("Successfully deleted"));
 
         Client::configure(array('store_url' => 'http://storeurl/', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $result = Client::deleteResource('/whatever');
-        $this->assertSame(5, $result);
+        $this->assertSame("Successfully deleted", $result);
     }
 
     public function testGetTimeReturnsTheExpectedTime()

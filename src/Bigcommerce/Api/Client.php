@@ -491,6 +491,16 @@ class Client
     }
 
     /**
+     * Delete all products.
+     *
+     * @return hash|bool|mixed
+     */
+    public static function deleteAllProducts()
+    {
+        return self::deleteResource('/products');
+    }
+
+    /**
      * Return the collection of options.
      *
      * @param array $filter
@@ -636,6 +646,16 @@ class Client
     }
 
     /**
+     * Delete all categories.
+     *
+     * @return hash|bool|mixed
+     */
+    public static function deleteAllCategories($id)
+    {
+        return self::deleteResource('/categories');
+    }
+
+    /**
      * The collection of brands.
      *
      * @param array $filter
@@ -702,6 +722,16 @@ class Client
     public static function deleteBrand($id)
     {
         return self::deleteResource('/brands/' . $id);
+    }
+
+    /**
+     * Delete all brands.
+     *
+     * @return hash|bool|mixed
+     */
+    public static function deleteAllBrands()
+    {
+        return self::deleteResource('/brands');
     }
 
     /**
