@@ -650,7 +650,7 @@ class Client
      *
      * @return hash|bool|mixed
      */
-    public static function deleteAllCategories($id)
+    public static function deleteAllCategories()
     {
         return self::deleteResource('/categories');
     }
