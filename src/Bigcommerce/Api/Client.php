@@ -495,7 +495,7 @@ class Client
      *
      * @return hash|bool|mixed
      */
-    public static function deleteProducts()
+    public static function deleteAllProducts()
     {
         return self::deleteResource('/products');
     }
@@ -650,7 +650,7 @@ class Client
      *
      * @return hash|bool|mixed
      */
-    public static function deleteCategories($id)
+    public static function deleteAllCategories($id)
     {
         return self::deleteResource('/categories');
     }
@@ -729,7 +729,7 @@ class Client
      *
      * @return hash|bool|mixed
      */
-    public static function deleteBrands()
+    public static function deleteAllBrands()
     {
         return self::deleteResource('/brands');
     }
