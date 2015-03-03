@@ -1005,6 +1005,16 @@ class Client
         return self::updateResource('/product/skus/' . $id, $object);
     }
 
+    /**
+     * Get a single coupon by given id.
+     *
+     * @param int $id customer id
+     * @return Coupon
+     */
+    public static function getCoupon($id)
+    {
+        return self::getResource('/coupon/' . $id, 'Coupon');
+    }
 
     /**
      * Get coupons
@@ -1039,6 +1049,27 @@ class Client
     public static function updateCoupon($id, $object)
     {
         return self::updateResource('/coupons/' . $id, $object);
+    }
+
+    /**
+     * Delete the given coupon.
+     *
+     * @param int $id coupon id
+     * @return hash|bool|mixed
+     */
+    public static function deleteCoupon($id)
+    {
+        return self::deleteResource('/coupons/' . $id);
+    }
+
+    /**
+     * Delete all Coupons.
+     *
+     * @return hash|bool|mixed
+     */
+    public static function deleteAllCoupons()
+    {
+        return self::deleteResource('/coupons');
     }
 
     /**
