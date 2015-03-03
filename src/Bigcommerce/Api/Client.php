@@ -1042,6 +1042,27 @@ class Client
     }
 
     /**
+     * Delete the given coupon.
+     *
+     * @param int $id coupon id
+     * @return hash|bool|mixed
+     */
+    public static function deleteCoupon($id)
+    {
+        return self::deleteResource('/coupons/' . $id);
+    }
+
+    /**
+     * Delete all Coupons.
+     *
+     * @return hash|bool|mixed
+     */
+    public static function deleteAllCoupons()
+    {
+        return self::deleteResource('/coupons');
+    }
+
+    /**
      * The request logs with usage history statistics.
      */
     public static function getRequestLogs()
