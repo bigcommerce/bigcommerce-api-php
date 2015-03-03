@@ -532,4 +532,33 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         Client::deleteCustomers();
     }
+
+    public function testDeletingAllCouponDeletesToTheCouponResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with('/coupons');
+
+        Client::deleteAllCoupons();
+    }
+
+    public function testDeletingACouponDeletesToTheCouponResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with('/coupons/1');
+
+        Client::deleteCoupon(1);
+    }
+
+    public function testGettingASpecifiedCouponReturnsThatCoupon()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('/coupon/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $resource = Client::getCoupon(1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Coupon', $resource);
+    }
 }

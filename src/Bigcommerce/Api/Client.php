@@ -1005,6 +1005,16 @@ class Client
         return self::updateResource('/product/skus/' . $id, $object);
     }
 
+    /**
+     * Get a single coupon by given id.
+     *
+     * @param int $id customer id
+     * @return Coupon
+     */
+    public static function getCoupon($id)
+    {
+        return self::getResource('/coupon/' . $id, 'Coupon');
+    }
 
     /**
      * Get coupons
