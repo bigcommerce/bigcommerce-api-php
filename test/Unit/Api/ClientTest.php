@@ -243,7 +243,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('orders', 'getOrders', 'Order'),
             array('customers', 'getCustomers', 'Customer'),
             array('coupons', 'getCoupons', 'Coupon'),
-            array('orderstatuses', 'getOrderStatuses', 'OrderStatus'),
+            array('order_statuses', 'getOrderStatuses', 'OrderStatus'),
             array('categories', 'getCategories', 'Category'),
             array('options', 'getOptions', 'Option'),
             array('optionsets', 'getOptionSets', 'OptionSet'),
@@ -274,7 +274,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTheCountOfACollectionReturnsThatCollectionsCount($path, $fnName, $class)
     {
-        if (in_array($path, array('coupons', 'orderstatuses', 'products/skus', 'requestlogs'))) {
+        if (in_array($path, array('coupons', 'order_statuses', 'products/skus', 'requestlogs'))) {
             $this->markTestSkipped(sprintf('Getting the count The php client does not support getting the count of %s', $path));
         }
 
@@ -560,5 +560,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $resource = Client::getCoupon(1);
         $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Coupon', $resource);
+    }
+
+    public function testGettingASpecifiedOrderStatusReturnsThatOrderStatus()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('/order_statuses/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $resource = Client::getOrderStatus(1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\OrderStatus', $resource);
     }
 }
