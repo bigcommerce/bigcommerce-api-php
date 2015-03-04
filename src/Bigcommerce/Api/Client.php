@@ -965,9 +965,19 @@ class Client
      *
      * @return array
      */
+    public static function getOrderStatus($id)
+    {
+        return self::getResource('/order_statuses/' . $id, 'OrderStatus');
+    }
+
+    /**
+     * Status codes used to represent the state of an order.
+     *
+     * @return array
+     */
     public static function getOrderStatuses()
     {
-        return self::getCollection('/orderstatuses', 'OrderStatus');
+        return self::getCollection('/order_statuses', 'OrderStatus');
     }
 
     /**
