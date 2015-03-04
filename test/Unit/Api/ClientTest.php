@@ -275,7 +275,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testGettingTheCountOfACollectionReturnsThatCollectionsCount($path, $fnName, $class)
     {
         if (in_array($path, array('coupons', 'order_statuses', 'products/skus', 'requestlogs'))) {
-            $this->markTestSkipped(sprintf('Getting the count The php client does not support getting the count of %s', $path));
+            $this->markTestSkipped(sprintf('The PHP client does not support getting the count of %s', $path));
         }
 
         $this->connection->expects($this->once())
