@@ -533,7 +533,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         Client::deleteCustomers();
     }
 
-    public function testDeletingAllCouponDeletesToTheCouponResource()
+    public function testDeletingAllCouponsDeletesToTheCouponResource()
     {
         $this->connection->expects($this->once())
             ->method('delete')
@@ -571,5 +571,25 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $resource = Client::getOrderStatus(1);
         $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\OrderStatus', $resource);
+    }
+
+    public function testDeletingAllOrdersDeletesToTheOrderResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with('/orders');
+
+        Client::deleteAllOrders();
+    }
+
+    public function testGettingOrderProductsCountCountsToTheOrderProductsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('/orders/1/products/count', false)
+            ->will($this->returnValue((object)array('count' => 7)));
+
+        $count = Client::getOrderProductsCount(1);
+        $this->assertSame(7, $count);
     }
 }
