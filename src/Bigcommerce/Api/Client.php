@@ -779,6 +779,19 @@ class Client
     }
 
     /**
+     * The total number of order products in the collection.
+     *
+     * @param $id
+     * @param array $filter
+     * @return mixed
+     */
+    public static function getOrderProductsCount($id, $filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCount('/orders/' . $id . '/products/count' . $filter->toQuery());
+    }
+
+    /**
      * Delete the given order (unlike in the Control Panel, this will permanently
      * delete the order).
      *
@@ -788,6 +801,16 @@ class Client
     public static function deleteOrder($id)
     {
         return self::deleteResource('/orders/' . $id);
+    }
+
+    /**
+     * Delete all orders.
+     *
+     * @return hash|bool|mixed
+     */
+    public static function deleteAllOrders()
+    {
+        return self::deleteResource('/orders');
     }
 
     /**
