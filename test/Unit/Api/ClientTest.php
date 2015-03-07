@@ -592,4 +592,90 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $count = Client::getOrderProductsCount(1);
         $this->assertSame(7, $count);
     }
+
+    public function testGettingOrderShipmentReturnsTheOrderShipmentResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('/orders/1/shipments/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $resource = Client::getShipment(1, 1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Shipment', $resource);
+    }
+
+    public function testGettingOrderShipmentsReturnsTheOrderShipmentsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('/orders/1/shipments', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $collection = Client::getShipments(1);
+        $this->assertInternalType('array', $collection);
+        foreach ($collection as $resource) {
+            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Shipment', $resource);
+        }
+    }
+
+    public function testCreatingOrderShipmentsPostsToTheOrderShipmentsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with('/orders/1/shipments', (object)array());
+
+        Client::createShipment(1, array());
+    }
+
+    public function testUpdatingOrderShipmentsPutsToTheOrderShipmentsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('put')
+            ->with('/orders/1/shipments/1', (object)array());
+
+        Client::updateShipment(1, 1, array());
+    }
+
+    public function testDeletingAllOrderShipmentsDeletesToTheOrderShipmentResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with('/orders/1/shipments');
+
+        Client::deleteAllShipmentsForOrder(1);
+    }
+
+    public function testDeletingAnOrderShipmentDeletesToTheOrderShipmentResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with('/orders/1/shipments/1');
+
+        Client::deleteShipment(1, 1);
+    }
+
+    public function testGettingOrderShippingAddressReturnsTheAddressResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('/orders/1/shipping_addresses/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $resource = Client::getOrderShippingAddress(1, 1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $resource);
+    }
+
+    public function testGettingOrderShippingAddressesReturnsTheAddressResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('/orders/1/shipping_addresses', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $collection = Client::getOrderShippingAddresses(1);
+        $this->assertInternalType('array', $collection);
+        foreach ($collection as $resource) {
+            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $resource);
+        }
+    }
 }

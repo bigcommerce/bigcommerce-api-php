@@ -770,25 +770,25 @@ class Client
     }
 
     /**
-     * @param $id
+     * @param $orderID
      * @return mixed
      */
-    public static function getOrderProducts($id)
+    public static function getOrderProducts($orderID)
     {
-        return self::getCollection('/orders/' . $id . '/products', 'OrderProduct');
+        return self::getCollection('/orders/' . $orderID . '/products', 'OrderProduct');
     }
 
     /**
      * The total number of order products in the collection.
      *
-     * @param $id
+     * @param $orderID
      * @param array $filter
      * @return mixed
      */
-    public static function getOrderProductsCount($id, $filter = array())
+    public static function getOrderProductsCount($orderID, $filter = array())
     {
         $filter = Filter::create($filter);
-        return self::getCount('/orders/' . $id . '/products/count' . $filter->toQuery());
+        return self::getCount('/orders/' . $orderID . '/products/count' . $filter->toQuery());
     }
 
     /**
@@ -815,8 +815,10 @@ class Client
 
     /**
      * Create an order
-     **/
-
+     *
+     * @param $object
+     * @return hash|bool|mixed
+     */
     public static function createOrder($object)
     {
         return self::createResource('/orders', $object);
@@ -1139,5 +1141,103 @@ class Client
         }
 
         return intval($limit);
+    }
+
+    /**
+     * Get a single shipment by given id.
+     *
+     * @param $orderID
+     * @param $shipmentID
+     * @return mixed
+     */
+    public static function getShipment($orderID, $shipmentID)
+    {
+        return self::getResource('/orders/' . $orderID . '/shipments/' . $shipmentID, 'Shipment');
+    }
+
+    /**
+     * Get shipments for a given order
+     *
+     * @param $orderID
+     * @param array $filter
+     * @return mixed
+     */
+    public static function getShipments($orderID, $filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/orders/' . $orderID . '/shipments' . $filter->toQuery(), 'Shipment');
+    }
+
+    /**
+     * Create shipment
+     *
+     * @param $orderID
+     * @param $object
+     * @return hash|bool|mixed
+     */
+    public static function createShipment($orderID, $object)
+    {
+        return self::createResource('/orders/' . $orderID . '/shipments', $object);
+    }
+
+    /**
+     * Update shipment
+     *
+     * @param $orderID
+     * @param $shipmentID
+     * @param $object
+     * @return hash|bool|mixed
+     */
+    public static function updateShipment($orderID, $shipmentID, $object)
+    {
+        return self::updateResource('/orders/' . $orderID . '/shipments/' . $shipmentID, $object);
+    }
+
+    /**
+     * Delete the given shipment.
+     *
+     * @param $orderID
+     * @param $shipmentID
+     * @return hash|bool|mixed
+     */
+    public static function deleteShipment($orderID, $shipmentID)
+    {
+        return self::deleteResource('/orders/' . $orderID . '/shipments/' . $shipmentID);
+    }
+
+    /**
+     * Delete all Shipments for the given order.
+     *
+     * @param $orderID
+     * @return hash|bool|mixed
+     */
+    public static function deleteAllShipmentsForOrder($orderID)
+    {
+        return self::deleteResource('/orders/' . $orderID . '/shipments');
+    }
+
+    /**
+     * Get a single order shipping address by given order and order shipping address id.
+     *
+     * @param $orderID
+     * @param $orderShippingAddressID
+     * @return mixed
+     */
+    public static function getOrderShippingAddress($orderID, $orderShippingAddressID)
+    {
+        return self::getResource('/orders/' . $orderID . '/shipping_addresses/' . $orderShippingAddressID, 'Address');
+    }
+
+    /**
+     * Get order shipping addresses for a given order
+     *
+     * @param $orderID
+     * @param array $filter
+     * @return mixed
+     */
+    public static function getOrderShippingAddresses($orderID, $filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/orders/' . $orderID . '/shipping_addresses' . $filter->toQuery(), 'Address');
     }
 }
