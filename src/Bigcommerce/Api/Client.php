@@ -512,7 +512,11 @@ class Client
         return self::getCollection('/options' . $filter->toQuery(), 'Option');
     }
 
-    /** create options **/
+    /**
+     * Create Options
+     * @param $object
+     * @return hash|bool|mixed
+     */
     public static function createOptions($object)
     {
         return self::createResource('/options', $object);
@@ -1048,7 +1052,7 @@ class Client
      */
     public static function getCoupon($id)
     {
-        return self::getResource('/coupon/' . $id, 'Coupon');
+        return self::getResource('/coupons/' . $id, 'Coupon');
     }
 
     /**
@@ -1105,6 +1109,16 @@ class Client
     public static function deleteAllCoupons()
     {
         return self::deleteResource('/coupons');
+    }
+
+    /**
+     * Return the number of coupons
+     *
+     * @return int
+     */
+    public static function getCouponsCount()
+    {
+        return self::getCount('/coupons/count');
     }
 
     /**
