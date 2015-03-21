@@ -274,7 +274,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTheCountOfACollectionReturnsThatCollectionsCount($path, $fnName, $class)
     {
-        if (in_array($path, array('coupons', 'order_statuses', 'products/skus', 'requestlogs'))) {
+        if (in_array($path, array('order_statuses', 'products/skus', 'requestlogs'))) {
             $this->markTestSkipped(sprintf('The PHP client does not support getting the count of %s', $path));
         }
 
@@ -555,7 +555,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/coupon/1', false)
+            ->with('/coupons/1', false)
             ->will($this->returnValue(array(array(), array())));
 
         $resource = Client::getCoupon(1);
