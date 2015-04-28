@@ -444,6 +444,84 @@ class Client
         $filter = Filter::create($filter);
         return self::getCount('/products/count' . $filter->toQuery());
     }
+    
+    /**
+     * Checks if a product resource is valid for counting
+     *
+     * @param array $resource
+     * @return bool if product resource is valid for counting
+     */
+    public static function validProductResourceCount( $resource='' )
+    {
+        return in_array( $resource, array('images','videos','rules','skus','custom_fields','configurable_fields') );
+    }
+    
+    /**
+     * Returns count of all product resources of a specific type
+     *
+     * @param array $resource
+     * @return int number of resources of specific type or zero if an invalid type
+     */
+    public static function getProductResourceCount($resource)
+    {
+        if( self::validProductResourceCount( $resource ) ) {
+            return Client::getCount("/products/{$resource}/count");
+        } return 0;
+    }
+    
+    /**
+     * Returns count of all product images
+     *
+     * @return int number of resources of images type
+     */
+    public static function getProductImagesCount() {
+        return static::getProductResourceCount('images');
+    }
+    
+    /**
+     * Returns count of all product videos
+     *
+     * @return int number of resources of videos type
+     */
+    public static function getProductVideosCount() {
+        return static::getProductResourceCount('videos');
+    }
+    
+    /**
+     * Returns count of all product rules
+     *
+     * @return int number of resources of rules type
+     */
+    public static function getProductRulesCount() {
+        return static::getProductResourceCount('rules');
+    }
+    
+    /**
+     * Returns count of all product skus
+     *
+     * @return int number of resources of skus type
+     */
+    public static function getProductSKUSCount() {
+        return static::getProductResourceCount('skus');
+    }
+    
+    /**
+     * Returns count of all product custom fields
+     *
+     * @return int number of resources of custom fields type
+     */
+    public static function getProductCustomFieldsCount() {
+        return static::getProductResourceCount('custom_fields');
+    }
+    
+    /**
+     * Returns count of all product configurable fields
+     *
+     * @return int number of resources of configurable fields type
+     */
+    public static function getProductConfigurableFieldsCount() {
+        return static::getProductResourceCount('configurable_fields');
+    }
 
     /**
      * Returns a single product resource by the given id.
