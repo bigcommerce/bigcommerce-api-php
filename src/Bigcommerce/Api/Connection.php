@@ -165,6 +165,15 @@ class Connection
     }
 
     /**
+     * Remove a header from the request.
+     * @param string $header
+     */
+    public function removeHeader($header)
+    {
+        unset($this->headers[$header]);
+    }
+
+    /**
      * Get the MIME type that should be used for this request.
      */
     private function getContentType()
