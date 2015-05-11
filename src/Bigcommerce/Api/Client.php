@@ -226,7 +226,9 @@ class Client
     {
         $response = self::connection()->get(self::$api_path . $path);
 
-        if ($response == false || is_string($response)) return $response;
+        if ($response == false || is_string($response)) {
+            return $response;
+        }
 
         return $response->count;
     }
@@ -240,7 +242,9 @@ class Client
      */
     public static function createResource($path, $object)
     {
-        if (is_array($object)) $object = (object)$object;
+        if (is_array($object)) {
+            $object = (object)$object;
+        }
 
         return self::connection()->post(self::$api_path . $path, $object);
     }
@@ -254,7 +258,9 @@ class Client
      */
     public static function updateResource($path, $object)
     {
-        if (is_array($object)) $object = (object)$object;
+        if (is_array($object)) {
+            $object = (object)$object;
+        }
 
         return self::connection()->put(self::$api_path . $path, $object);
     }
@@ -279,7 +285,9 @@ class Client
      */
     private static function mapCollection($resource, $object)
     {
-        if ($object == false || is_string($object)) return $object;
+        if ($object == false || is_string($object)) {
+            return $object;
+        }
 
         $baseResource = __NAMESPACE__ . '\\' . $resource;
         self::$resource = (class_exists($baseResource)) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
@@ -309,7 +317,9 @@ class Client
      */
     private static function mapResource($resource, $object)
     {
-        if ($object == false || is_string($object)) return $object;
+        if ($object == false || is_string($object)) {
+            return $object;
+        }
 
         $baseResource = __NAMESPACE__ . '\\' . $resource;
         $class = (class_exists($baseResource)) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
@@ -325,7 +335,9 @@ class Client
      */
     private static function mapCount($object)
     {
-        if ($object == false || is_string($object)) return $object;
+        if ($object == false || is_string($object)) {
+            return $object;
+        }
 
         return $object->count;
     }
@@ -339,7 +351,9 @@ class Client
     {
         $response = self::connection()->get(self::$api_path . '/time');
 
-        if ($response == false || is_string($response)) return $response;
+        if ($response == false || is_string($response)) {
+            return $response;
+        }
 
         return new \DateTime("@{$response->time}");
     }
@@ -1152,7 +1166,9 @@ class Client
         if (!$limit) {
             $result = self::getTime();
 
-            if (!$result) return false;
+            if (!$result) {
+                return false;
+            }
 
             $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
         }

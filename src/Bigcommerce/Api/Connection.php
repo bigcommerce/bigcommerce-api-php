@@ -270,9 +270,7 @@ class Connection
         $this->redirectsFollowed++;
 
         if ($this->getStatus() == 301 || $this->getStatus() == 302) {
-
             if ($this->redirectsFollowed < $this->maxRedirects) {
-
                 $location = $this->getHeader('Location');
                 $forwardTo = parse_url($location);
 

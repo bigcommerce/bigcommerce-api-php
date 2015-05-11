@@ -71,7 +71,7 @@ class Resource
         $resource = $this->fields;
 
         foreach ($this->ignoreOnCreate as $field) {
-            if (isset($resource->$field)) unset($resource->$field);
+            unset($resource->$field);
         }
 
         return $resource;
@@ -82,11 +82,13 @@ class Resource
         $resource = $this->fields;
 
         foreach ($this->ignoreOnUpdate as $field) {
-            if (isset($resource->$field)) unset($resource->$field);
+            unset($resource->$field);
         }
 
         foreach ($resource as $field => $value) {
-            if ($this->isIgnoredField($field, $value)) unset($resource->$field);
+            if ($this->isIgnoredField($field, $value)) {
+                unset($resource->$field);
+            }
         }
 
         return $resource;
@@ -94,11 +96,17 @@ class Resource
 
     private function isIgnoredField($field, $value)
     {
-        if ($value === null) return true;
+        if ($value === null) {
+            return true;
+        }
 
-        if ((strpos($field, "date") !== FALSE) && $value === "") return true;
+        if (strpos($field, "date") !== false && $value === "") {
+            return true;
+        }
 
-        if (in_array($field, $this->ignoreIfZero) && $value === 0) return true;
+        if (in_array($field, $this->ignoreIfZero, true) && $value === 0) {
+            return true;
+        }
 
         return false;
     }
