@@ -11,7 +11,7 @@ class OptionSetTest extends ResourceTestBase
         $optionset = new OptionSet((object)array('options' => (object)array('resource' => '/optionsets/1/options')));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/optionsets/1/options')
+            ->with($this->basePath . '/optionsets/1/options')
             ->will($this->returnValue(array(array(), array())));
 
         foreach ($optionset->options as $value) {
@@ -24,7 +24,7 @@ class OptionSetTest extends ResourceTestBase
         $optionset = new OptionSet();
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('/optionsets', $optionset->getCreateFields());
+            ->with($this->basePath . '/optionsets', $optionset->getCreateFields());
 
         $optionset->create();
     }
@@ -34,7 +34,7 @@ class OptionSetTest extends ResourceTestBase
         $optionset = new OptionSet((object)array('id' => 1));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/optionsets/1', $optionset->getUpdateFields());
+            ->with($this->basePath . '/optionsets/1', $optionset->getUpdateFields());
 
         $optionset->update();
     }

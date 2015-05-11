@@ -11,7 +11,7 @@ class SkuTest extends ResourceTestBase
         $sku = new Sku((object)array('id' => 1, 'product_id' => 1));
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('/products/1/skus', (object)array('id' => 1));
+            ->with($this->basePath . '/products/1/skus', (object)array('id' => 1));
 
         $sku->create();
     }
@@ -21,17 +21,22 @@ class SkuTest extends ResourceTestBase
         $sku = new Sku((object)array('id' => 1, 'product_id' => 1));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/products/1/skus/1', (object)array());
+            ->with($this->basePath . '/products/1/skus/1', (object)array());
 
         $sku->update();
     }
 
     public function testOptionsPassesThroughToConnection()
     {
-        $sku = new Sku((object)array('product_id' => 1, 'options' => (object)array('resource' => '/products/1/skus/1/options')));
+        $sku = new Sku((object)array(
+            'product_id' => 1,
+            'options' => (object)array(
+                'resource' => '/products/1/skus/1/options'
+            )
+        ));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/products/1/skus/1/options')
+            ->with($this->basePath . '/products/1/skus/1/options')
             ->will($this->returnValue(array(array(), array())));
 
         $collection = $sku->options;

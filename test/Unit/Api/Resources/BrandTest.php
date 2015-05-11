@@ -11,7 +11,7 @@ class BrandTest extends ResourceTestBase
         $brand = new Brand();
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('/brands', $brand->getCreateFields());
+            ->with($this->basePath . '/brands', $brand->getCreateFields());
 
         $brand->create();
     }
@@ -21,7 +21,7 @@ class BrandTest extends ResourceTestBase
         $brand = new Brand((object)(array('id' => 1)));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/brands/1', $brand->getUpdateFields());
+            ->with($this->basePath . '/brands/1', $brand->getUpdateFields());
 
         $brand->update();
     }

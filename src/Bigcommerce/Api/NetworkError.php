@@ -7,5 +7,4 @@ namespace Bigcommerce\Api;
  */
 class NetworkError extends Error
 {
-
 }
