@@ -5,8 +5,7 @@ namespace Bigcommerce\Api;
 class Resource
 {
     /**
-     *
-     * @var stdclass
+     * @var \stdClass
      */
     protected $fields;
 
