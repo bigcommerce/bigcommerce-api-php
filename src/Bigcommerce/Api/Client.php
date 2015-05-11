@@ -979,7 +979,7 @@ class Client
      * @param $id
      * @return mixed
      */
-    public static function createOptionsets_Options($object, $id)
+    public static function createOptionsetsOptions($object, $id)
     {
         return self::createResource('/optionsets/' . $id . '/options', $object);
     }

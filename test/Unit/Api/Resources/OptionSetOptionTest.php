@@ -11,7 +11,7 @@ class OptionSetOptionTest extends ResourceTestBase
         $optionsetoption = new OptionSetOption((object)array('option' => (object)array('resource' => '/options/1')));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/options/1')
+            ->with($this->basePath . '/options/1')
             ->will($this->returnValue(array(array())));
 
         $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Option', $optionsetoption->option);
@@ -22,7 +22,7 @@ class OptionSetOptionTest extends ResourceTestBase
         $optionsetoption = new OptionSetOption();
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('/optionsets/options', $optionsetoption->getCreateFields());
+            ->with($this->basePath . '/optionsets/options', $optionsetoption->getCreateFields());
 
         $optionsetoption->create();
     }
@@ -32,7 +32,7 @@ class OptionSetOptionTest extends ResourceTestBase
         $optionsetoption = new OptionSetOption((object)(array('id' => 1)));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/optionsets/options/1', $optionsetoption->getUpdateFields());
+            ->with($this->basePath . '/optionsets/options/1', $optionsetoption->getUpdateFields());
 
         $optionsetoption->update();
     }

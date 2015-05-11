@@ -11,7 +11,7 @@ class CouponTest extends ResourceTestBase
         $coupon = new Coupon();
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('/coupons', $coupon->getCreateFields());
+            ->with($this->basePath . '/coupons', $coupon->getCreateFields());
 
         $coupon->create();
     }
@@ -21,7 +21,7 @@ class CouponTest extends ResourceTestBase
         $coupon = new Coupon((object)(array('id' => 1)));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/coupons/1', $coupon->getUpdateFields());
+            ->with($this->basePath . '/coupons/1', $coupon->getUpdateFields());
 
         $coupon->update();
     }

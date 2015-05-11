@@ -11,7 +11,7 @@ class OrderTest extends ResourceTestBase
         $order = new Order((object)(array('id' => 1, 'status_id' => 5, 'is_deleted' => false)));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/orders/1', (object)array('status_id' => 5, 'is_deleted' => false));
+            ->with($this->basePath . '/orders/1', (object)array('status_id' => 5, 'is_deleted' => false));
 
         $order->update();
     }
@@ -21,7 +21,7 @@ class OrderTest extends ResourceTestBase
         $order = new Order((object)array('id' => 1));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/orders/1/shipments', false)
+            ->with($this->basePath . '/orders/1/shipments', false)
             ->will($this->returnValue(array(array(), array())));
 
         foreach ($order->shipments as $shipment) {
@@ -34,7 +34,7 @@ class OrderTest extends ResourceTestBase
         $order = new Order((object)array('products' => (object)array('resource' => '/orders/1/products')));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/orders/1/products')
+            ->with($this->basePath . '/orders/1/products')
             ->will($this->returnValue(array(array(), array())));
 
         foreach ($order->products as $product) {
@@ -44,10 +44,12 @@ class OrderTest extends ResourceTestBase
 
     public function testShippingAddressesPassesThroughToConnection()
     {
-        $order = new Order((object)array('shipping_addresses' => (object)array('resource' => '/orders/1/shippingaddresses')));
+        $order = new Order((object)array(
+            'shipping_addresses' => (object)array('resource' => '/orders/1/shippingaddresses')
+        ));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/orders/1/shippingaddresses')
+            ->with($this->basePath . '/orders/1/shippingaddresses')
             ->will($this->returnValue(array(array(), array())));
 
         foreach ($order->shipping_addresses as $address) {
@@ -60,7 +62,7 @@ class OrderTest extends ResourceTestBase
         $order = new Order((object)array('coupons' => (object)array('resource' => '/orders/1/coupons')));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/orders/1/coupons')
+            ->with($this->basePath . '/orders/1/coupons')
             ->will($this->returnValue(array(array(), array())));
 
         foreach ($order->coupons as $coupon) {

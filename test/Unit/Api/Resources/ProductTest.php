@@ -11,7 +11,7 @@ class ProductTest extends ResourceTestBase
         $product = new Product((object)array('id' => 1));
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('/products', (object)array('id' => 1));
+            ->with($this->basePath . '/products', (object)array('id' => 1));
 
         $product->create();
     }
@@ -21,7 +21,7 @@ class ProductTest extends ResourceTestBase
         $product = new Product((object)array('id' => 1));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/products/1', (object)array());
+            ->with($this->basePath . '/products/1', (object)array());
 
         $product->update();
     }
@@ -31,7 +31,7 @@ class ProductTest extends ResourceTestBase
         $product = new Product((object)array('id' => 1));
         $this->connection->expects($this->once())
             ->method('delete')
-            ->with('/products/1');
+            ->with($this->basePath . '/products/1');
 
         $product->delete();
     }
@@ -59,7 +59,7 @@ class ProductTest extends ResourceTestBase
         $product = new Product((object)array('id' => 1, $property => (object)array('resource' => $url)));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($url)
+            ->with($this->basePath . $url)
             ->will($this->returnValue(array(array(), array())));
 
         $collection = $product->$property;
@@ -87,7 +87,7 @@ class ProductTest extends ResourceTestBase
         $product = new Product((object)array($property => (object)array('resource' => $url)));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($url)
+            ->with($this->basePath . $url)
             ->will($this->returnValue(array(array())));
 
         $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\' . $className, $product->$property);

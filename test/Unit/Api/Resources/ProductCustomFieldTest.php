@@ -12,7 +12,7 @@ class ProductCustomFieldTest extends ResourceTestBase
         $customfield = new ProductCustomField((object)array('product_id' => 1));
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('/products/1/customfields', $customfield->getCreateFields());
+            ->with($this->basePath . '/products/1/customfields', $customfield->getCreateFields());
 
         $customfield->create();
     }
@@ -23,7 +23,7 @@ class ProductCustomFieldTest extends ResourceTestBase
         $customfield = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('/products/1/customfields/1', $customfield->getUpdateFields());
+            ->with($this->basePath . '/products/1/customfields/1', $customfield->getUpdateFields());
 
         $customfield->update();
     }
@@ -33,7 +33,7 @@ class ProductCustomFieldTest extends ResourceTestBase
         $customfield = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
         $this->connection->expects($this->once())
             ->method('delete')
-            ->with('/products/1/customfields/1');
+            ->with($this->basePath . '/products/1/customfields/1');
 
         $customfield->delete();
     }

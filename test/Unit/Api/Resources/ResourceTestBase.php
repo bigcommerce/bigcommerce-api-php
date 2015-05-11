@@ -2,10 +2,15 @@
 namespace Bigcommerce\Test\Unit\Api\Resources;
 
 use Bigcommerce\Api\Client;
+use Bigcommerce\Api\Connection;
 
 class ResourceTestBase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $connection;
+    protected $basePath = '';
 
     public function setUp()
     {
@@ -34,6 +39,7 @@ class ResourceTestBase extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();
+        $this->basePath = $this->getStaticAttribute('Bigcommerce\\Api\\Client', 'api_path');
         Client::setConnection($this->connection);
     }
 }

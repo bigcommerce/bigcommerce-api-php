@@ -11,7 +11,7 @@ class OptionTest extends ResourceTestBase
         $option = new Option((object)array('values' => (object)array('resource' => '/options/1/values')));
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('/options/1/values')
+            ->with($this->basePath . '/options/1/values')
             ->will($this->returnValue(array(array(), array())));
 
         foreach ($option->values as $value) {
