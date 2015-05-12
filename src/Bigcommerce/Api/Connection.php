@@ -40,7 +40,7 @@ class Connection
     private $failOnError = false;
 
     /**
-     * Manually follow location redirects. Used if CURLOPT_FOLLOWLOCATION
+     * Manually follow location redirects. Used if FOLLOWLOCATION
      * is unavailable due to open_basedir restriction.
      * @var boolean
      */
@@ -69,6 +69,20 @@ class Connection
      * as XML. Defaults to false (using JSON).
      */
     private $useXml = false;
+    
+    /**
+     * oAuth Client ID
+     *
+     * @var string
+     */
+    private $client_id;
+    
+    /**
+     * oAuth Access Token
+     *
+     * @var string
+     */
+    private $oauth_token;
 
     /**
      * Initializes the connection object.
@@ -125,11 +139,20 @@ class Connection
      * @param string $username
      * @param string $password
      */
-    public function authenticate($username, $password)
+    public function authenticateBasic($username, $password)
     {
         curl_setopt($this->curl, CURLOPT_USERPWD, "$username:$password");
     }
-
+    
+    /**
+     * Sets the HTTP oAuth autentication.
+     */
+    public function authenticateOauth($client_id, $oauth_token)
+    {
+    		$this->client_id   = $client_id;
+    		$this->oauth_token = $oauth_token;
+    	}
+    		
     /**
      * Set a default timeout for the request. The client will error if the
      * request takes longer than this to respond.
@@ -202,6 +225,11 @@ class Connection
         $this->responseHeaders = array();
         $this->lastError = false;
         $this->addHeader('Accept', $this->getContentType());
+        
+        if (isset($this->client_id) && isset($this->oauth_token)) {
+        		$this->addHeader('X-Auth-Client', $this->client_id);
+        		$this->addHeader('X-Auth-Token',  $this->oauth_token);
+        	}
 
         curl_setopt($this->curl, CURLOPT_POST, false);
         curl_setopt($this->curl, CURLOPT_PUT, false);
@@ -326,7 +354,7 @@ class Connection
      */
     public function post($url, $body)
     {
-        $this->addHeader('Content-Type', $this->getContentType());
+        //$this->addHeader('Content-Type', $this->getContentType());
 
         if (!is_string($body)) {
             $body = json_encode($body);
@@ -373,7 +401,7 @@ class Connection
      */
     public function put($url, $body)
     {
-        $this->addHeader('Content-Type', $this->getContentType());
+        //$this->addHeader('Content-Type', $this->getContentType());
 
         if (!is_string($body)) {
             $body = json_encode($body);

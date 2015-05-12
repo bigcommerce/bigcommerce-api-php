@@ -29,7 +29,28 @@ class Client
      * @var string
      */
     static private $api_key;
-
+    
+    /**
+     * Store Hash to connect to (oAuth)
+     *
+     * @var string
+     */
+    static private $store_hash;
+    
+    /**
+     * oAuth Client ID to connect to the store API with
+     *
+     * @var string
+     */
+    static private $client_id;
+     
+    /**
+     * oAuth Access Token
+     *
+     * @var string
+     */
+    static private $oauth_token;
+    
     /**
      * Connection instance
      *
@@ -50,6 +71,27 @@ class Client
      * @var string
      */
     static private $path_prefix = '/api/v2';
+    
+    /**
+     * oAuth API path prefix to be added to store URL for requests
+     *
+     * @var string
+     */
+    static private $oauth_path_prefix = 'https://api.bigcommerce.com/stores/';
+    
+    /**
+     * oAuth API Version to use (current at time is v2)
+     *
+     * @var string
+     */
+    static private $api_version = '/v2';
+    
+    /**
+     * Connect via oAuth. Default is basic authentication.
+     *
+     * @param bool
+     */
+    static private $use_oauth = false;
 
     /**
      * Full URL path to the configured store API.
@@ -60,36 +102,64 @@ class Client
 
     /**
      * Configure the API client with the required credentials.
+     * Default is Basic Authentication.
      *
      * Requires a settings array to be passed in with the following keys:
-     *
+     * Basic Authentication:
      * - store_url
      * - username
      * - api_key
      *
+     * oAuth Authentication:
+     * - store_hash
+     * - client_id
+     * - oauth_token
+     *
      * @param array $settings
+     * @param bool  $oauth
      * @throws \Exception
      */
-    public static function configure(array $settings)
+    public static function configure(array $settings, $use_oauth = false)
     {
-        if (!isset($settings['store_url'])) {
-            throw new Exception("'store_url' must be provided");
-        }
+        if ($use_oauth) {
+        		if (!isset($settings['store_hash'])) {
+            		throw new Exception("'store_hash' must be provided for oAuth Authentication");
+            	}
+        	
+            if (!isset($settings['client_id'])) {
+            		throw new Exception("'client_id' must be provided for oAuth Authentication");
+            	}
+            	
+            	if (!isset($settings['oauth_token'])) {
+            		throw new Exception("'oauth_token' must be provided for oAuth Authentication");
+            	}
+            	
+            	self::$store_hash  = $settings['store_hash'];
+            	self::$client_id   = $settings['client_id'];
+            	self::$oauth_token = $settings['oauth_token'];
+            	self::$api_path    = self::$oauth_path_prefix .self::$store_hash .self::$api_version;
+            	self::$connection = false; 
+            	self::$use_oauth  = true;
+        } else {
+			if (!isset($settings['store_url'])) {
+            		throw new Exception("'store_url' must be provided");
+        		}
+        			
+		    if (!isset($settings['username'])) {
+		        throw new Exception("'username' must be provided");
+		    }
 
-        if (!isset($settings['username'])) {
-            throw new Exception("'username' must be provided");
-        }
+		    if (!isset($settings['api_key'])) {
+		        throw new Exception("'api_key' must be provided");
+		    }
 
-        if (!isset($settings['api_key'])) {
-            throw new Exception("'api_key' must be provided");
-        }
-
-        self::$username = $settings['username'];
-        self::$api_key = $settings['api_key'];
-        self::$store_url = rtrim($settings['store_url'], '/');
-        self::$api_path = self::$store_url . self::$path_prefix;
-        self::$connection = false;
-    }
+		    self::$username = $settings['username'];
+		    self::$api_key = $settings['api_key'];
+		    self::$store_url = rtrim($settings['store_url'], '/');
+		    self::$api_path = self::$store_url . self::$path_prefix;
+		    self::$connection = false;
+		}
+	}
 
     /**
      * Configure the API client to throw exceptions when HTTP errors occur.
@@ -161,9 +231,15 @@ class Client
     private static function connection()
     {
         if (!self::$connection) {
-            self::$connection = new Connection();
-            self::$connection->authenticate(self::$username, self::$api_key);
-        }
+        		if (self::$use_oauth) {
+        			self::$connection = new Connection();
+        			self::$connection->authenticateOauth(self::$client_id, self::$oauth_token);
+        			
+        		} else {
+            		self::$connection = new Connection();
+            		self::$connection->authenticateBasic(self::$username, self::$api_key);
+        		}
+        	}
 
         return self::$connection;
     }

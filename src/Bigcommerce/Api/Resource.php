@@ -7,7 +7,7 @@ class Resource
     /**
      * @var \stdClass
      */
-    protected $fields;
+    public $fields;
 
     /**
      * @var int
