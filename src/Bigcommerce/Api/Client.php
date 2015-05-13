@@ -1017,16 +1017,6 @@ class Client
     }
 
     /**
-     * Status codes used to represent the state of an order.
-     *
-     * @return array
-     */
-    public static function getOrderStatus($id)
-    {
-        return self::getResource('/order_statuses/' . $id, 'OrderStatus');
-    }
-
-    /**
      * Update the given option set.
      *
      * @param int $id option set id
@@ -1047,6 +1037,18 @@ class Client
     public static function deleteOptionSet($id)
     {
         Client::deleteResource('/optionsets/' . $id);
+    }
+
+    /**
+     * Status code used to represent the state of an order.
+     *
+     * @param int $id order status id
+     *
+     * @return mixed
+     */
+    public static function getOrderStatus($id)
+    {
+        return self::getResource('/order_statuses/' . $id, 'OrderStatus');
     }
 
     /**
