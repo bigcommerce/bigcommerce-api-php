@@ -8,34 +8,32 @@ class OptionValueTest extends ResourceTestBase
 {
     public function testOptionPassesThroughToConnection()
     {
-        $optionvalue = new OptionValue((object)array('option_id' => 1));
+        $optionValue = new OptionValue((object)array('option_id' => 1));
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/options/1')
             ->will($this->returnValue(array(array())));
 
-        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Option', $optionvalue->option);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Option', $optionValue->option);
     }
 
     public function testCreatePassesThroughToConnection()
     {
-        $this->markTestIncomplete('This currently fails for unknown reasons');
-        $optionvalue = new OptionValue((object)array('option_id' => 1));
+        $optionValue = new OptionValue((object)array('option_id' => 1));
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/options/1/values', $optionvalue->getCreateFields());
+            ->with($this->basePath . '/options/1/values', $optionValue->getCreateFields());
 
-        $optionvalue->create();
+        $optionValue->create();
     }
 
     public function testUpdatePassesThroughToConnection()
     {
-        $this->markTestIncomplete('This currently fails for unknown reasons');
-        $optionvalue = new OptionValue((object)array('id' => 1, 'option_id' => 1));
+        $optionValue = new OptionValue((object)array('id' => 1, 'option_id' => 1));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/options/1/values/1', $optionvalue->getUpdateFields());
+            ->with($this->basePath . '/options/1/values/1', $optionValue->getUpdateFields());
 
-        $optionvalue->update();
+        $optionValue->update();
     }
 }

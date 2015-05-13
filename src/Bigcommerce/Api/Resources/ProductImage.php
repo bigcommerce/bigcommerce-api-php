@@ -29,6 +29,9 @@ class ProductImage extends Resource
 
     public function update()
     {
-        Client::updateResource('/products/' . $this->fields->product_id . '/images/' . $this->id, $this->getUpdateFields());
+        Client::updateResource(
+            '/products/' . $this->fields->product_id . '/images/' . $this->id,
+            $this->getUpdateFields()
+        );
     }
 }

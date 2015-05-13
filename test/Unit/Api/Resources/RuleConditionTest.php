@@ -19,7 +19,6 @@ class RuleConditionTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $this->markTestIncomplete('This fails for unknown reasons');
         $ruleCondition = new RuleCondition((object)array('id' => 1, 'rule_id' => 1));
         $ruleCondition->product_id = 1;
         $this->connection->expects($this->once())

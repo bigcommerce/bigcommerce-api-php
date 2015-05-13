@@ -68,7 +68,7 @@ class Resource
 
     public function getCreateFields()
     {
-        $resource = $this->fields;
+        $resource = clone $this->fields;
 
         foreach ($this->ignoreOnCreate as $field) {
             unset($resource->$field);
@@ -79,7 +79,7 @@ class Resource
 
     public function getUpdateFields()
     {
-        $resource = $this->fields;
+        $resource = clone $this->fields;
 
         foreach ($this->ignoreOnUpdate as $field) {
             unset($resource->$field);
