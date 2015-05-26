@@ -57,6 +57,58 @@ class Client
      * @var string
      */
     static public $api_path;
+    static private $client_id;
+    static private $store_hash;
+    static private $auth_token;
+    static private $stores_prefix = '/stores/%s/v2';
+    static private $api_url = 'https://api.bigcommerce.com';
+    static private $login_url = 'https://login.bigcommerce.com';
+
+    /**
+     * Configure the API client with the required settings to access
+     * the API for a store.
+     *
+     * Accepts both OAuth and Basic Auth credentials
+     *
+     * @param array $settings
+     */
+    public static function configure($settings)
+    {
+        if (isset($settings['client_id'])) {
+            self::configureOAuth($settings);
+        } else {
+            self::configureBasicAuth($settings);
+        }
+    }
+
+    /**
+     * Configure the API client with the required OAuth credentials.
+     *
+     * Requires a settings array to be passed in with the following keys:
+     *
+     * - client_id
+     * - auth_token
+     * - store_hash
+     *
+     * @param array $settings
+     * @throws \Exception
+     */
+    public static function configureOAuth($settings)
+    {
+        if (!isset($settings['auth_token'])) {
+            throw new Exception("'auth_token' must be provided");
+        }
+
+        if (!isset($settings['store_hash'])) {
+            throw new Exception("'store_hash' must be provided");
+        }
+
+        self::$client_id = $settings['client_id'];
+        self::$auth_token = $settings['auth_token'];
+        self::$store_hash = $settings['store_hash'];
+        self::$api_path = self::$api_url . sprintf(self::$stores_prefix, self::$store_hash);
+        self::$connection = false;
+    }
 
     /**
      * Configure the API client with the required credentials.
@@ -70,7 +122,7 @@ class Client
      * @param array $settings
      * @throws \Exception
      */
-    public static function configure(array $settings)
+    public static function configureBasicAuth(array $settings)
     {
         if (!isset($settings['store_url'])) {
             throw new Exception("'store_url' must be provided");
@@ -162,7 +214,11 @@ class Client
     {
         if (!self::$connection) {
             self::$connection = new Connection();
-            self::$connection->authenticate(self::$username, self::$api_key);
+            if (self::$client_id) {
+                self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
+            } else {
+                self::$connection->authenticateBasic(self::$username, self::$api_key);
+            }
         }
 
         return self::$connection;
@@ -340,6 +396,21 @@ class Client
         }
 
         return $object->count;
+    }
+
+    /**
+     * Swaps a temporary access code for a long expiry auth token.
+     *
+     * @param \stdClass $object
+     * @return \stdClass
+     */
+    public static function getAuthToken($object)
+    {
+        $context = array_merge(array('grant_type' => 'authorization_code'), (array)$object);
+        $connection = new Connection();
+        $connection->useUrlEncoded();
+
+        return $connection->post(self::$login_url . '/oauth2/token', $context);
     }
 
     /**
