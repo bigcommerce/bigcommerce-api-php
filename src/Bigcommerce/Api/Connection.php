@@ -152,23 +152,12 @@ class Connection
     }
 
     /**
-     * Sets the HTTP basic authentication.
-     *
-     * @param string $username
-     * @param string $password
-     */
-    public function authenticateBasic($username, $password)
-    {
-        curl_setopt($this->curl, CURLOPT_USERPWD, "$username:$password");
-    }
-
-    /**
-     * Sets Oauth authentication headers
+     * Sets OAuth authentication headers
      *
      * @param string $clientId
      * @param string $authToken
      */
-    public function authenticateOauth($clientId, $authToken)
+    public function authenticate($clientId, $authToken)
     {
         $this->addHeader('X-Auth-Client', $clientId);
         $this->addHeader('X-Auth-Token', $authToken);
@@ -529,6 +518,8 @@ class Connection
 
     /**
      * Access given header from the response.
+     *
+     * @param string $header
      *
      * @return string|void
      */
