@@ -68,7 +68,7 @@ class Client
      * Configure the API client with the required settings to access
      * the API for a store.
      *
-     * Accepts both OAuth and Basic Auth credentials
+     * Accepts OAuth and (for now!) Basic Auth credentials
      *
      * @param array $settings
      */
@@ -118,6 +118,9 @@ class Client
      * - store_url
      * - username
      * - api_key
+     *
+     * @deprecated Please migrate to OAuth
+     * @see https://developer.bigcommerce.com/api/guides/oauth-transition
      *
      * @param array $settings
      * @throws \Exception

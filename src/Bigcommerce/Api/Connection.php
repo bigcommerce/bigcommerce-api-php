@@ -154,6 +154,7 @@ class Connection
     /**
      * Sets the HTTP basic authentication.
      *
+     * @deprecated Use OAuth for authentication
      * @param string $username
      * @param string $password
      */
@@ -529,6 +530,8 @@ class Connection
 
     /**
      * Access given header from the response.
+     *
+     * @param string $header Header name to retrieve
      *
      * @return string|void
      */
