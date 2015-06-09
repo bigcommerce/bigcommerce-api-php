@@ -10,6 +10,27 @@ use \Exception as Exception;
 class Client
 {
     /**
+     * Full Store URL to connect to
+     *
+     * @var string
+     */
+    static private $store_url;
+
+    /**
+     * Username to connect to the store API with
+     *
+     * @var string
+     */
+    static private $username;
+
+    /**
+     * API key
+     *
+     * @var string
+     */
+    static private $api_key;
+
+    /**
      * Connection instance
      *
      * @var Connection
@@ -24,37 +45,41 @@ class Client
     static private $resource;
 
     /**
+     * API path prefix to be added to store URL for requests
+     *
+     * @var string
+     */
+    static private $path_prefix = '/api/v2';
+
+    /**
      * Full URL path to the configured store API.
      *
      * @var string
      */
     static public $api_path;
-    /**
-     * Client ID from app installation
-     *
-     * @var string
-     */
     static private $client_id;
     static private $store_hash;
     static private $auth_token;
-    /**
-     * Appended to API URL to create API endpoints
-     *
-     * @var string
-     */
     static private $stores_prefix = '/stores/%s/v2';
-    /**
-     * Base URL for the Bigcommerce API
-     *
-     * @var string
-     */
     static private $api_url = 'https://api.bigcommerce.com';
-    /**
-     * Endpoint for getting tokens
-     *
-     * @var string
-     */
     static private $login_url = 'https://login.bigcommerce.com';
+
+    /**
+     * Configure the API client with the required settings to access
+     * the API for a store.
+     *
+     * Accepts both OAuth and Basic Auth credentials
+     *
+     * @param array $settings
+     */
+    public static function configure($settings)
+    {
+        if (isset($settings['client_id'])) {
+            self::configureOAuth($settings);
+        } else {
+            self::configureBasicAuth($settings);
+        }
+    }
 
     /**
      * Configure the API client with the required OAuth credentials.
@@ -68,7 +93,7 @@ class Client
      * @param array $settings
      * @throws \Exception
      */
-    public static function configure($settings)
+    public static function configureOAuth($settings)
     {
         if (!isset($settings['auth_token'])) {
             throw new Exception("'auth_token' must be provided");
@@ -82,6 +107,39 @@ class Client
         self::$auth_token = $settings['auth_token'];
         self::$store_hash = $settings['store_hash'];
         self::$api_path = self::$api_url . sprintf(self::$stores_prefix, self::$store_hash);
+        self::$connection = false;
+    }
+
+    /**
+     * Configure the API client with the required credentials.
+     *
+     * Requires a settings array to be passed in with the following keys:
+     *
+     * - store_url
+     * - username
+     * - api_key
+     *
+     * @param array $settings
+     * @throws \Exception
+     */
+    public static function configureBasicAuth(array $settings)
+    {
+        if (!isset($settings['store_url'])) {
+            throw new Exception("'store_url' must be provided");
+        }
+
+        if (!isset($settings['username'])) {
+            throw new Exception("'username' must be provided");
+        }
+
+        if (!isset($settings['api_key'])) {
+            throw new Exception("'api_key' must be provided");
+        }
+
+        self::$username = $settings['username'];
+        self::$api_key = $settings['api_key'];
+        self::$store_url = rtrim($settings['store_url'], '/');
+        self::$api_path = self::$store_url . self::$path_prefix;
         self::$connection = false;
     }
 
@@ -156,7 +214,11 @@ class Client
     {
         if (!self::$connection) {
             self::$connection = new Connection();
-            self::$connection->authenticate(self::$client_id, self::$auth_token);
+            if (self::$client_id) {
+                self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
+            } else {
+                self::$connection->authenticateBasic(self::$username, self::$api_key);
+            }
         }
 
         return self::$connection;

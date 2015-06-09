@@ -46,20 +46,26 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        Client::configure(array('client_id' => '', 'auth_token' => '', 'store_hash' => ''));
+        Client::configure(array('username' => '', 'api_key' => '', 'store_url' => ''));
         unset($this->connection);
     }
 
-    public function testConfigureRequiresAuthToken()
+    public function testConfigureRequiresStoreUrl()
     {
-        $this->setExpectedException('\\Exception', "'auth_token' must be provided");
-        Client::configure(array('client_id' => 'whatever', 'store_hash' => 'whatever'));
+        $this->setExpectedException('\\Exception', "'store_url' must be provided");
+        Client::configure(array('username' => 'whatever', 'api_key' => 'whatever'));
     }
 
-    public function testConfigureRequiresStoreHash()
+    public function testConfigureRequiresUsername()
     {
-        $this->setExpectedException('\\Exception', "'store_hash' must be provided");
-        Client::configure(array('client_id' => 'whatever', 'auth_token' => 'whatever'));
+        $this->setExpectedException('\\Exception', "'username' must be provided");
+        Client::configure(array('store_url' => 'whatever', 'api_key' => 'whatever'));
+    }
+
+    public function testConfigureRequiresApiKey()
+    {
+        $this->setExpectedException('\\Exception', "'api_key' must be provided");
+        Client::configure(array('username' => 'whatever', 'store_url' => 'whatever'));
     }
 
     public function testFailOnErrorPassesThroughToConnection()
@@ -116,14 +122,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('https://api.bigcommerce.com/stores/hash/v2/whatever', false)
+            ->with('http://storeurl' . $this->basePath . '/whatever', false)
             ->will($this->returnValue(array(array())));
 
-        Client::configure(array(
-            'store_hash' => 'hash',
-            'client_id' => 'whatever',
-            'auth_token' => 'whatever'
-        ));
+        Client::configure(array('store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $resource = Client::getResource('/whatever');
         $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
@@ -133,14 +135,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('https://api.bigcommerce.com/stores/hash/v2/whatever', false)
+            ->with('http://storeurl' . $this->basePath . '/whatever', false)
             ->will($this->returnValue((object)array('count' => 5)));
 
-        Client::configure(array(
-            'store_hash' => 'hash',
-            'client_id' => 'whatever',
-            'auth_token' => 'whatever'
-        ));
+        Client::configure(array('store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $count = Client::getCount('/whatever');
         $this->assertSame(5, $count);
@@ -150,14 +148,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with('https://api.bigcommerce.com/stores/hash/v2/whatever', false)
+            ->with('http://storeurl' . $this->basePath . '/whatever', false)
             ->will($this->returnValue(array(array(), array())));
 
-        Client::configure(array(
-            'store_hash' => 'hash',
-            'client_id' => 'whatever',
-            'auth_token' => 'whatever'
-        ));
+        Client::configure(array('store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $resources = Client::getCollection('/whatever');
         $this->assertInternalType('array', $resources);
@@ -171,14 +165,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $new = array(rand() => rand());
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('https://api.bigcommerce.com/stores/hash/v2/whatever', (object)$new)
+            ->with('http://storeurl' . $this->basePath . '/whatever', (object)$new)
             ->will($this->returnValue($new));
 
-        Client::configure(array(
-            'store_hash' => 'hash',
-            'client_id' => 'whatever',
-            'auth_token' => 'whatever'
-        ));
+        Client::configure(array('store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $result = Client::createResource('/whatever', $new);
         $this->assertSame($new, $result);
@@ -189,14 +179,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $update = array(rand() => rand());
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('https://api.bigcommerce.com/stores/hash/v2/whatever', (object)$update)
+            ->with('http://storeurl' . $this->basePath . '/whatever', (object)$update)
             ->will($this->returnValue($update));
 
-        Client::configure(array(
-            'store_hash' => 'hash',
-            'client_id' => 'whatever',
-            'auth_token' => 'whatever'
-        ));
+        Client::configure(array('store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $result = Client::updateResource('/whatever', $update);
         $this->assertSame($update, $result);
@@ -206,14 +192,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('delete')
-            ->with('https://api.bigcommerce.com/stores/hash/v2/whatever')
+            ->with('http://storeurl' . $this->basePath . '/whatever')
             ->will($this->returnValue("Successfully deleted"));
 
-        Client::configure(array(
-            'store_hash' => 'hash',
-            'client_id' => 'whatever',
-            'auth_token' => 'whatever'
-        ));
+        Client::configure(array('store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $result = Client::deleteResource('/whatever');
         $this->assertSame("Successfully deleted", $result);
@@ -267,18 +249,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function collections()
     {
         return array(
-            //      path            function            classname
-            array('products',       'getProducts',      'Product'),
-            array('brands',         'getBrands',        'Brand'),
-            array('orders',         'getOrders',        'Order'),
-            array('customers',      'getCustomers',     'Customer'),
-            array('coupons',        'getCoupons',       'Coupon'),
+            //      path           function             classname
+            array('products', 'getProducts', 'Product'),
+            array('brands', 'getBrands', 'Brand'),
+            array('orders', 'getOrders', 'Order'),
+            array('customers', 'getCustomers', 'Customer'),
+            array('coupons', 'getCoupons', 'Coupon'),
             array('order_statuses', 'getOrderStatuses', 'OrderStatus'),
-            array('categories',     'getCategories',    'Category'),
-            array('options',        'getOptions',       'Option'),
-            array('optionsets',     'getOptionSets',    'OptionSet'),
-            array('products/skus',  'getSkus',          'Sku'),
-            array('requestlogs',    'getRequestLogs',   'RequestLog'),
+            array('categories', 'getCategories', 'Category'),
+            array('options', 'getOptions', 'Option'),
+            array('optionsets', 'getOptionSets', 'OptionSet'),
+            array('products/skus', 'getSkus', 'Sku'),
+            array('requestlogs', 'getRequestLogs', 'RequestLog'),
         );
     }
 
@@ -321,15 +303,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function resources()
     {
         return array(
-            //    path           function        classname
-            array('products',    '%sProduct',    'Product'),
-            array('brands',      '%sBrand',      'Brand'),
-            array('orders',      '%sOrder',      'Order'),
-            array('customers',   '%sCustomer',   'Customer'),
-            array('categories',  '%sCategory',   'Category'),
-            array('options',     '%sOption',     'Option'),
-            array('optionsets',  '%sOptionSet',  'OptionSet'),
-            array('coupons',     '%sCoupon',     'Coupon'),
+            //    path               function          classname
+            array('products',        '%sProduct',      'Product'),
+            array('brands',          '%sBrand',        'Brand'),
+            array('orders',          '%sOrder',        'Order'),
+            array('customers',       '%sCustomer',     'Customer'),
+            array('categories',      '%sCategory',     'Category'),
+            array('options',         '%sOption',       'Option'),
+            array('optionsets',      '%sOptionSet',    'OptionSet'),
+            array('coupons',         '%sCoupon',       'Coupon'),
         );
     }
 
