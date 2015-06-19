@@ -154,7 +154,6 @@ class Connection
     /**
      * Sets the HTTP basic authentication.
      *
-     * @deprecated Use OAuth for authentication
      * @param string $username
      * @param string $password
      */

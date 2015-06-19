@@ -119,9 +119,6 @@ class Client
      * - username
      * - api_key
      *
-     * @deprecated Please migrate to OAuth
-     * @see https://developer.bigcommerce.com/api/guides/oauth-transition
-     *
      * @param array $settings
      * @throws \Exception
      */
