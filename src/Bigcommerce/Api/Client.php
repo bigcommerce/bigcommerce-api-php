@@ -535,9 +535,21 @@ class Client
      * @param $object
      * @return mixed
      */
-    public static function createOptions($object)
+    public static function createOption($object)
     {
         return self::createResource('/options', $object);
+    }
+
+    /**
+     * Update the given option.
+     *
+     * @param int $id category id
+     * @param mixed $object
+     * @return mixed
+     */
+    public static function updateOption($id, $object)
+    {
+        return self::updateResource('/options/' . $id, $object);
     }
 
     /**
@@ -560,7 +572,6 @@ class Client
     {
         return self::getResource('/options/' . $id, 'Option');
     }
-
 
     /**
      * Delete the given option.
@@ -967,23 +978,22 @@ class Client
      * @param $object
      * @return mixed
      */
-    public static function createOptionsets($object)
+    public static function createOptionSet($object)
     {
         return self::createResource('/optionsets', $object);
     }
 
     /**
-     * Create Optionset Options
+     * Create Option Set Options
      *
      * @param $object
      * @param $id
      * @return mixed
      */
-    public static function createOptionsetsOptions($object, $id)
+    public static function createOptionSetOption($object, $id)
     {
         return self::createResource('/optionsets/' . $id . '/options', $object);
     }
-
 
     /**
      * Returns the total number of option sets in the collection.
@@ -1007,9 +1017,34 @@ class Client
     }
 
     /**
-     * Status codes used to represent the state of an order.
+     * Update the given option set.
      *
-     * @return array
+     * @param int $id option set id
+     * @param mixed $object
+     * @return mixed
+     */
+    public static function updateOptionSet($id, $object)
+    {
+        return self::updateResource('/optionsets/' . $id, $object);
+    }
+
+    /**
+     * Delete the given option set.
+     *
+     * @param int $id option id
+     * @return mixed
+     */
+    public static function deleteOptionSet($id)
+    {
+        Client::deleteResource('/optionsets/' . $id);
+    }
+
+    /**
+     * Status code used to represent the state of an order.
+     *
+     * @param int $id order status id
+     *
+     * @return mixed
      */
     public static function getOrderStatus($id)
     {
@@ -1059,6 +1094,16 @@ class Client
     public static function updateSku($id, $object)
     {
         return self::updateResource('/product/skus/' . $id, $object);
+    }
+
+    /**
+     * Returns the total number of SKUs in the collection.
+     *
+     * @return int
+     */
+    public static function getSkusCount()
+    {
+        return self::getCount('/products/skus/count');
     }
 
     /**

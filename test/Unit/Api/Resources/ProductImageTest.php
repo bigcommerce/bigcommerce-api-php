@@ -8,23 +8,21 @@ class ProductImageTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
     {
-        $this->markTestIncomplete('This currently fails for unknown reasons');
-        $customfield = new ProductImage((object)array('product_id' => 1));
+        $productImage = new ProductImage((object)array('product_id' => 1));
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/images', $customfield->getCreateFields());
+            ->with($this->basePath . '/products/1/images', $productImage->getCreateFields());
 
-        $customfield->create();
+        $productImage->create();
     }
 
     public function testUpdatePassesThroughToConnection()
     {
-        $this->markTestIncomplete('This currently fails for unknown reasons');
-        $customfield = new ProductImage((object)(array('id' => 1, 'product_id' => 1)));
+        $productImage = new ProductImage((object)(array('id' => 1, 'product_id' => 1)));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/1/images/1', $customfield->getUpdateFields());
+            ->with($this->basePath . '/products/1/images/1', $productImage->getUpdateFields());
 
-        $customfield->update();
+        $productImage->update();
     }
 }

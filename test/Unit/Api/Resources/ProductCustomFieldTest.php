@@ -8,33 +8,31 @@ class ProductCustomFieldTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
     {
-        $this->markTestIncomplete('This currently fails for unknown reasons');
-        $customfield = new ProductCustomField((object)array('product_id' => 1));
+        $customField = new ProductCustomField((object)array('product_id' => 1));
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/customfields', $customfield->getCreateFields());
+            ->with($this->basePath . '/products/1/customfields', $customField->getCreateFields());
 
-        $customfield->create();
+        $customField->create();
     }
 
     public function testUpdatePassesThroughToConnection()
     {
-        $this->markTestIncomplete('This currently fails for unknown reasons');
-        $customfield = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
+        $customField = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/1/customfields/1', $customfield->getUpdateFields());
+            ->with($this->basePath . '/products/1/customfields/1', $customField->getUpdateFields());
 
-        $customfield->update();
+        $customField->update();
     }
 
     public function testDeletePassesThroughToConnection()
     {
-        $customfield = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
+        $customField = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/products/1/customfields/1');
 
-        $customfield->delete();
+        $customField->delete();
     }
 }

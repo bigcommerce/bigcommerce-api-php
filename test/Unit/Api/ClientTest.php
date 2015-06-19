@@ -286,8 +286,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTheCountOfACollectionReturnsThatCollectionsCount($path, $fnName, $class)
     {
-        if (in_array($path, array('order_statuses', 'products/skus', 'requestlogs'))) {
-            $this->markTestSkipped(sprintf('The PHP client does not support getting the count of %s', $path));
+        if (in_array($path, array('order_statuses', 'requestlogs'))) {
+            //$this->markTestSkipped(sprintf('The API does not currently support getting the count of %s', $path));
+            return;
         }
 
         $this->connection->expects($this->once())
@@ -303,15 +304,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function resources()
     {
         return array(
-            //    path               function          classname
-            array('products',        '%sProduct',      'Product'),
-            array('brands',          '%sBrand',        'Brand'),
-            array('orders',          '%sOrder',        'Order'),
-            array('customers',       '%sCustomer',     'Customer'),
-            array('categories',      '%sCategory',     'Category'),
-            array('options',         '%sOption',       'Option'),
-            array('optionsets',      '%sOptionSet',    'OptionSet'),
-            array('coupons',         '%sCoupon',       'Coupon'),
+            //    path            function        classname
+            array('products',     '%sProduct',    'Product'),
+            array('brands',       '%sBrand',      'Brand'),
+            array('orders',       '%sOrder',      'Order'),
+            array('customers',    '%sCustomer',   'Customer'),
+            array('categories',   '%sCategory',   'Category'),
+            array('options',      '%sOption',     'Option'),
+            array('optionsets',   '%sOptionSet',  'OptionSet'),
+            array('coupons',      '%sCoupon',     'Coupon'),
         );
     }
 
@@ -320,10 +321,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingASpecificResourceReturnsThatResource($path, $fnName, $class)
     {
-        if (in_array($path, array('coupons'))) {
-            $this->markTestSkipped(sprintf('The php client does not support getting a specified %s', $path));
-        }
-
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/' . $path . '/1', false)
@@ -339,10 +336,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingASpecificResourcePostsToThatResource($path, $fnName, $class)
     {
-        if (in_array($path, array('options', 'optionsets'))) {
-            $this->markTestSkipped(sprintf('The php client does not support creating a specified %s', $path));
-        }
-
         $this->connection->expects($this->once())
             ->method('post')
             ->with($this->basePath . '/' . $path, (object)array());
@@ -356,10 +349,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeletingASpecificResourceDeletesToThatResource($path, $fnName, $class)
     {
-        if (in_array($path, array('optionsets', 'coupons'))) {
-            $this->markTestSkipped(sprintf('The php client does not support deleting a specified %s', $path));
-        }
-
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/' . $path . '/1');
@@ -373,10 +362,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdatingASpecificResourcePutsToThatResource($path, $fnName, $class)
     {
-        if (in_array($path, array('orders', 'options', 'optionsets'))) {
-            $this->markTestSkipped(sprintf('The php client does not support updating a specified %s', $path));
-        }
-
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/' . $path . '/1');
@@ -488,7 +473,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with($this->basePath . '/optionsets', (object)array());
 
-        Client::createOptionsets(array());
+        Client::createOptionSet(array());
     }
 
     public function testCreatingAnOptionPostsToTheOptionResource()
@@ -497,16 +482,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('post')
             ->with($this->basePath . '/options', (object)array());
 
-        Client::createOptions(array());
+        Client::createOption(array());
     }
 
-    public function testCreatingAnOptionSetsOptionPostsToTheOptionSetsOptionResource()
+    public function testCreatingAnOptionSetOptionPostsToTheOptionSetsOptionsResource()
     {
         $this->connection->expects($this->once())
             ->method('post')
             ->with($this->basePath . '/optionsets/1/options', (object)array());
 
-        Client::createOptionsetsOptions(array(), 1);
+        Client::createOptionSetOption(array(), 1);
     }
 
     public function testCreatingAProductCustomFieldPostsToTheProductCustomFieldResource()
@@ -594,6 +579,33 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         Client::deleteAllOrders();
     }
 
+    public function testDeletingAllBrandsDeletesToTheBrandsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/brands');
+
+        Client::deleteAllBrands();
+    }
+
+    public function testDeletingAllCategoriesDeletesToTheCategoriesResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/categories');
+
+        Client::deleteAllCategories();
+    }
+
+    public function testDeletingAllProductsDeletesToTheProductsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/products');
+
+        Client::deleteAllProducts();
+    }
+
     public function testGettingOrderProductsCountCountsToTheOrderProductsResource()
     {
         $this->connection->expects($this->once())
@@ -614,6 +626,20 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $resource = Client::getShipment(1, 1);
         $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Shipment', $resource);
+    }
+
+    public function testGettingOrderProductsReturnsTheOrderProductsCollection()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/orders/1/products', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $collection = Client::getOrderProducts(1);
+        $this->assertInternalType('array', $collection);
+        foreach ($collection as $resource) {
+            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\OrderProduct', $resource);
+        }
     }
 
     public function testGettingOrderShipmentsReturnsTheOrderShipmentsResource()
