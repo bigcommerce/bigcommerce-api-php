@@ -7,6 +7,18 @@ namespace Bigcommerce\Api;
  */
 class Connection
 {
+    /**
+     * XML media type.
+     */
+    const MEDIA_TYPE_XML = 'application/xml';
+    /**
+     * JSON media type.
+     */
+    const MEDIA_TYPE_JSON = 'application/json';
+    /**
+     * Default urlencoded media type.
+     */
+    const MEDIA_TYPE_WWW = 'application/x-www-form-urlencoded';
 
     /**
      * @var resource cURL resource
@@ -60,15 +72,19 @@ class Connection
 
     /**
      * Deal with failed requests if failOnError is not set.
-     * @var string | false
+     * @var string|false
      */
     private $lastError = false;
 
     /**
-     * Determines whether requests and responses should be treated
-     * as XML. Defaults to false (using JSON).
+     * Determines whether the response body should be returned as a raw string.
      */
-    private $useXml = false;
+    private $rawResponse = false;
+
+    /**
+     * Determines the default content type to use with requests and responses.
+     */
+    private $contentType;
 
     /**
      * Initializes the connection object.
@@ -96,7 +112,23 @@ class Connection
      */
     public function useXml($option = true)
     {
-        $this->useXml = $option;
+        if ($option) {
+            $this->contentType = self::MEDIA_TYPE_XML;
+            $this->rawResponse = true;
+        }
+    }
+
+    /**
+     * Controls whether requests or responses should be treated
+     * as urlencoded form data.
+     *
+     * @param bool $option the new state of this feature
+     */
+    public function useUrlEncoded($option = true)
+    {
+        if ($option) {
+            $this->contentType = self::MEDIA_TYPE_WWW;
+        }
     }
 
     /**
@@ -125,9 +157,21 @@ class Connection
      * @param string $username
      * @param string $password
      */
-    public function authenticate($username, $password)
+    public function authenticateBasic($username, $password)
     {
         curl_setopt($this->curl, CURLOPT_USERPWD, "$username:$password");
+    }
+
+    /**
+     * Sets Oauth authentication headers
+     *
+     * @param string $clientId
+     * @param string $authToken
+     */
+    public function authenticateOauth($clientId, $authToken)
+    {
+        $this->addHeader('X-Auth-Client', $clientId);
+        $this->addHeader('X-Auth-Token', $authToken);
     }
 
     /**
@@ -168,6 +212,9 @@ class Connection
 
     /**
      * Add a custom header to the request.
+     *
+     * @param string $header
+     * @param string $value
      */
     public function addHeader($header, $value)
     {
@@ -176,6 +223,7 @@ class Connection
 
     /**
      * Remove a header from the request.
+     *
      * @param string $header
      */
     public function removeHeader($header)
@@ -185,10 +233,12 @@ class Connection
 
     /**
      * Get the MIME type that should be used for this request.
+     *
+     * Defaults to application/json
      */
     private function getContentType()
     {
-        return ($this->useXml) ? 'application/xml' : 'application/json';
+        return ($this->contentType) ? $this->contentType : self::MEDIA_TYPE_JSON;
     }
 
     /**
@@ -197,7 +247,6 @@ class Connection
      */
     private function initializeRequest()
     {
-        $this->isComplete = false;
         $this->responseBody = '';
         $this->responseHeaders = array();
         $this->lastError = false;
@@ -222,7 +271,7 @@ class Connection
             throw new NetworkError(curl_error($this->curl), curl_errno($this->curl));
         }
 
-        $body = ($this->useXml) ? $this->getBody() : json_decode($this->getBody());
+        $body = ($this->rawResponse) ? $this->getBody() : json_decode($this->getBody());
 
         $status = $this->getStatus();
 
@@ -480,6 +529,8 @@ class Connection
 
     /**
      * Access given header from the response.
+     *
+     * @param string $header Header name to retrieve
      *
      * @return string|void
      */
