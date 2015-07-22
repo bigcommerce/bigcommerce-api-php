@@ -91,6 +91,7 @@ class Connection
      */
     public function __construct()
     {
+        define('STDIN', fopen("php://stdin", "r"));
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
         curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, array($this, 'parseBody'));
