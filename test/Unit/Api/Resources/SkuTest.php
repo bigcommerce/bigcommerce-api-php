@@ -25,24 +25,4 @@ class SkuTest extends ResourceTestBase
 
         $sku->update();
     }
-
-    public function testOptionsPassesThroughToConnection()
-    {
-        $sku = new Sku((object)array(
-            'product_id' => 1,
-            'options' => (object)array(
-                'resource' => '/products/1/skus/1/options'
-            )
-        ));
-        $this->connection->expects($this->once())
-            ->method('get')
-            ->with($this->basePath . '/products/1/skus/1/options')
-            ->will($this->returnValue(array(array(), array())));
-
-        $collection = $sku->options;
-        $this->assertInternalType('array', $collection);
-        foreach ($collection as $condition) {
-            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\SkuOption', $condition);
-        }
-    }
 }
