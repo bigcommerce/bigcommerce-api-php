@@ -1,4 +1,9 @@
 <?php
+namespace Bigcommerce\Test\Unit\Api\Resources;
+
+use Bigcommerce\Api\Resources\Brand;
+use Bigcommerce\Api\Client;
+
 class BannerTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
