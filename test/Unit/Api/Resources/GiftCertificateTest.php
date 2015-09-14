@@ -1,7 +1,7 @@
 <?php
 namespace Bigcommerce\Test\Unit\Api\Resources;
 
-use Bigcommerce\Api\Resources\Coupon;
+use Bigcommerce\Api\Resources\GiftCertificate;
 use Bigcommerce\Api\Client;
 
 class GiftCertificateTest extends ResourceTestBase

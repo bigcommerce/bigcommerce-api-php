@@ -1,7 +1,7 @@
 <?php
 namespace Bigcommerce\Test\Unit\Api\Resources;
 
-use Bigcommerce\Api\Resources\Brand;
+use Bigcommerce\Api\Resources\Banner;
 use Bigcommerce\Api\Client;
 
 class BannerTest extends ResourceTestBase
