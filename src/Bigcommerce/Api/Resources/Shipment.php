@@ -12,7 +12,8 @@ class Shipment extends Resource
         'order_id',
         'date_created',
         'customer_id',
-        'shipping_method',
+        'billing_address',
+        'shipping_address'
     );
 
     protected $ignoreOnUpdate = array(
@@ -20,8 +21,9 @@ class Shipment extends Resource
         'order_id',
         'date_created',
         'customer_id',
-        'shipping_method',
         'items',
+        'billing_address',
+        'shipping_address'
     );
 
     public function create()

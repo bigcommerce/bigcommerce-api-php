@@ -19,17 +19,6 @@ class Sku extends Resource
         'product_id',
     );
 
-    public function options()
-    {
-        $options = Client::getCollection($this->fields->options->resource, 'SkuOption');
-
-        foreach ($options as $option) {
-            $option->product_id = $this->product_id;
-        }
-
-        return $options;
-    }
-
     public function create()
     {
         return Client::createResource('/products/' . $this->product_id . '/skus', $this->getCreateFields());
