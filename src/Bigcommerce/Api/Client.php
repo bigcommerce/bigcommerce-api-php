@@ -862,6 +862,19 @@ class Client
     }
 
     /**
+     * The order count grouped by order status
+     *
+     * @param array $filter
+     * @return Resources\OrderStatus
+     */
+    public static function getOrderStatusesWithCounts($filter = array())
+    {
+        $filter = Filter::create($filter);
+        $resource = self::getResource('/orders/count' . $filter->toQuery(), "OrderStatus");
+        return $resource->statuses;
+    }
+
+    /**
      * A single order.
      *
      * @param int $id order id
