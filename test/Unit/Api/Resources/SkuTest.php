@@ -3,12 +3,13 @@ namespace Bigcommerce\Test\Unit\Api\Resources;
 
 use Bigcommerce\Api\Resources\Sku;
 use Bigcommerce\Api\Client;
+use Bigcommerce\Api\Resources\SkuOption;
 
 class SkuTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
     {
-        $sku = new Sku((object)array('id' => 1, 'product_id' => 1));
+        $sku = $this->getSimpleSku();
         $this->connection->expects($this->once())
             ->method('post')
             ->with($this->basePath . '/products/1/skus', (object)array('id' => 1));
@@ -18,7 +19,7 @@ class SkuTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $sku = new Sku((object)array('id' => 1, 'product_id' => 1));
+        $sku = $sku = $this->getSimpleSku();
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/products/1/skus/1', (object)array());
@@ -26,23 +27,26 @@ class SkuTest extends ResourceTestBase
         $sku->update();
     }
 
-    public function testOptionsPassesThroughToConnection()
+    public function testSkuHasOptions()
     {
-        $sku = new Sku((object)array(
-            'product_id' => 1,
-            'options' => (object)array(
-                'resource' => '/products/1/skus/1/options'
-            )
-        ));
-        $this->connection->expects($this->once())
-            ->method('get')
-            ->with($this->basePath . '/products/1/skus/1/options')
-            ->will($this->returnValue(array(array(), array())));
+        $sku = new Sku((object)array('id' => 1, 'product_id' => 1, 'options' => array(
+            array('option_value_id' => 1, 'product_option_id' => 1)
+        )));
 
-        $collection = $sku->options;
-        $this->assertInternalType('array', $collection);
-        foreach ($collection as $condition) {
-            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\SkuOption', $condition);
-        }
+        $this->assertInstanceOf('Bigcommerce\Api\Resources\SkuOption', $sku->options[0]);
+
+        $this->assertEquals(1, $sku->options[0]->option_value_id);
+        $this->assertEquals(1, $sku->options[0]->product_option_id);
+    }
+
+    public function testSkuHasNoOptions()
+    {
+        $sku = $this->getSimpleSku();
+        $this->assertEmpty($sku->options);
+    }
+
+    private function getSimpleSku()
+    {
+        return new Sku((object)array('id' => 1, 'product_id' => 1));
     }
 }
