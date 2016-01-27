@@ -21,10 +21,14 @@ class Sku extends Resource
 
     public function options()
     {
-        $options = Client::getCollection($this->fields->options->resource, 'SkuOption');
+        $options = array();
 
-        foreach ($options as $option) {
-            $option->product_id = $this->product_id;
+        if (!isset($this->fields->options)) {
+            return $options;
+        }
+
+        foreach ($this->fields->options as $option) {
+            $options[] = new SkuOption((object)$option);
         }
 
         return $options;
