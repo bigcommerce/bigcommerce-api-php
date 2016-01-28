@@ -115,6 +115,9 @@ class Connection
         if ($option) {
             $this->contentType = self::MEDIA_TYPE_XML;
             $this->rawResponse = true;
+        } else {
+            $this->contentType = self::MEDIA_TYPE_JSON;
+            $this->rawResponse = false;
         }
     }
 
