@@ -1045,6 +1045,17 @@ class Client
     }
 
     /**
+     * A single customer group by given id.
+     *
+     * @param int $id group id
+     * @return Resources\CustomerGroup
+     */
+    public static function getGroup($id)
+    {
+	    return self::getResource('/customer_groups/' . $id, 'CustomerGroup');
+    }
+
+    /**
      * Returns the collection of option sets.
      *
      * @param array $filter
