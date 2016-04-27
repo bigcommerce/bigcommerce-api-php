@@ -313,6 +313,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('options',      '%sOption',     'Option'),
             array('optionsets',   '%sOptionSet',  'OptionSet'),
             array('coupons',      '%sCoupon',     'Coupon'),
+            array('currencies',   '%sCurrency',   'Currency'),
         );
     }
 
