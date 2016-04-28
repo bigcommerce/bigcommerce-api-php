@@ -18,21 +18,21 @@ class CurrencyTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $product = new Currency((object)array('id' => 1));
+        $currency = new Currency((object)array('id' => 1));
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/currencies/1', (object)array());
 
-        $product->update();
+        $currency->update();
     }
 
     public function testDeletePassesThroughToConnection()
     {
-        $product = new Currency((object)array('id' => 1));
+        $currency = new Currency((object)array('id' => 1));
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/currencies/1');
 
-        $product->delete();
+        $currency->delete();
     }
 }
