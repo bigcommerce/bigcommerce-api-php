@@ -1459,4 +1459,16 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/currencies' . $filter->toQuery(), 'Currency');
     }
+
+    /**
+     * Returns the total number of currencies in the collection.
+     *
+     * @param array $filter
+     * @return int|string number of currencies or XML string if useXml is true
+     */
+    public static function getCurrenciesCount($filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCount('/currencies/count' . $filter->toQuery());
+    }
 }
