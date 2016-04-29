@@ -1402,4 +1402,73 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/orders/' . $orderID . '/shipping_addresses' . $filter->toQuery(), 'Address');
     }
+
+    /**
+     * Create a new currency.
+     *
+     * @param mixed $object fields to create
+     * @return mixed
+     */
+    public static function createCurrency($object)
+    {
+        return self::createResource('/currencies', $object);
+    }
+
+    /**
+     * Returns a single currency resource by the given id.
+     *
+     * @param int $id currency id
+     * @return Resources\Currency|string
+     */
+    public static function getCurrency($id)
+    {
+        return self::getResource('/currencies/' . $id, 'Currency');
+    }
+
+    /**
+     * Update the given currency.
+     *
+     * @param int $id currency id
+     * @param mixed $object fields to update
+     * @return mixed
+     */
+    public static function updateCurrency($id, $object)
+    {
+        return self::updateResource('/currencies/' . $id, $object);
+    }
+
+    /**
+     * Delete the given currency.
+     *
+     * @param int $id currency id
+     * @return mixed
+     */
+    public static function deleteCurrency($id)
+    {
+        return self::deleteResource('/currencies/' . $id);
+    }
+
+    /**
+     * Returns the default collection of currencies.
+     *
+     * @param array $filter
+     * @return mixed array|string list of currencies or XML string if useXml is true
+     */
+    public static function getCurrencies($filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/currencies' . $filter->toQuery(), 'Currency');
+    }
+
+    /**
+     * Returns the total number of currencies in the collection.
+     *
+     * @param array $filter
+     * @return int|string number of currencies or XML string if useXml is true
+     */
+    public static function getCurrenciesCount($filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCount('/currencies/count' . $filter->toQuery());
+    }
 }

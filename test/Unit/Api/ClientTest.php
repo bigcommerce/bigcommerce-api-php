@@ -261,6 +261,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('optionsets', 'getOptionSets', 'OptionSet'),
             array('products/skus', 'getSkus', 'Sku'),
             array('requestlogs', 'getRequestLogs', 'RequestLog'),
+            array('currencies', 'getCurrencies', 'Currency'),
         );
     }
 
@@ -313,6 +314,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('options',      '%sOption',     'Option'),
             array('optionsets',   '%sOptionSet',  'OptionSet'),
             array('coupons',      '%sCoupon',     'Coupon'),
+            array('currencies',   '%sCurrency',   'Currency'),
         );
     }
 
