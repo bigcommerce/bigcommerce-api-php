@@ -34,4 +34,9 @@ class ProductImage extends Resource
             $this->getUpdateFields()
         );
     }
+    
+    public function delete()
+    {
+        Client::deleteResource('/products/' . $this->product_id . '/images/' . $this->id);
+    }
 }
