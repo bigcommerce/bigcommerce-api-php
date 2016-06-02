@@ -1471,4 +1471,59 @@ class Client
         $filter = Filter::create($filter);
         return self::getCount('/currencies/count' . $filter->toQuery());
     }
+    
+    /**
+     * Returns all webhooks.
+     *
+     * @return mixed Resource|string resource object or XML string if useXml is true
+     */
+    public static function listWebhooks()
+    {
+        return self::getResource('/hooks');
+    }
+    
+    /**
+     * Returns data for a specific web-hook.
+     *
+     * @param int $id
+     * @return mixed Resource|string resource object or XML string if useXml is true
+     */
+    public static function getWebhook($id)
+    {
+        return self::getResource('/hooks/' . $id);
+    }
+    
+    /**
+     * Creates a web-hook.
+     *
+     * @param mixed $object object or XML string to create
+     * @return mixed
+     */
+    public static function createWebhook($object)
+    {
+        return self::createResource('/hooks', $object);
+    }
+    
+    /**
+     * Updates the given webhook.
+     *
+     * @param int $id
+     * @param mixed $object object or XML string to create
+     * @return mixed
+     */
+    public static function updateWebhook($id, $object)
+    {
+        return self::updateResource('/hooks/' . $id, $object);
+    }
+    
+    /**
+     * Delete the given webhook.
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public static function deleteWebhook($id)
+    {
+        return self::deleteResource('/hooks/' . $id);
+    }
 }
