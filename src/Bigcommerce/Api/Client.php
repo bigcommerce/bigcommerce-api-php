@@ -1302,7 +1302,7 @@ class Client
             $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
         }
 
-        return intval($limit);
+        return (int)$limit;
     }
 
     /**
@@ -1470,5 +1470,54 @@ class Client
     {
         $filter = Filter::create($filter);
         return self::getCount('/currencies/count' . $filter->toQuery());
+    }
+
+    /**
+     * Create a new product image.
+     *
+     * @param string $productId
+     * @param mixed $object
+     * @return mixed
+     */
+    public static function createProductImage($productId, $object)
+    {
+        return self::createResource('/products/' . $productId . '/images', $object);
+    }
+
+    /**
+     * Update a product image.
+     *
+     * @param string $productId
+     * @param string $imageId
+     * @param mixed $object
+     * @return mixed
+     */
+    public static function updateProductImage($productId, $imageId, $object)
+    {
+        return self::updateResource('/products/' . $productId . '/images/' . $imageId, $object);
+    }
+
+    /**
+     * Returns a product image resource by the given product id.
+     *
+     * @param int $productId
+     * @param int $imageId
+     * @return Resources\ProductImage|string
+     */
+    public static function getProductImage($productId, $imageId)
+    {
+        return self::getResource('/products/' . $productId . '/images/' . $imageId, 'ProductImage');
+    }
+
+    /**
+     * Delete the given product image.
+     *
+     * @param int $productId
+     * @param int $imageId
+     * @return mixed
+     */
+    public static function deleteProductImage($productId, $imageId)
+    {
+        return self::deleteResource('/products/' . $productId . '/images/' . $imageId);
     }
 }

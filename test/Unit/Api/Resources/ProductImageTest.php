@@ -25,4 +25,14 @@ class ProductImageTest extends ResourceTestBase
 
         $productImage->update();
     }
+
+    public function testDeletePassesThroughToConnection()
+    {
+        $productImage = new ProductImage((object)(array('id' => 1, 'product_id' => 1)));
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/products/1/images/1');
+
+        $productImage->delete();
+    }
 }

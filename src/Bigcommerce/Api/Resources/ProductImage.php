@@ -29,14 +29,11 @@ class ProductImage extends Resource
 
     public function update()
     {
-        Client::updateResource(
-            '/products/' . $this->fields->product_id . '/images/' . $this->id,
-            $this->getUpdateFields()
-        );
+        return Client::updateResource('/products/' . $this->fields->product_id . '/images/' . $this->id, $this->getUpdateFields());
     }
-    
+
     public function delete()
     {
-        Client::deleteResource('/products/' . $this->product_id . '/images/' . $this->id);
+        return Client::deleteResource('/products/' . $this->fields->product_id . '/images/' . $this->id);
     }
 }
