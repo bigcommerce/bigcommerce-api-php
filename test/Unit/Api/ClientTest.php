@@ -400,9 +400,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $collection = Client::getProductImages(1);
         $this->assertInternalType('array', $collection);
-        foreach ($collection as $resource) {
-            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductImage', $resource);
-        }
+        $this->assertContainsOnlyInstancesOf('Bigcommerce\\Api\\Resources\\ProductImage', $collection);
     }
 
     public function testGettingProductCustomFieldsReturnsCollectionOfProductCustomFields()
@@ -417,6 +415,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductCustomField', $resource);
         }
+    }
+
+    public function testGettingASpecifiedProductImageReturnsThatProductImage()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/products/1/images/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        $resource = Client::getProductImage(1, 1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductImage', $resource);
     }
 
     public function testGettingASpecifiedProductCustomFieldReturnsThatProductCustomField()
@@ -496,6 +505,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         Client::createOptionSetOption(array(), 1);
     }
 
+    public function testCreatingAProductImagePostsToTheProductImageResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/products/1/images', (object)array());
+
+        Client::createProductImage(1, array());
+    }
+
     public function testCreatingAProductCustomFieldPostsToTheProductCustomFieldResource()
     {
         $this->connection->expects($this->once())
@@ -505,6 +523,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         Client::createProductCustomField(1, array());
     }
 
+    public function testUpdatingAProductImagePutsToTheProductImageResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('put')
+            ->with($this->basePath . '/products/1/images/1', (object)array());
+
+        Client::updateProductImage(1, 1, array());
+    }
+
     public function testUpdatingAProductCustomFieldPutsToTheProductCustomFieldResource()
     {
         $this->connection->expects($this->once())
@@ -512,6 +539,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->basePath . '/products/1/customfields/1', (object)array());
 
         Client::updateProductCustomField(1, 1, array());
+    }
+
+    public function testDeletingAProductImageDeletesToTheProductImageResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/products/1/images/1');
+
+        Client::deleteProductImage(1, 1);
     }
 
     public function testDeletingAProductCustomFieldDeletesToTheProductCustomFieldResource()

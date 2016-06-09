@@ -24,19 +24,16 @@ class ProductImage extends Resource
 
     public function create()
     {
-        return Client::createResource('/products/' . $this->fields->product_id . '/images', $this->getCreateFields());
+        return Client::createProductImage($this->product_id, $this->getCreateFields());
     }
 
     public function update()
     {
-        Client::updateResource(
-            '/products/' . $this->fields->product_id . '/images/' . $this->id,
-            $this->getUpdateFields()
-        );
+        return Client::updateProductImage($this->product_id, $this->id, $this->getUpdateFields());
     }
-    
+
     public function delete()
     {
-        Client::deleteResource('/products/' . $this->product_id . '/images/' . $this->id);
+        return Client::deleteProductImage($this->product_id, $this->id);
     }
 }
