@@ -91,6 +91,9 @@ class Connection
      */
     public function __construct()
     {
+        if (!defined('STDIN')) {
+            define('STDIN', fopen('php://stdin', 'r'));
+        }
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
         curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, array($this, 'parseBody'));
@@ -445,6 +448,7 @@ class Connection
         curl_exec($this->curl);
 
         fclose($handle);
+        curl_setopt($this->curl, CURLOPT_INFILE, STDIN);
 
         return $this->handleResponse();
     }
