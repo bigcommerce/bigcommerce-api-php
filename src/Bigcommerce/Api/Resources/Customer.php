@@ -34,4 +34,9 @@ class Customer extends Resource
     {
         return Client::deleteCustomer($this->id);
     }
+
+    public function getLoginToken()
+    {
+        return Client::getCustomerLoginUrl($this->id);
+    }
 }
