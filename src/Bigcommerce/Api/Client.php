@@ -1165,7 +1165,7 @@ class Client
      */
     public static function createSku($object)
     {
-        return self::createResource('/product/skus', $object);
+        return self::createResource('/products/skus', $object);
     }
 
     /**
@@ -1177,7 +1177,7 @@ class Client
      */
     public static function updateSku($id, $object)
     {
-        return self::updateResource('/product/skus/' . $id, $object);
+        return self::updateResource('/products/skus/' . $id, $object);
     }
 
     /**
