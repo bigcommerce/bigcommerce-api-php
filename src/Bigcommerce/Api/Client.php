@@ -3,6 +3,7 @@
 namespace Bigcommerce\Api;
 
 use \Exception as Exception;
+use Firebase\JWT\JWT;
 
 /**
  * Bigcommerce API Client.
@@ -60,6 +61,7 @@ class Client
     static private $client_id;
     static private $store_hash;
     static private $auth_token;
+    static private $client_secret;
     static private $stores_prefix = '/stores/%s/v2';
     static private $api_url = 'https://api.bigcommerce.com';
     static private $login_url = 'https://login.bigcommerce.com';
@@ -106,6 +108,9 @@ class Client
         self::$client_id = $settings['client_id'];
         self::$auth_token = $settings['auth_token'];
         self::$store_hash = $settings['store_hash'];
+
+        self::$client_secret = isset($settings['client_secret']) ? $settings['client_secret'] : null;
+
         self::$api_path = self::$api_url . sprintf(self::$stores_prefix, self::$store_hash);
         self::$connection = false;
     }
@@ -411,6 +416,32 @@ class Client
         $connection->useUrlEncoded();
 
         return $connection->post(self::$login_url . '/oauth2/token', $context);
+    }
+
+    public static function getCustomerLoginToken($id, $redirectUrl = '', $requestIp = '')
+    {
+        if (empty(self::$client_secret)) {
+            throw new Exception('Cannot sign customer login tokens without a client secret');
+        }
+
+        $payload = array(
+            'iss' => self::$client_id,
+            'iat' => time(),
+            'jti' => bin2hex(random_bytes(32)),
+            'operation' => 'customer_login',
+            'store_hash' => self::$store_hash,
+            'customer_id' => $id
+        );
+
+        if (!empty($redirectUrl)) {
+            $payload['redirect_to'] = $redirectUrl;
+        }
+
+        if (!empty($requestIp)) {
+            $payload['request_ip'] = $requestIp;
+        }
+
+        return JWT::encode($payload, self::$client_secret, 'HS256');
     }
 
     /**

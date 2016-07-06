@@ -118,6 +118,36 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(5, Client::getLastError());
     }
 
+    public function testGetCustomerLoginTokenReturnsValidLoginToken()
+    {
+        Client::configureOAuth(array(
+            'client_id' => '123',
+            'auth_token' => 'def',
+            'store_hash' => 'abc',
+            'client_secret' => 'zyx'
+        ));
+        $expectedPayload = array(
+            'iss' => '123',
+            'operation' => 'customer_login',
+            'store_hash' => 'abc',
+            'customer_id' => 1,
+        );
+        $token = Client::getCustomerLoginToken(1);
+        $actualPayload = (array)\Firebase\JWT\JWT::decode($token, 'zyx', array('HS256'));
+        $this->assertArraySubset($expectedPayload, $actualPayload);
+    }
+
+    public function testGetCustomerLoginTokenThrowsIfNoClientSecret()
+    {
+        Client::configureOAuth(array(
+            'client_id' => '123',
+            'auth_token' => 'def',
+            'store_hash' => 'abc'
+        ));
+        $this->setExpectedException('\Exception', 'Cannot sign customer login tokens without a client secret');
+        Client::getCustomerLoginToken(1);
+    }
+
     public function testGetResourceReturnsSpecifiedType()
     {
         $this->connection->expects($this->once())
