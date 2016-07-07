@@ -37,6 +37,6 @@ class Customer extends Resource
 
     public function getLoginToken()
     {
-        return Client::getCustomerLoginUrl($this->id);
+        return Client::getCustomerLoginToken($this->id);
     }
 }
