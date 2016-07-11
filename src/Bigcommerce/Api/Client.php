@@ -1551,4 +1551,60 @@ class Client
     {
         return self::deleteResource('/products/' . $productId . '/images/' . $imageId);
     }
+
+    /**
+     * Get all content pages
+     *
+     * @return mixed
+     */
+    public static function getPages()
+    {
+        return self::getCollection('/pages', 'Page');
+    }
+
+    /**
+     * Get single content pages
+     *
+     * @param int $pageId
+     * @return mixed
+     */
+    public static function getPage($pageId)
+    {
+        return self::getResource('/pages/' . $pageId, 'Page');
+    }
+
+    /**
+     * Create a new content pages
+     *
+     * @param $object
+     * @return mixed
+     */
+    public static function createPage($object)
+    {
+        return self::createResource('/pages', $object);
+    }
+
+    /**
+     * Update an existing content page
+     *
+     * @param int $pageId
+     * @param $object
+     * @return mixed
+     */
+    public static function updatePage($pageId, $object)
+    {
+        return self::updateResource('/pages/' . $pageId, $object);
+    }
+
+    /**
+     * Delete an existing content page
+     *
+     * @param int $pageId
+     * @return mixed
+     */
+    public static function deletePage($pageId)
+    {
+        return self::deleteResource('/pages/' . $pageId);
+    }
+
 }
