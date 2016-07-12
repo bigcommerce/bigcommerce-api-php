@@ -292,6 +292,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('products/skus', 'getSkus', 'Sku'),
             array('requestlogs', 'getRequestLogs', 'RequestLog'),
             array('currencies', 'getCurrencies', 'Currency'),
+            array('pages', 'getPages', 'Page'),
         );
     }
 
@@ -317,7 +318,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTheCountOfACollectionReturnsThatCollectionsCount($path, $fnName, $class)
     {
-        if (in_array($path, array('order_statuses', 'requestlogs'))) {
+        if (in_array($path, array('order_statuses', 'requestlogs', 'pages'))) {
             //$this->markTestSkipped(sprintf('The API does not currently support getting the count of %s', $path));
             return;
         }
@@ -345,6 +346,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('optionsets',   '%sOptionSet',  'OptionSet'),
             array('coupons',      '%sCoupon',     'Coupon'),
             array('currencies',   '%sCurrency',   'Currency'),
+            array('pages',        '%sPage',       'Page'),
         );
     }
 
