@@ -1624,7 +1624,7 @@ class Client
      * @param array $filter
      * @return mixed
      */
-    public static function getGiftCertificates($filter = [])
+    public static function getGiftCertificates($filter = array())
     {
         $filter = Filter::create($filter);
         return self::getCollection('/gift_certificates' . $filter->toQuery());
