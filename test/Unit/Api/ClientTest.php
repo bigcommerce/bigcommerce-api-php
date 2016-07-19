@@ -291,7 +291,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('optionsets', 'getOptionSets', 'OptionSet'),
             array('products/skus', 'getSkus', 'Sku'),
             array('requestlogs', 'getRequestLogs', 'RequestLog'),
-            array('currencies', 'getCurrencies', 'Currency'),
             array('pages', 'getPages', 'Page'),
         );
     }
@@ -409,9 +408,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/product/skus', (object)array());
+            ->with($this->basePath . '/products/1/skus', (object)array());
 
-        Client::createSku(array());
+        Client::createSku(1, array());
     }
 
     public function testUpdatingASkuPutsToTheSkuResource()
@@ -785,5 +784,246 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $resource);
         }
+    }
+
+    public function testCreatingGiftCertificatePostsToTheGiftCertificateResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/gift_certificates', (object)array());
+
+        Client::createGiftCertificate(array());
+    }
+
+    public function testGettingSpecifiedGiftCertificateReturnsTheSpecifiedGiftCertificate()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/gift_certificates/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        Client::getGiftCertificate(1);
+    }
+
+    public function testGettingGiftCertificatesReturnsTheGiftCertificates()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/gift_certificates', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        Client::getGiftCertificates();
+    }
+
+    public function testUpdatingSpecifiedGiftCertificatePutsToTheSpecifiedGiftCertificateResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('put')
+            ->with($this->basePath . '/gift_certificates/1', (object)array());
+
+        Client::updateGiftCertificate(1, array());
+    }
+
+    public function testDeletingSpecifiedGiftCertificateDeletesToTheSpecifiedGiftCertificateResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/gift_certificates/1');
+
+        Client::deleteGiftCertificate(1);
+    }
+
+    public function testDeletingAllGiftCertificatesDeletesToTheAllGiftCertificatesResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/gift_certificates');
+
+        Client::deleteAllGiftCertificates();
+    }
+
+    public function testCreatingProductReviewPostsToTheProductReviewResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/products/1/reviews', (object)array());
+
+        Client::createProductReview(1, array());
+    }
+
+    public function testCreatingProductBulkPricingRulesPostsToTheProductBulkPricingRulesResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/products/1/discount_rules', (object)array());
+
+        Client::createProductBulkPricingRules(1, array());
+    }
+
+    public function testCreatingMarketingBannerPostsToTheMarketingBannerResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/banners', (object)array());
+
+        Client::createMarketingBanner(array());
+    }
+
+    public function testGettingMarketingBannersReturnsTheMarketingBanners()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/banners', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        Client::getMarketingBanners();
+    }
+
+    public function testDeletingAllMarketingBannerDeletesToTheAllMarketingBannerResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/banners');
+
+        Client::deleteAllMarketingBanners();
+    }
+
+    public function testDeletingMarketingBannerDeletesToTheMarketingBannerResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/banners/1');
+
+        Client::deleteMarketingBanner(1);
+    }
+
+    public function testUpdatingMarketingBannerPutsToTheMarketingBannerResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('put')
+            ->with($this->basePath . '/banners/1', (object)array());
+
+        Client::updateMarketingBanner(1, array());
+    }
+
+    public function testCreatingCustomerAddressPostsToTheCustomerAddressResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/customers/1/addresses', (object)array());
+
+        Client::createCustomerAddress(1, array());
+    }
+
+    public function testCreatingProductRulePostsToTheProductRuleResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/products/1/rules', (object)array());
+
+        Client::createProductRule(1, array());
+    }
+
+    public function testCreatingCustomerGroupPostsToTheCustomerGroupResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/customer_groups', (object)array());
+
+        Client::createCustomerGroup(array());
+    }
+
+    public function testGettingASpecifiedCustomerGroupsReturnsTheCustomerGroups()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/customer_groups', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        Client::getCustomerGroups();
+    }
+
+    public function testDeletingCustomerGroupDeletesToTheCustomerGroupResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/customer_groups/1');
+
+        Client::deleteCustomerGroup(1);
+    }
+
+    public function testDeletingAllCustomersDeletesToTheCustomersResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/customers');
+
+        Client::deleteAllCustomers();
+    }
+
+    public function testDeletingAllProductOptionsDeletesToTheProductOptionsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/options');
+
+        Client::deleteAllOptions();
+    }
+
+    public function testGettingASpecifiedProductOptionsReturnsThoseProductOptions()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/products/1/options', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        Client::getProductOptions(1);
+    }
+
+    public function testGettingASpecifiedProductOptionReturnsThatProductOption()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/products/1/options/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        Client::getProductOption(1, 1);
+    }
+
+    public function testGettingASpecifiedProductRuleReturnsThatProductRule()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/products/1/rules/1', false)
+            ->will($this->returnValue(array(array(), array())));
+
+        Client::getProductRule(1, 1);
+    }
+
+    public function testCreatingOptionValuePostsToTheOptionValueResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/options/1/values', (object)array());
+
+        Client::createOptionValue(1, array());
+    }
+
+    public function testDeletingAllOptionSetsDeletesToTheOptionSetsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/optionsets');
+
+        Client::deleteAllOptionSets();
+    }
+
+    public function testUpdatingOptionValuePutsToTheOptionValueResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('put')
+            ->with($this->basePath . '/options/1/values/1', (object)array());
+
+        Client::updateOptionValue(1, 1, array());
     }
 }
