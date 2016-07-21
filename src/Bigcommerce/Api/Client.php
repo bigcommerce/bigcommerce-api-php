@@ -1189,7 +1189,7 @@ class Client
     }
 
     /**
-     * Create a Sku
+     * Create Sku
      *
      * @param $productId
      * @param $object
@@ -1744,8 +1744,8 @@ class Client
     /**
      * Add a address to the customer's address book.
      *
-     * @param $customerID
-     * @param $object
+     * @param int $customerID
+     * @param array $object
      * @return mixed
      */
     public static function createCustomerAddress($customerID, $object)
@@ -1756,8 +1756,8 @@ class Client
     /**
      * Create a product rule
      *
-     * @param $productID
-     * @param $object
+     * @param int $productID
+     * @param array $object
      * @return mixed
      */
     public static function createProductRule($productID, $object)
@@ -1768,7 +1768,7 @@ class Client
     /**
      * Create a customer group.
      *
-     * @param $object
+     * @param array $object
      * @return mixed
      */
     public static function createCustomerGroup($object)
@@ -1789,7 +1789,7 @@ class Client
     /**
      * Delete a customer group
      *
-     * @param $customerGroupId
+     * @param int $customerGroupId
      * @return mixed
      */
     public static function deleteCustomerGroup($customerGroupId)
@@ -1820,7 +1820,7 @@ class Client
     /**
      * Return the collection of all option values for a given option.
      *
-     * @param $productId
+     * @param int $productId
      * @return mixed
      */
     public static function getProductOptions($productId)
@@ -1831,8 +1831,8 @@ class Client
     /**
      * Return the collection of all option values for a given option.
      *
-     * @param $productId
-     * @param $productOptionId
+     * @param int $productId
+     * @param int $productOptionId
      * @return mixed
      */
     public static function getProductOption($productId, $productOptionId)
@@ -1843,8 +1843,8 @@ class Client
     /**
      * Return the collection of all option values for a given option.
      *
-     * @param $productId
-     * @param $productRuleId
+     * @param int $productId
+     * @param int $productRuleId
      * @return mixed
      */
     public static function getProductRule($productId, $productRuleId)
@@ -1855,13 +1855,13 @@ class Client
     /**
      * Return the option value object that was created.
      *
-     * @param $object
-     * @param int $option_id
+     * @param int $optionId
+     * @param array $object
      * @return mixed
      */
-    public static function createOptionValue($option_id, $object)
+    public static function createOptionValue($optionId, $object)
     {
-        return self::createResource('/options/' . $option_id . '/values', $object);
+        return self::createResource('/options/' . $optionId . '/values', $object);
     }
 
     /**
@@ -1877,15 +1877,15 @@ class Client
     /**
      * Return the option value object that was updated.
      *
-     * @param int $option_id
-     * @param int $option_value_id
-     * @param $object
+     * @param int $optionId
+     * @param int $optionValueId
+     * @param array $object
      * @return mixed
      */
-    public static function updateOptionValue($option_id, $option_value_id, $object)
+    public static function updateOptionValue($optionId, $optionValueId, $object)
     {
         return self::updateResource(
-            '/options/' . $option_id . '/values/' . $option_value_id,
+            '/options/' . $optionId . '/values/' . $optionValueId,
             $object
         );
     }
