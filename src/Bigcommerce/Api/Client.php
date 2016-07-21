@@ -1189,7 +1189,7 @@ class Client
     }
 
     /**
-     * Create Sku
+     * Create a SKU
      *
      * @param $productId
      * @param $object
