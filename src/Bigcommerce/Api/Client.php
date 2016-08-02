@@ -384,7 +384,6 @@ class Client
 
         $baseResource = __NAMESPACE__ . '\\' . $resource;
         $class = (class_exists($baseResource)) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
-
         return new $class($object);
     }
 
@@ -1220,6 +1219,16 @@ class Client
     public static function getSkusCount()
     {
         return self::getCount('/products/skus/count');
+    }
+
+    /**
+     * Returns the googleproductsearch mapping for a product.
+     *
+     * @return Resources\ProductGoogleProductSearch
+     */
+    public static function getGoogleProductSearch($productId)
+    {
+        return self::getResource('/products/' . $productId . '/googleproductsearch', 'ProductGoogleProductSearch');
     }
 
     /**
