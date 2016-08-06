@@ -18,6 +18,9 @@ Requirements
 
 - PHP 5.3 or greater
 - cUrl extension enabled
+- OpenSSL or NSS or any SSL encryption library which supports the SSL_RSA_WITH_RC4_128_SHA cipher suite.
+
+The script `Tests/check_requirements.php` can determine if your system meets the requirements. Upload it to your web server's root directory or execute it from the command line with `php Tests/check_requirements.php`.
 
 **To connect to the API with basic auth you need the following:**
 
