@@ -87,6 +87,16 @@ class Connection
     private $contentType;
 
     /**
+     * Total number of times to automatically retry request if API rate limit is reached.
+     */
+    private $maxRetries = 3;
+
+    /**
+     * Number of times request has been retried.
+     */
+    private $autoRetries = 0;
+
+    /**
      * Initializes the connection object.
      */
     public function __construct()
@@ -281,6 +291,13 @@ class Connection
 
         $status = $this->getStatus();
 
+        if ($this->apiRateLimitReached($status)) {
+            if ($this->autoRetries < $this->maxRetries) {
+                $this->autoRetries++;
+                return $this->replayRequest();
+            }
+        }
+
         if ($status >= 400 && $status <= 499) {
             if ($this->failOnError) {
                 throw new ClientError($body, $status);
@@ -297,11 +314,27 @@ class Connection
             }
         }
 
+        $this->autoRetries = 0;
+
         if ($this->followLocation) {
             $this->followRedirectPath();
         }
 
         return $body;
+    }
+
+    public function apiRateLimitReached($status)
+    {
+        return $status == 429;
+    }
+
+    public function replayRequest()
+    {
+        $secondsToWait = $this->getHeader('X-Retry-After');
+        sleep($secondsToWait);
+        curl_exec($this->curl);
+
+        $this->handleResponse();
     }
 
     /**

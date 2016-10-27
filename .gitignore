@@ -3,6 +3,9 @@ composer.lock
 *.sh
 script/*
 
+# IDE
+.idea
+
 # Testing
 /phpunit.xml
 /build
