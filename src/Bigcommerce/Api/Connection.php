@@ -365,6 +365,8 @@ class Connection
 
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($this->curl, CURLOPT_URL, $url);
+        curl_setopt($this->curl, CURLOPT_POST, false);
+        curl_setopt($this->curl, CURLOPT_PUT, false);
         curl_setopt($this->curl, CURLOPT_HTTPGET, true);
         curl_exec($this->curl);
 
@@ -392,6 +394,8 @@ class Connection
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_setopt($this->curl, CURLOPT_POST, true);
+        curl_setopt($this->curl, CURLOPT_PUT, false);
+        curl_setopt($this->curl, CURLOPT_HTTPGET, false);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $body);
         curl_exec($this->curl);
 
@@ -444,6 +448,8 @@ class Connection
 
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($this->curl, CURLOPT_URL, $url);
+        curl_setopt($this->curl, CURLOPT_HTTPGET, false);
+        curl_setopt($this->curl, CURLOPT_POST, false);
         curl_setopt($this->curl, CURLOPT_PUT, true);
         curl_exec($this->curl);
 
@@ -463,6 +469,9 @@ class Connection
     {
         $this->initializeRequest();
 
+        curl_setopt($this->curl, CURLOPT_PUT, false);
+        curl_setopt($this->curl, CURLOPT_HTTPGET, false);
+        curl_setopt($this->curl, CURLOPT_POST, false);
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_exec($this->curl);
