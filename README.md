@@ -82,12 +82,27 @@ Bigcommerce::configure(array(
 ~~~
 
 ### OAuth
+
+In order to obtain the auth_token you would consume `Bigcommerce::getAuthToken` method 
+
 ~~~php
+
+$object = new \stdClass();
+$object->client_id = 'xxxxxx';
+$object->client_secret = 'xxxxx;
+$object->redirect_uri = 'https://app.com/redirect';
+$object->code = $request->get('code');
+$object->context = $request->get('context');
+$object->scope = $request->get('scope');
+
+$authTokenResponse = Bigcommerce::getAuthToken($object);
+
 Bigcommerce::configure(array(
     'client_id' => 'xxxxxxxx',
-    'auth_token' => 'xxxxxxx',
+    'auth_token' => $authTokenResponse->access_token,
     'store_hash' => 'xxxxxxx'
 ));
+
 ~~~
 
 Connecting to the store
