@@ -413,7 +413,6 @@ class Client
     {
         $context = array_merge(array('grant_type' => 'authorization_code'), (array)$object);
         $connection = new Connection();
-        $connection->useUrlEncoded();
 
         return $connection->post(self::$login_url . '/oauth2/token', $context);
     }
