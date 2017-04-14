@@ -557,6 +557,13 @@ class Connection
         if (array_key_exists($header, $this->responseHeaders)) {
             return $this->responseHeaders[$header];
         }
+        foreach($this->responseHeaders as $k => $v)
+        {
+            if(strcasecmp($k, $header) == 0)
+            {
+                return $this->responseHeaders[$k];
+            }
+        }
     }
 
     /**
