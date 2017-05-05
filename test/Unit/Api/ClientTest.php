@@ -841,6 +841,53 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         Client::deleteAllGiftCertificates();
     }
+    
+    
+    public function testGettingWebhooksReturnsAllWebhooks()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/hooks', false)
+            ->will($this->returnValue(array(new \Bigcommerce\Api\Resource(),new \Bigcommerce\Api\Resource())));
+        $collection = Client::listWebhooks();
+        $this->assertInternalType('array', $collection);
+        foreach ($collection as $resource) {
+            $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
+        }
+    }
+    
+    public function testGettingSpecifiedWebhookReturnsTheSpecifiedWebhook()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/hooks/1', false)
+            ->will($this->returnValue(new \Bigcommerce\Api\Resource()));
+        $resource = Client::getWebhook(1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
+    }
+    
+    public function testCreatingWebhookPostsToTheSpecifiedResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('post')
+            ->with($this->basePath . '/hooks', (object)array());
+        Client::createWebhook(array());
+    }
+    public function testUpdatingWebhookPutsToTheSpecifiedResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('put')
+            ->with($this->basePath . '/hooks/1', (object)array());
+        Client::updateWebhook(1, array());
+    }
+    
+    public function testDeleteWebhookDeletesToTheSpecifiedResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/hooks/1');
+        Client::deleteWebhook(1);
+    }
 
     public function testCreatingProductReviewPostsToTheProductReviewResource()
     {
