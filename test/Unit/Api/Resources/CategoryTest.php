@@ -31,7 +31,7 @@ class CategoryTest extends ResourceTestBase
         $category = new Category((object)(array('id' => 1)));
         $this->connection->expects($this->once())
             ->method('delete')
-            ->with($this->basePath . '/categories/1', $category->getUpdateFields());
+            ->with($this->basePath . '/categories/1');
 
         $category->delete();
     }
