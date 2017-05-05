@@ -1896,7 +1896,7 @@ class Client
      */
     public static function listWebhooks()
     {
-        return self::getResource('/hooks');
+        return self::getCollection('/hooks');
     }
     
     /**
