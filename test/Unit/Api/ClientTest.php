@@ -422,6 +422,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         Client::updateSku(1, array());
     }
 
+    public function testGettingShippingMethods()
+    {
+      $this->connection->expects($this->once())
+          ->method('get')
+          ->with($this->basePath . '/shipping/methods')
+          ->will($this->returnValue(array((object)array())));
+
+      $collection = Client::getShippingMethods();
+      $this->assertInternalType('array', $collection);
+      $this->assertContainsOnlyInstancesOf('Bigcommerce\\Api\\Resources\\ShippingMethod', $collection);
+    }
+
     public function testGettingProductImagesReturnsCollectionOfProductImages()
     {
         $this->connection->expects($this->once())

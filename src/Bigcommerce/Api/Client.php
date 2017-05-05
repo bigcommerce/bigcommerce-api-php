@@ -1176,7 +1176,17 @@ class Client
     }
 
     /**
-     * Get collection of product skus
+     * Enabled shipping methods.
+     *
+     * @return array
+     */
+    public static function getShippingMethods()
+    {
+        return self::getCollection('/shipping/methods', 'ShippingMethod');
+    }
+
+    /**
+     * Get collection of skus for all products
      *
      * @param array $filter
      * @return mixed
