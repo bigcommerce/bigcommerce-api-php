@@ -1976,4 +1976,40 @@ class Client
     {
         return self::deleteResource('/shipping/zones/' . $id);
     }
+
+    /**
+     * Return a shipping-method by id
+     *
+     * @param $zoneId
+     * @param $methodId
+     * @return mixed
+     */
+    public static function getShippingMethod($zoneId, $methodId)
+    {
+        return self::getResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId, 'ShippingMethod');
+    }
+
+    /**
+     * Return a collection of shipping-methods
+     *
+     * @param $zoneId
+     * @return mixed
+     */
+    public static function getShippingMethods($zoneId)
+    {
+        return self::getCollection('/shipping/zones/' . $zoneId . '/methods', 'ShippingMethod');
+    }
+
+
+    /**
+     * Delete the given shipping-method by id
+     *
+     * @param $zoneId
+     * @param $methodId
+     * @return mixed
+     */
+    public static function deleteShippingMethod($zoneId, $methodId)
+    {
+        return self::deleteResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId);
+    }
 }

@@ -33,7 +33,7 @@ class ShippingZoneTest extends ResourceTestBase
                 array('country_iso2' => 'US'),
             ),
         );
-        $updateResource = array_merge(['id' => 1], $input);
+        $updateResource = array_merge(array('id' => 1), $input);
         $zone = new ShippingZone((object)$updateResource);
 
         $this->connection->expects($this->once())
