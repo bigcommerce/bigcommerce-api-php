@@ -1943,4 +1943,73 @@ class Client
     {
         return self::deleteResource('/hooks/' . $id);
     }
+
+    /**
+     * Return a collection of shipping-zones
+     *
+     * @return mixed
+     */
+    public static function getShippingZones()
+    {
+        return self::getCollection('/shipping/zones/', 'ShippingZone');
+    }
+
+    /**
+     * Return a shipping-zone by id
+     *
+     * @param int $id shipping-zone id
+     * @return mixed
+     */
+    public static function getShippingZone($id)
+    {
+        return self::getResource('/shipping/zones/' . $id, 'ShippingZone');
+    }
+
+
+    /**
+     * Delete the given shipping-zone
+     *
+     * @param int $id shipping-zone id
+     * @return mixed
+     */
+    public static function deleteShippingZone($id)
+    {
+        return self::deleteResource('/shipping/zones/' . $id);
+    }
+
+    /**
+     * Return a shipping-method by id
+     *
+     * @param $zoneId
+     * @param $methodId
+     * @return mixed
+     */
+    public static function getShippingMethod($zoneId, $methodId)
+    {
+        return self::getResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId, 'ShippingMethod');
+    }
+
+    /**
+     * Return a collection of shipping-methods
+     *
+     * @param $zoneId
+     * @return mixed
+     */
+    public static function getShippingMethods($zoneId)
+    {
+        return self::getCollection('/shipping/zones/' . $zoneId . '/methods', 'ShippingMethod');
+    }
+
+
+    /**
+     * Delete the given shipping-method by id
+     *
+     * @param $zoneId
+     * @param $methodId
+     * @return mixed
+     */
+    public static function deleteShippingMethod($zoneId, $methodId)
+    {
+        return self::deleteResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId);
+    }
 }
