@@ -1073,6 +1073,17 @@ class Client
     {
         return self::getCollection('/customers/' . $id . '/addresses', 'Address');
     }
+    
+    /**
+     * Get the customer group by the given id
+     * 
+     * @param int $id group id
+     * @return Resources\CustomerGroup
+     */
+    public static function getGroup($id)
+	{
+		return self::getResource('/customer_groups/' . $id, 'CustomerGroup');
+	}
 
     /**
      * Returns the collection of option sets.

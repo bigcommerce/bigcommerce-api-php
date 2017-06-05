@@ -16,9 +16,10 @@ class Order extends Resource
         return Client::getCollection('/orders/' . $this->id . '/shipments', 'Shipment');
     }
 
-    public function products()
+    public function products($filter = null)
     {
-        return Client::getCollection($this->fields->products->resource, 'OrderProduct');
+        $filter = Filter::create($filter);
+        return Client::getCollection($this->fields->products->resource . $filter->toQuery(), 'OrderProduct');
     }
 
     public function shipping_addresses()
