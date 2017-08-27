@@ -12,6 +12,9 @@ class Error extends \Exception
         if (is_array($message)) {
             $message = $message[0]->message;
         }
+         else if (is_object($message) && isset($message->error)) {
+            $message = $message->error;
+        }
 
         parent::__construct($message, $code);
     }
