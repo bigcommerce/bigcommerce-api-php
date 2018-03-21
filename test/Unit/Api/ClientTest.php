@@ -239,7 +239,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->basePath . '/time', false)
             ->will($this->returnValue((object)array('time' => $now->format('U'))));
 
-        $this->assertEquals($now, Client::getTime());
+        $this->assertEquals($now->format('U'), Client::getTime()->format('U'));
     }
 
     public function testGetStoreReturnsTheResultBodyDirectly()
