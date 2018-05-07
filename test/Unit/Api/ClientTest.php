@@ -417,7 +417,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/product/skus/1', (object)array());
+            ->with($this->basePath . '/products/skus/1', (object)array());
 
         Client::updateSku(1, array());
     }
