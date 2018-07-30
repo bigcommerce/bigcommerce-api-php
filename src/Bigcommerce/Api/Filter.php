@@ -12,6 +12,8 @@ class Filter
     /**
      * Factory method, creates an instance of a filter.
      * Used to build URLs to collection endpoints.
+     * @param array $filter
+     * @return $this
      */
     public static function create($filter = array())
     {

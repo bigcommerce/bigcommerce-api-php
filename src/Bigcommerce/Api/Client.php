@@ -406,7 +406,7 @@ class Client
     /**
      * Swaps a temporary access code for a long expiry auth token.
      *
-     * @param \stdClass $object
+     * @param \stdClass|array $object
      * @return \stdClass
      */
     public static function getAuthToken($object)
@@ -417,6 +417,12 @@ class Client
         return $connection->post(self::$login_url . '/oauth2/token', $context);
     }
 
+    /**
+     * @param int $id
+     * @param string $redirectUrl
+     * @param string $requestIp
+     * @return string
+     */
     public static function getCustomerLoginToken($id, $redirectUrl = '', $requestIp = '')
     {
         if (empty(self::$client_secret)) {

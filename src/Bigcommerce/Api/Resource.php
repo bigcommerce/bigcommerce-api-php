@@ -100,11 +100,11 @@ class Resource
             return true;
         }
 
-        if (strpos($field, "date") !== false && $value === "") {
+        if ($value === "" && strpos($field, "date") !== false) {
             return true;
         }
 
-        if (in_array($field, $this->ignoreIfZero, true) && $value === 0) {
+        if ($value === 0 && in_array($field, $this->ignoreIfZero, true)) {
             return true;
         }
 
