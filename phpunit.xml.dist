@@ -1,4 +1,7 @@
-<phpunit backupGlobals="true"
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+         backupGlobals="true"
          backupStaticAttributes="true"
          colors="true"
          convertErrorsToExceptions="true"

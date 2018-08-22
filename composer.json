@@ -17,8 +17,8 @@
         "paragonie/random_compat": "~1.4|~2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.5.*",
-        "satooshi/php-coveralls": "1.0",
+        "phpunit/phpunit": "^4.8.35",
+        "php-coveralls/php-coveralls": "2.1",
         "codeless/jugglecode": "1.0"
     },
     "autoload": {
