@@ -1425,6 +1425,19 @@ class Client
     }
 
     /**
+     * Get order coupons for a given order
+     *
+     * @param $orderID
+     * @param array $filter
+     * @return mixed
+     */
+    public static function getOrderCoupons($orderID, $filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/orders/' . $orderID . '/coupons' . $filter->toQuery(), 'OrderCoupons');
+    }
+
+    /**
      * Get a single order shipping address by given order and order shipping address id.
      *
      * @param $orderID
