@@ -98,8 +98,8 @@ class Connection
         curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
         curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, array($this, 'parseBody'));
 
-	// Set to a blank string to make cURL include all encodings it can handle (gzip, deflate, identity) in the 'Accept-Encoding' request header and respect the 'Content-Encoding' response header
-	curl_setopt($this->curl, CURLOPT_ENCODING, '');
+        // Set to a blank string to make cURL include all encodings it can handle (gzip, deflate, identity) in the 'Accept-Encoding' request header and respect the 'Content-Encoding' response header
+        curl_setopt($this->curl, CURLOPT_ENCODING, '');
 
         if (!ini_get("open_basedir")) {
             curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
