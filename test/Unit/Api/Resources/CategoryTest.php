@@ -25,4 +25,14 @@ class CategoryTest extends ResourceTestBase
 
         $category->update();
     }
+
+    public function testDeletePassesThroughToConnection()
+    {
+        $category = new Category((object)(array('id' => 1)));
+        $this->connection->expects($this->once())
+            ->method('delete')
+            ->with($this->basePath . '/categories/1');
+
+        $category->delete();
+    }
 }

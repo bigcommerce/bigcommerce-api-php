@@ -26,4 +26,9 @@ class Category extends Resource
     {
         return Client::updateCategory($this->id, $this->getUpdateFields());
     }
+    
+    public function delete()
+    {
+        return Client::deleteCategory($this->id);
+    }
 }
