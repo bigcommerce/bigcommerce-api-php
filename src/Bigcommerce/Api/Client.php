@@ -2042,13 +2042,15 @@ class Client
     }
     
     /**
-    Get collection of product skus by Product
-    @param array $filter
-    @return mixed
+     * Get collection of product skus by Product
+     *
+     * @param $productId
+     * @param array $filter
+     * @return mixed
     */
-    public static function getSkusByProduct($product_id, $filter = array())
+    public static function getSkusByProduct($productId, $filter = array())
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products/'.$product_id.'/skus' . $filter->toQuery(), 'Sku');
+        return self::getCollection('/products/'.$productId.'/skus' . $filter->toQuery(), 'Sku');
     }
 }
