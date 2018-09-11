@@ -2047,7 +2047,7 @@ class Client
      * @param $productId
      * @param array $filter
      * @return mixed
-    */
+     */
     public static function getSkusByProduct($productId, $filter = array())
     {
         $filter = Filter::create($filter);
