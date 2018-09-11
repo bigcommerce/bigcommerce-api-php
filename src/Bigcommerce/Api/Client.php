@@ -2040,4 +2040,15 @@ class Client
     {
         return self::deleteResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId);
     }
+    
+    /**
+    Get collection of product skus by Product
+    @param array $filter
+    @return mixed
+    */
+    public static function getSkusByProduct($product_id, $filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/products/'.$product_id.'/skus' . $filter->toQuery(), 'Sku');
+    }
 }
