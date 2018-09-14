@@ -56,7 +56,7 @@ class ShippingZoneTest extends ResourceTestBase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($this->basePath . '/shipping/zones/');
+            ->with($this->basePath . '/shipping/zones');
 
         Client::getShippingZones();
     }
