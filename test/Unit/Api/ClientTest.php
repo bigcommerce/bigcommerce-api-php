@@ -449,7 +449,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($this->basePath . '/products/1/customfields/', false)
+            ->with($this->basePath . '/products/1/customfields', false)
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getProductCustomFields(1);
