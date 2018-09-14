@@ -1979,7 +1979,7 @@ class Client
      */
     public static function getShippingZones()
     {
-        return self::getCollection('/shipping/zones/', 'ShippingZone');
+        return self::getCollection('/shipping/zones', 'ShippingZone');
     }
 
     /**
