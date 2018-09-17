@@ -1336,7 +1336,7 @@ class Client
      */
     public static function getRequestsRemaining()
     {
-        $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
+        $limit = self::connection()->getHeader('X-Rate-Limit-Requests-Left');
 
         if (!$limit) {
             $result = self::getTime();
@@ -1345,7 +1345,7 @@ class Client
                 return false;
             }
 
-            $limit = self::connection()->getHeader('X-BC-ApiLimit-Remaining');
+            $limit = self::connection()->getHeader('X-Rate-Limit-Requests-Left');
         }
 
         return (int)$limit;
