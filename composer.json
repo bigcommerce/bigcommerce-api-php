@@ -29,12 +29,11 @@
     "autoload": {
         "psr-0": {
             "Bigcommerce": "src/"
-        },
+        }
+    },
+    "autoload-dev": {
         "psr-4": {
             "Bigcommerce\\Test\\": "test/"
         }
-    },
-    "scripts": {
-        "test": "phpunit"
     }
 }
