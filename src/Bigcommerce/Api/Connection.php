@@ -340,7 +340,6 @@ class Connection
                 }
 
                 $this->get($url);
-
             } else {
                 $errorString = "Too many redirects when trying to follow location.";
                 throw new NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);

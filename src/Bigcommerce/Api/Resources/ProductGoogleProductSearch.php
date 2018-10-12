@@ -10,5 +10,4 @@ use Bigcommerce\Api\Client;
  */
 class ProductGoogleProductSearch extends Resource
 {
-
 }

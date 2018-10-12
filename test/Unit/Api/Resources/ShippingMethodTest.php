@@ -95,7 +95,6 @@ class ShippingMethodTest extends ResourceTestBase
 
     public function testDeleteShippingMethod()
     {
-
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/shipping/zones/1/methods/2');

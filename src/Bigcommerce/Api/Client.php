@@ -15,56 +15,56 @@ class Client
      *
      * @var string
      */
-    static private $store_url;
+    private static $store_url;
 
     /**
      * Username to connect to the store API with
      *
      * @var string
      */
-    static private $username;
+    private static $username;
 
     /**
      * API key
      *
      * @var string
      */
-    static private $api_key;
+    private static $api_key;
 
     /**
      * Connection instance
      *
      * @var Connection
      */
-    static private $connection;
+    private static $connection;
 
     /**
      * Resource class name
      *
      * @var string
      */
-    static private $resource;
+    private static $resource;
 
     /**
      * API path prefix to be added to store URL for requests
      *
      * @var string
      */
-    static private $path_prefix = '/api/v2';
+    private static $path_prefix = '/api/v2';
 
     /**
      * Full URL path to the configured store API.
      *
      * @var string
      */
-    static public $api_path;
-    static private $client_id;
-    static private $store_hash;
-    static private $auth_token;
-    static private $client_secret;
-    static private $stores_prefix = '/stores/%s/v2';
-    static private $api_url = 'https://api.bigcommerce.com';
-    static private $login_url = 'https://login.bigcommerce.com';
+    public static $api_path;
+    private static $client_id;
+    private static $store_hash;
+    private static $auth_token;
+    private static $client_secret;
+    private static $stores_prefix = '/stores/%s/v2';
+    private static $api_url = 'https://api.bigcommerce.com';
+    private static $login_url = 'https://login.bigcommerce.com';
 
     /**
      * Configure the API client with the required settings to access

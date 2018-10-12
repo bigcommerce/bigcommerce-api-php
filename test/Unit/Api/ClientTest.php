@@ -424,13 +424,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGettingProductGoogleProductSearch()
     {
-      $this->connection->expects($this->once())
+        $this->connection->expects($this->once())
           ->method('get')
           ->with($this->basePath . '/products/1/googleproductsearch')
           ->will($this->returnValue((object)array()));
 
-      $resource = Client::getGoogleProductSearch(1);
-      $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductGoogleProductSearch', $resource);
+        $resource = Client::getGoogleProductSearch(1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductGoogleProductSearch', $resource);
     }
 
     public function testGettingProductImagesReturnsCollectionOfProductImages()

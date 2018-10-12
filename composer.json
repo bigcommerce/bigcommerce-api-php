@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "codeless/jugglecode": "1.0",
+        "friendsofphp/php-cs-fixer": "^2.13",
         "php-coveralls/php-coveralls": "2.1",
         "phpunit/phpunit": "^4.8.35"
     },
