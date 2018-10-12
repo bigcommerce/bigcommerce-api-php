@@ -3,8 +3,9 @@
 namespace Bigcommerce\Test\Unit;
 
 use Bigcommerce\Api\Connection;
+use PHPUnit\Framework\TestCase;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends TestCase
 {
     /**
      * @var \Bigcommerce\Api\Connection;

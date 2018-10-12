@@ -3,8 +3,9 @@ namespace Bigcommerce\Test\Unit\Api\Resources;
 
 use Bigcommerce\Api\Client;
 use Bigcommerce\Api\Connection;
+use PHPUnit\Framework\TestCase;
 
-class ResourceTestBase extends \PHPUnit_Framework_TestCase
+class ResourceTestBase extends TestCase
 {
     /**
      * @var Connection|\PHPUnit_Framework_MockObject_MockObject

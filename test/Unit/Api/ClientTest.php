@@ -4,8 +4,9 @@ namespace Bigcommerce\Test\Unit\Api;
 
 use Bigcommerce\Api\Client;
 use Bigcommerce\Api\Connection;
+use PHPUnit\Framework\TestCase;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     /**
      * @var Connection|\PHPUnit_Framework_MockObject_MockObject
@@ -52,19 +53,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testConfigureRequiresStoreUrl()
     {
-        $this->setExpectedException('\\Exception', "'store_url' must be provided");
+        $this->expectException('\\Exception');
+        $this->expectExceptionMessage("'store_url' must be provided");
         Client::configure(array('username' => 'whatever', 'api_key' => 'whatever'));
     }
 
     public function testConfigureRequiresUsername()
     {
-        $this->setExpectedException('\\Exception', "'username' must be provided");
+        $this->expectException('\\Exception');
+        $this->expectExceptionMessage("'username' must be provided");
         Client::configure(array('store_url' => 'whatever', 'api_key' => 'whatever'));
     }
 
     public function testConfigureRequiresApiKey()
     {
-        $this->setExpectedException('\\Exception', "'api_key' must be provided");
+        $this->expectException('\\Exception');
+        $this->expectExceptionMessage("'api_key' must be provided");
         Client::configure(array('username' => 'whatever', 'store_url' => 'whatever'));
     }
 
@@ -144,7 +148,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'auth_token' => 'def',
             'store_hash' => 'abc'
         ));
-        $this->setExpectedException('\Exception', 'Cannot sign customer login tokens without a client secret');
+        $this->expectException('\Exception');
+        $this->expectExceptionMessage('Cannot sign customer login tokens without a client secret');
         Client::getCustomerLoginToken(1);
     }
 
@@ -852,8 +857,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         Client::deleteAllGiftCertificates();
     }
-    
-    
+
+
     public function testGettingWebhooksReturnsAllWebhooks()
     {
         $this->connection->expects($this->once())
@@ -866,7 +871,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
         }
     }
-    
+
     public function testGettingSpecifiedWebhookReturnsTheSpecifiedWebhook()
     {
         $this->connection->expects($this->once())
@@ -876,7 +881,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $resource = Client::getWebhook(1);
         $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
     }
-    
+
     public function testCreatingWebhookPostsToTheSpecifiedResource()
     {
         $this->connection->expects($this->once())
@@ -891,7 +896,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->basePath . '/hooks/1', (object)array());
         Client::updateWebhook(1, array());
     }
-    
+
     public function testDeleteWebhookDeletesToTheSpecifiedResource()
     {
         $this->connection->expects($this->once())

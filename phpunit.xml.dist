@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation='vendor/phpunit/phpunit/phpunit.xsd'
          backupGlobals="true"
          backupStaticAttributes="true"
          colors="true"
@@ -15,18 +15,15 @@
         <log type="coverage-php" target="build/logs/coverage.cov"/>
         <log type="coverage-text" target="build/logs/coverage.txt" showUncoveredFiles="false"/>
         <log type="coverage-html" target="test/reports/coverage/" showUncoveredFiles="true"/>
-        <log type="junit" target="test/reports/junit.xml" logIncompleteSkipped="false"/>
+        <log type="junit" target="test/reports/junit.xml"/>
     </logging>
     <testsuites>
-        <testsuite>
+        <testsuite name="test">
             <directory>test/</directory>
         </testsuite>
     </testsuites>
     <filter>
-        <blacklist>
-            <directory suffix=".php">vendor/</directory>
-        </blacklist>
-        <whitelist addUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
