@@ -1,15 +1,36 @@
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer
+
+git:
+    depth: 1
+
 language: php
-php:
-- 7.2
-- 7.1
-- 7.0
-before_script:
-- composer install --dev --optimize-autoloader
-- mkdir -p build/logs
-after_script:
-- php vendor/bin/coveralls -v
-env:
-  global:
-  - secure: esQlDAcdxPtpwlOIFrC6d7/ejoOQyJJGeY/lhPv0qiWJ974+XxjLU7vGn0lKS5K4Z5WlZkGClEsfNok51Bm4JPnMsAZHTAO9f6bR7YpNrynmTyrwdv2NMUfAID8cJ9pUVZpbuT91M9aCuxUy4i2s+lx88myOVVr2r1YxQVcV1OA=
-  - secure: c9AOiucZTzzQu5QSLycx5CnQObIvkLiGrAv7yZg9gEouCDd3p4InOrW28WwMJjvVlTSN5BzEe1FLDh+rvatO2q4dwTTbx6NQ2QMTfM4W/L3M/Iv5yBt7VjuqlPXb4oHIvydvr/GXoRL/hNtn9wL/EdU5sKfSu+n0xVwsmCql/3U=
-  - secure: VKJgrYDePSIbdux5NodegW3vhLa3YSWLEkeTlScrGHBZVGK7K4F73s3v+32TeSNz/RYM8/MnSq2r9DUA7uPdms4UAWAFcz8uC36sOl1hkBy2gJAvYJJB5oLylR9TWXe+j20sDShdeGgfpFLcy/POcqdwQcJAx5XitDY4pw2ZwBI=
+
+before_install:
+    - composer self-update
+    - phpenv config-rm xdebug.ini || return 0
+    - composer global show hirak/prestissimo -q || composer global require hirak/prestissimo
+
+matrix:
+    include:
+        - name: PHP 7.0 with lowest versions of dependencies
+          php: '7.0'
+          install: composer update --prefer-lowest
+        - name: PHP 7.0
+          php: '7.0'
+          install: composer update
+        - name: PHP 7.1
+          php: '7.1'
+          install: composer update
+        - name: PHP 7.2
+          php: '7.2'
+          install: composer update
+          after_script:
+              - php vendor/bin/coveralls -v
+
+script:
+    - vendor/bin/php-cs-fixer fix --diff --dry-run -v
+    - vendor/bin/phpunit
