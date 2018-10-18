@@ -712,7 +712,7 @@ class Client
     public static function getOptionValuesByOption($option_id, $filter = array())
     {
         $filter = Filter::create($filter);
-        return self::getResource('/options/' . $option_id . '/values' . $filter->toQuery(), 'OptionValue');
+        return self::getCollection('/options/' . $option_id . '/values' . $filter->toQuery(), 'OptionValue');
     }
 
     /**
