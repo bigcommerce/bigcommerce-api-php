@@ -707,9 +707,9 @@ class Client
      *
      * @param int $option_id option id
      * @param array $filter
-     * @return Resources\OptionValue
+     * @return array
      */
-    public static function getOptionValueByOption($option_id, $filter = array())
+    public static function getOptionValuesByOption($option_id, $filter = array())
     {
         $filter = Filter::create($filter);
         return self::getResource('/options/' . $option_id . '/values' . $filter->toQuery(), 'OptionValue');
