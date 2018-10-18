@@ -701,6 +701,18 @@ class Client
     {
         return self::getResource('/options/' . $option_id . '/values/' . $id, 'OptionValue');
     }
+    
+    /**
+     * Return the collection of all option values By OptionID
+     *
+     * @param int $option_id option id
+     * @param array $filter
+     * @return Resources\OptionValue
+     */
+    public static function getOptionValueByOption($option_id, $filter = array())
+    {
+        return self::getResource('/options/' . $option_id . '/values' . $filter->toQuery(), 'OptionValue');
+    }
 
     /**
      * Return the collection of all option values.
