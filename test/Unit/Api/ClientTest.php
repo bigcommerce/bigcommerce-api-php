@@ -449,7 +449,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($this->basePath . '/products/1/customfields', false)
+            ->with($this->basePath . '/products/1/custom_fields', false)
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getProductCustomFields(1);
@@ -474,7 +474,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($this->basePath . '/products/1/customfields/1', false)
+            ->with($this->basePath . '/products/1/custom_fields/1', false)
             ->will($this->returnValue(array(array(), array())));
 
         $resource = Client::getProductCustomField(1, 1);
@@ -560,7 +560,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/customfields', (object)array());
+            ->with($this->basePath . '/products/1/custom_fields', (object)array());
 
         Client::createProductCustomField(1, array());
     }
@@ -578,7 +578,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/1/customfields/1', (object)array());
+            ->with($this->basePath . '/products/1/custom_fields/1', (object)array());
 
         Client::updateProductCustomField(1, 1, array());
     }
@@ -596,7 +596,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->expects($this->once())
             ->method('delete')
-            ->with($this->basePath . '/products/1/customfields/1');
+            ->with($this->basePath . '/products/1/custom_fields/1');
 
         Client::deleteProductCustomField(1, 1);
     }
@@ -852,8 +852,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         Client::deleteAllGiftCertificates();
     }
-    
-    
+
+
     public function testGettingWebhooksReturnsAllWebhooks()
     {
         $this->connection->expects($this->once())
@@ -866,7 +866,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
         }
     }
-    
+
     public function testGettingSpecifiedWebhookReturnsTheSpecifiedWebhook()
     {
         $this->connection->expects($this->once())
@@ -876,7 +876,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $resource = Client::getWebhook(1);
         $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
     }
-    
+
     public function testCreatingWebhookPostsToTheSpecifiedResource()
     {
         $this->connection->expects($this->once())
@@ -891,7 +891,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->basePath . '/hooks/1', (object)array());
         Client::updateWebhook(1, array());
     }
-    
+
     public function testDeleteWebhookDeletesToTheSpecifiedResource()
     {
         $this->connection->expects($this->once())
