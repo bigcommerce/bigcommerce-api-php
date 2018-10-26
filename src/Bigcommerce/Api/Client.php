@@ -495,7 +495,7 @@ class Client
      */
     public static function getProductCustomFields($id)
     {
-        return self::getCollection('/products/' . $id . '/customfields', 'ProductCustomField');
+        return self::getCollection('/products/' . $id . '/custom_fields', 'ProductCustomField');
     }
 
     /**
@@ -506,7 +506,7 @@ class Client
      */
     public static function getProductCustomField($product_id, $id)
     {
-        return self::getResource('/products/' . $product_id . '/customfields/' . $id, 'ProductCustomField');
+        return self::getResource('/products/' . $product_id . '/custom_fields/' . $id, 'ProductCustomField');
     }
 
     /**
@@ -518,7 +518,7 @@ class Client
      */
     public static function createProductCustomField($product_id, $object)
     {
-        return self::createResource('/products/' . $product_id . '/customfields', $object);
+        return self::createResource('/products/' . $product_id . '/custom_fields', $object);
     }
 
     /**
@@ -542,7 +542,7 @@ class Client
      */
     public static function updateProductCustomField($product_id, $id, $object)
     {
-        return self::updateResource('/products/' . $product_id . '/customfields/' . $id, $object);
+        return self::updateResource('/products/' . $product_id . '/custom_fields/' . $id, $object);
     }
 
     /**
@@ -554,7 +554,7 @@ class Client
      */
     public static function deleteProductCustomField($product_id, $id)
     {
-        return self::deleteResource('/products/' . $product_id . '/customfields/' . $id);
+        return self::deleteResource('/products/' . $product_id . '/custom_fields/' . $id);
     }
 
     /**
@@ -1916,7 +1916,7 @@ class Client
             $object
         );
     }
-    
+
     /**
      * Returns all webhooks.
      *
@@ -1926,7 +1926,7 @@ class Client
     {
         return self::getCollection('/hooks');
     }
-    
+
     /**
      * Returns data for a specific web-hook.
      *
@@ -1937,7 +1937,7 @@ class Client
     {
         return self::getResource('/hooks/' . $id);
     }
-    
+
     /**
      * Creates a web-hook.
      *
@@ -1948,7 +1948,7 @@ class Client
     {
         return self::createResource('/hooks', $object);
     }
-    
+
     /**
      * Updates the given webhook.
      *
@@ -1960,7 +1960,7 @@ class Client
     {
         return self::updateResource('/hooks/' . $id, $object);
     }
-    
+
     /**
      * Delete the given webhook.
      *
@@ -2040,7 +2040,7 @@ class Client
     {
         return self::deleteResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId);
     }
-    
+
     /**
      * Get collection of product skus by Product
      *
