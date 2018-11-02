@@ -2,8 +2,9 @@
 namespace Bigcommerce\Unit\Api;
 
 use Bigcommerce\Api\NetworkError;
+use PHPUnit\Framework\TestCase;
 
-class NetworkErrorTest extends \PHPUnit_Framework_TestCase
+class NetworkErrorTest extends TestCase
 {
     public function testBehavesExactlyLikeException()
     {

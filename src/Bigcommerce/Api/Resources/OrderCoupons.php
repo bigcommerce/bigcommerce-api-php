@@ -7,5 +7,4 @@ use Bigcommerce\Api\Client;
 
 class OrderCoupons extends Resource
 {
-
 }

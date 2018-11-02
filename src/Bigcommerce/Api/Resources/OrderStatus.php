@@ -7,5 +7,4 @@ use Bigcommerce\Api\Client;
 
 class OrderStatus extends Resource
 {
-
 }

@@ -2,8 +2,9 @@
 namespace Bigcommerce\Unit\Api;
 
 use Bigcommerce\Api\ClientError;
+use PHPUnit\Framework\TestCase;
 
-class ClientErrorTest extends \PHPUnit_Framework_TestCase
+class ClientErrorTest extends TestCase
 {
     public function testStringifyingReturnsTheMessageAndCodeAppropriately()
     {

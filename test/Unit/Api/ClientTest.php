@@ -4,8 +4,9 @@ namespace Bigcommerce\Test\Unit\Api;
 
 use Bigcommerce\Api\Client;
 use Bigcommerce\Api\Connection;
+use PHPUnit\Framework\TestCase;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     /**
      * @var Connection|\PHPUnit_Framework_MockObject_MockObject
@@ -52,19 +53,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testConfigureRequiresStoreUrl()
     {
-        $this->setExpectedException('\\Exception', "'store_url' must be provided");
+        $this->expectException('\\Exception');
+        $this->expectExceptionMessage("'store_url' must be provided");
         Client::configure(array('username' => 'whatever', 'api_key' => 'whatever'));
     }
 
     public function testConfigureRequiresUsername()
     {
-        $this->setExpectedException('\\Exception', "'username' must be provided");
+        $this->expectException('\\Exception');
+        $this->expectExceptionMessage("'username' must be provided");
         Client::configure(array('store_url' => 'whatever', 'api_key' => 'whatever'));
     }
 
     public function testConfigureRequiresApiKey()
     {
-        $this->setExpectedException('\\Exception', "'api_key' must be provided");
+        $this->expectException('\\Exception');
+        $this->expectExceptionMessage("'api_key' must be provided");
         Client::configure(array('username' => 'whatever', 'store_url' => 'whatever'));
     }
 
@@ -144,7 +148,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'auth_token' => 'def',
             'store_hash' => 'abc'
         ));
-        $this->setExpectedException('\Exception', 'Cannot sign customer login tokens without a client secret');
+        $this->expectException('\Exception');
+        $this->expectExceptionMessage('Cannot sign customer login tokens without a client secret');
         Client::getCustomerLoginToken(1);
     }
 
@@ -424,13 +429,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGettingProductGoogleProductSearch()
     {
-      $this->connection->expects($this->once())
+        $this->connection->expects($this->once())
           ->method('get')
           ->with($this->basePath . '/products/1/googleproductsearch')
           ->will($this->returnValue((object)array()));
 
-      $resource = Client::getGoogleProductSearch(1);
-      $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductGoogleProductSearch', $resource);
+        $resource = Client::getGoogleProductSearch(1);
+        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductGoogleProductSearch', $resource);
     }
 
     public function testGettingProductImagesReturnsCollectionOfProductImages()

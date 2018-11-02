@@ -10,5 +10,4 @@ use Bigcommerce\Api\Client;
  */
 class ProductReview extends Resource
 {
-
 }

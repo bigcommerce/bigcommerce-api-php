@@ -10,6 +10,4 @@ use Bigcommerce\Api\Client;
  */
 class ProductConfigurableField extends Resource
 {
-
 }
-

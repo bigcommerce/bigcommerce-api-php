@@ -63,7 +63,6 @@ class ShippingZoneTest extends ResourceTestBase
 
     public function testDeleteShippingZone()
     {
-
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/shipping/zones/1');

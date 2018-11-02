@@ -57,5 +57,4 @@ class PageTest extends ResourceTestBase
 
         $page->delete();
     }
-
 }
