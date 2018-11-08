@@ -556,6 +556,8 @@ class Connection
         if (array_key_exists($header, $this->responseHeaders)) {
             return $this->responseHeaders[$header];
         }
+	    
+
     }
 
     /**
@@ -574,3 +576,4 @@ class Connection
         curl_close($this->curl);
     }
 }
+?>
