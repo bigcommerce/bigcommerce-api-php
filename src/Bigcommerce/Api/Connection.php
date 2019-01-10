@@ -557,8 +557,8 @@ class Connection
             return $this->responseHeaders[$header];
         }
         // Do case-insensitive search
-        foreach($this->responseHeaders as $k => $v) {
-            if(strtolower($k) == strtolower($header)) {
+        foreach ($this->responseHeaders as $k => $v) {
+            if (strtolower($k) == strtolower($header)) {
                 return $v;
             }
         }
