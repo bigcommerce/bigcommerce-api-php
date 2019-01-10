@@ -556,6 +556,12 @@ class Connection
         if (array_key_exists($header, $this->responseHeaders)) {
             return $this->responseHeaders[$header];
         }
+        // Do case-insensitive search
+        foreach ($this->responseHeaders as $k => $v) {
+            if (strtolower($k) == strtolower($header)) {
+                return $v;
+            }
+        }
     }
 
     /**
