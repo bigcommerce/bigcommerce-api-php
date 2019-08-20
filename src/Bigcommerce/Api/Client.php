@@ -1191,6 +1191,22 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/products/skus' . $filter->toQuery(), 'Sku');
     }
+    
+    
+  /**
+   * Get a SKU by product
+   *
+   * @param $productId
+   * @param array $filter
+   */
+
+
+    public static function getSkusByProduct($productId,$filter = array())
+    {
+      $filter = Filter::create($filter);
+      return self::getCollection('/products/' . $productId . '/skus'.$filter->toQuery(),'Sku');
+    }
+
 
     /**
      * Create a SKU
