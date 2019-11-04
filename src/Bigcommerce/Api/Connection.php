@@ -286,14 +286,14 @@ class Connection
 
         if ($status >= 400 && $status <= 499) {
             if ($this->failOnError) {
-                throw new ClientError($body, $status);
+                throw new ClientError(strval($body), $status);
             } else {
                 $this->lastError = $body;
                 return false;
             }
         } elseif ($status >= 500 && $status <= 599) {
             if ($this->failOnError) {
-                throw new ServerError($body, $status);
+                throw new ServerError(strval($body), $status);
             } else {
                 $this->lastError = $body;
                 return false;
