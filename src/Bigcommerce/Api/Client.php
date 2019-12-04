@@ -2078,5 +2078,4 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/options/' . $optionId . '/values' . $filter->toQuery(), 'OptionValue');
     }
-
 }
