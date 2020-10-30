@@ -2,8 +2,9 @@
 namespace Bigcommerce\Unit\Api;
 
 use Bigcommerce\Api\ServerError;
+use PHPUnit\Framework\TestCase;
 
-class ServerErrorTest extends \PHPUnit_Framework_TestCase
+class ServerErrorTest extends TestCase
 {
     public function testBehavesExactlyLikeException()
     {

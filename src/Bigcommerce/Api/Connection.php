@@ -340,7 +340,6 @@ class Connection
                 }
 
                 $this->get($url);
-
             } else {
                 $errorString = "Too many redirects when trying to follow location.";
                 throw new NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
@@ -556,6 +555,12 @@ class Connection
     {
         if (array_key_exists($header, $this->responseHeaders)) {
             return $this->responseHeaders[$header];
+        }
+        // Do case-insensitive search
+        foreach ($this->responseHeaders as $k => $v) {
+            if (strtolower($k) == strtolower($header)) {
+                return $v;
+            }
         }
     }
 

@@ -2,8 +2,9 @@
 namespace Bigcommerce\Test\Unit;
 
 use Bigcommerce\Api\Error;
+use PHPUnit\Framework\TestCase;
 
-class ErrorTest extends \PHPUnit_Framework_TestCase
+class ErrorTest extends TestCase
 {
     public function testConstructorHandlesArrayOfMessageObjects()
     {

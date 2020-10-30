@@ -2,8 +2,9 @@
 namespace Bigcommerce\Unit\Api;
 
 use Bigcommerce\Api\Filter;
+use PHPUnit\Framework\TestCase;
 
-class FilterTest extends \PHPUnit_Framework_TestCase
+class FilterTest extends TestCase
 {
     public function testToQueryBuildsAnAppropriateQueryString()
     {

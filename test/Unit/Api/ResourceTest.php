@@ -2,8 +2,9 @@
 namespace Bigcommerce\Test\Unit\Api;
 
 use Bigcommerce\Api\Resource;
+use PHPUnit\Framework\TestCase;
 
-class ResourceTest extends \PHPUnit_Framework_TestCase
+class ResourceTest extends TestCase
 {
     public function testGetCreateFieldsReturnsAllFieldsNotMarkedIgnore()
     {
