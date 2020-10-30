@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<server>
+	<name>bigcommerce.github.com/bigcommerce-api-php</name>
+	<summary>BigCommerce API Client (PHP)</summary>
+	<alias>bigcommerce</alias>
+	<url>http://bigcommerce.github.com/bigcommerce-api-php</url>
+</server>
