@@ -89,7 +89,7 @@ In order to obtain the auth_token you would consume `Bigcommerce::getAuthToken` 
 
 $object = new \stdClass();
 $object->client_id = 'xxxxxx';
-$object->client_secret = 'xxxxx;
+$object->client_secret = 'xxxxx';
 $object->redirect_uri = 'https://app.com/redirect';
 $object->code = $request->get('code');
 $object->context = $request->get('context');
