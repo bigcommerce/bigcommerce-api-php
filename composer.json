@@ -1,5 +1,5 @@
 {
-    "name": "bigcommerce/api",
+    "name": "bigcommerce/api--forked",
     "type": "library",
     "description": "Enables PHP applications to communicate with the Bigcommerce API.",
     "keywords": [
