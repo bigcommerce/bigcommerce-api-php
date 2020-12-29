@@ -260,7 +260,7 @@ class Client
     {
         $response = self::connection()->get(self::$api_path . $version . $path);
 
-        return self::mapCollection($resource, $response);
+        return self::mapCollection($resource, $response, $version);
     }
 
     /**
@@ -346,6 +346,10 @@ class Client
      */
     private static function mapCollection($resource, $object, $version = 'v2')
     {
+        if ($version === 'v3') {
+            $object = $object->data ?? false;
+        }
+
         if ($object == false || is_string($object)) {
             return $object;
         }
@@ -473,7 +477,18 @@ class Client
     public static function getProducts($filter = array(), $version = 'v2')
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products' . $filter->toQuery(), 'Product');
+
+        switch ($version) {
+            case 'v3':
+                return self::getCollection('/catalog/products' . $filter->toQuery(), 'Product', $version);
+                break;
+
+            case 'v2':
+            default:
+                return self::getCollection('/products' . $filter->toQuery(), 'Product');
+                break;
+        }
+
     }
 
     /**
