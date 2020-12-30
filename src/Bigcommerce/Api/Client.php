@@ -7,6 +7,8 @@ use Firebase\JWT\JWT;
 
 /**
  * Bigcommerce API Client.
+ * 
+ * Note: Unless specified, the functions only support the API version 2
  */
 class Client
 {
@@ -470,6 +472,8 @@ class Client
 
     /**
      * Returns the default collection of products.
+     * 
+     * Supports v2 & v3
      *
      * @param array $filter
      * @return mixed array|string list of products or XML string if useXml is true
@@ -1475,6 +1479,36 @@ class Client
     {
         $filter = Filter::create($filter);
         return self::getCollection('/orders/' . $orderID . '/shipping_addresses' . $filter->toQuery(), 'Address');
+    }
+
+    /**
+     * Get Cart
+     * 
+     * Only supports v3
+     * 
+     * @param $cartID
+     * @return mixed
+     */
+    public static function getCart($cartID) {
+        return self::getResource('/carts/' . $cartID, 'Resource', 'v3');
+    }
+
+    /**
+     * Apply Coupon to Checkout
+     * 
+     * Only supports v3
+     * 
+     * @param $checkoutID
+     * @param mixed $object the coupon code to apply
+     * @return mixed
+     */
+    public static function addCoupon($checkoutID, $object)
+    {
+        if (is_array($object)) {
+            $object = (object)$object;
+        }
+
+        return self::createResource('/checkouts/' . $checkoutID . '/coupons', $object, 'v3');
     }
 
     /**
