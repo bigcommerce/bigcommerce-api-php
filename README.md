@@ -19,14 +19,7 @@ Requirements
 - PHP 7.0 or greater
 - cUrl extension enabled
 
-**To connect to the API with basic auth you need the following:**
-
-- Secure URL pointing to a Bigcommerce store
-- Username of an authorized admin user of the store
-- API key for the user
-
-To generate an API key, go to Control Panel > Users > Edit User and make sure
-the 'Enable the XML API?' is ticked.
+To generate an OAuth API token, [follow this guide.](https://support.bigcommerce.com/s/article/Store-API-Accounts)
 
 **To connect to the API with OAuth you will need the following:**
 
@@ -72,15 +65,6 @@ in your autoload path (using Composer’s `vendor/autoload.php` hook is recommen
 Provide your credentials to the static configuration hook to prepare the API client
 for connecting to a store on the Bigcommerce platform:
 
-### Basic Auth
-~~~php
-Bigcommerce::configure(array(
-	'store_url' => 'https://store.mybigcommerce.com',
-	'username'	=> 'admin',
-	'api_key'	=> 'd81aada4xc34xx3e18f0xxxx7f36ca'
-));
-~~~
-
 ### OAuth
 
 In order to obtain the auth_token you would consume `Bigcommerce::getAuthToken` method 
@@ -103,6 +87,15 @@ Bigcommerce::configure(array(
     'store_hash' => 'xxxxxxx'
 ));
 
+~~~
+
+### Basic Auth (deprecated)
+~~~php
+Bigcommerce::configure(array(
+	'store_url' => 'https://store.mybigcommerce.com',
+	'username'	=> 'admin',
+	'api_key'	=> 'd81aada4xc34xx3e18f0xxxx7f36ca'
+));
 ~~~
 
 Connecting to the store
