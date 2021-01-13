@@ -67,7 +67,7 @@ for connecting to a store on the Bigcommerce platform:
 
 ### OAuth
 
-In order to obtain the auth_token you would consume `Bigcommerce::getAuthToken` method 
+In order to obtain the auth_token you would consume `Bigcommerce::getAuthToken` method during an installation of a single-click app. Alternatively, if you already have a token, skip to `Bigcommerce::configure` and provide your credentials.
 
 ~~~php
 
