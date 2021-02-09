@@ -1,6 +1,6 @@
 <?php
 
-namespace Bigcommerce\test\unit;
+namespace Bigcommerce\test\Unit;
 
 use Bigcommerce\Api\Connection;
 use PHPUnit\Framework\TestCase;
