@@ -1,5 +1,5 @@
 <?php
-namespace bigcommerce\test\unit;
+namespace Bigcommerce\test\unit;
 
 use Bigcommerce\Api\Error;
 use PHPUnit\Framework\TestCase;
