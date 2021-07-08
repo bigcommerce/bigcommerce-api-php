@@ -26,21 +26,27 @@ class RuleTest extends ResourceTestBase
         $rule->update();
     }
 
-    public function testConditionsPassesThroughToConnection()
+    public function testRuleHasConditions()
     {
         $rule = new Rule((object)array(
             'product_id' => 1,
-            'conditions' => (object)array('resource' => '/products/1/rules/1/conditions')
+            'conditions' => array(
+                array('option_value_id' => 1, 'product_option_id' => 1)
+            )
         ));
-        $this->connection->expects($this->once())
-            ->method('get')
-            ->with($this->basePath . '/products/1/rules/1/conditions')
-            ->will($this->returnValue(array(array(), array())));
 
-        $collection = $rule->conditions;
-        $this->assertInternalType('array', $collection);
-        foreach ($collection as $condition) {
-            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\RuleCondition', $condition);
-        }
+        $this->assertInstanceOf('Bigcommerce\Api\Resources\RuleCondition', $rule->conditions[0]);
+
+        $this->assertEquals(1, $rule->conditions[0]->option_value_id);
+        $this->assertEquals(1, $rule->conditions[0]->product_option_id);
+    }
+
+    public function testRuleHasNoConditions()
+    {
+        $rule = new Rule((object)array(
+            'product_id' => 1
+        ));
+
+        $this->assertEmpty($rule->conditions);
     }
 }
