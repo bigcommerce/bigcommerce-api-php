@@ -82,7 +82,7 @@ class Client
         if (isset($settings['client_id'])) {
             self::configureOAuth($settings);
         } else {
-            throw new Exception("'store_hash' must be provided");
+            throw new Exception("'client_id' must be provided");
         }
     }
 
