@@ -72,14 +72,17 @@ class Client
      *
      * Accepts OAuth and (for now!) Basic Auth credentials
      *
+     * configure Basic Auth credentials doesn't support anymore
+     *
      * @param array $settings
+     * @throws Exception
      */
     public static function configure($settings)
     {
         if (isset($settings['client_id'])) {
             self::configureOAuth($settings);
         } else {
-            self::configureBasicAuth($settings);
+            throw new Exception("'store_hash' must be provided");
         }
     }
 
@@ -219,11 +222,12 @@ class Client
     {
         if (!self::$connection) {
             self::$connection = new Connection();
-            if (self::$client_id) {
-                self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
-            } else {
-                self::$connection->authenticateBasic(self::$username, self::$api_key);
-            }
+            self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
+//            if (self::$client_id) {
+//                self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
+//            } else {
+//                self::$connection->authenticateBasic(self::$username, self::$api_key);
+//            }
         }
 
         return self::$connection;
