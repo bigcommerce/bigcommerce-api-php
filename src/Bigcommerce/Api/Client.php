@@ -72,7 +72,7 @@ class Client
      *
      * Accepts OAuth and (for now!) Basic Auth credentials
      *
-     * configure Basic Auth credentials doesn't support anymore
+     * configure using Basic Auth credentials doesn't support anymore
      *
      * @param array $settings
      * @throws Exception
