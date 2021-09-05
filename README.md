@@ -56,6 +56,315 @@ into the scope with the following namespace declaration:
 use Bigcommerce\Api\Client as Bigcommerce;
 ~~~
 
+V3 Update - *NEW
+---------
+This update is on the development with `Backward Compatibility` and can be easily customised on future version releases. Feel free to add more features and create issues.
+
+`configureBasicAuth` is Completely removed now you can only configure using `auth_token, client_id and store_hash`
+
+Now you can set the version on Configuration and can be overridden anywhere in the code.
+~~~php
+Bigcommerce::configure(array(
+    'client_id' => 'xxxxxxxxxxxxxxxxxxxxxx',
+    'auth_token' => 'xxxxxxxxxxxxxxxxxxxxxxx',
+    'store_hash' => 'xxxxxxxxx',
+    'version' => 'v3' //optional By Default set as 'v2'
+));
+
+//If you don't want to set version by default, you can always set it in the method.
+
+$brands = Bigcommerce::getBrands([],"v3");
+
+foreach($brands as $brand){
+    echo $brand->name."\n";
+}
+~~~
+As of now, Only `Carts, Wishlists and Catlalog\brands support 'v3'` other APIs are still in development will be added here once it is completed, Meanwhile `You can still use 'v2' features without any issues`.
+
+Set 'v3' by default if you're only using 'v3' APIs
+
+'v3' methods has `$version` parameter which can be used if you didn't set version 'v3' as default version.
+
+##Carts(V3)
+
+you can do almost all the functions in cart.
+
+**Get Cart by Cart Id**: `getCart($id, $version = null);`
+* $id = String Cart Id
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+Bigcommerce::configure(array(
+    'client_id' => 'xxxxxxxxxxxxxxxxxxxxxx',
+    'auth_token' => 'xxxxxxxxxxxxxxxxxxxxxxx',
+    'store_hash' => 'xxxxxxxxx',
+    'version' => 'v3'
+));
+$cart = Bigcommerce::getCart();
+
+echo $cart->id;
+
+//for this documentation, I'll use the above example
+//$version variable available for only methods that use 'v3', you can use older functions as it was without '$version' variable
+
+
+//or
+
+Bigcommerce::configure(array(
+    'client_id' => 'xxxxxxxxxxxxxxxxxxxxxx',
+    'auth_token' => 'xxxxxxxxxxxxxxxxxxxxxxx',
+    'store_hash' => 'xxxxxxxxx'
+));
+
+$cart = Bigcommerce::getCart("v3");
+
+echo $cart->id;
+~~~
+**Create Cart**: `createCart($object, $version = null);`
+* $object = Array | Object 
+* $version = (Optional) String "v2", "v3", ..
+~~~php
+$cart = array(
+    "customer_id" => 1,
+    "line_items" => array(
+        array(
+            "quantity" => 1,
+            "product_id" => 1,
+            "variant_id" => 2
+        )
+    )
+);
+
+Bigcommerce::createCart($cart); //or Bigcommerce::createCart($cart,"v3");
+
+//or
+
+$cart = new Bigcommerce\Api\Resources\Cart();
+$cart->customer_id = 1;
+$cart->line_items = array(
+    array(
+        "quantity" => 1,
+        "product_id" => 1,
+        "variant_id" => 2
+    )
+);
+$cart->create(); // CartObject->create($version = 'v3'); $version (Optional)
+~~~
+**Update Cart**: `updateCartCustomerId($cart_id, $customer_id, $version = null);`
+
+Note: Only `Customer Id` can be updated by update cart api
+* $cart_id = String Cart Id
+* $customer_id = Int Customer Id
+* $version = (Optional) String "v2", "v3", ..
+ ~~~php
+Bigcommerce::updateCartCustomerId("xxxxxxxxx",1);
+ 
+ //or
+ 
+ $cart = Bigcommerce::getCart("xxxxxxxxxxx");
+ $cart->update(41) // CartObject->update($customer_id, $version = 'v3'); $version (Optional)
+ ~~~
+**Delete Cart**: `deleteCart($cart_id, $version = null);`
+* $cart_id = String Cart Id
+~~~php
+Bigcommerce::deleteCart("xxxxxxxxx",1);
+ 
+ //or
+ 
+ $cart = Bigcommerce::getCart("xxxxxxxxxxx");
+ $cart->delete() // CartObject->delete($version = 'v3'); $version (Optional)
+ ~~~
+
+**Add Cart Items**: `createCartLineItems($id, $object, $filter = array(), $version = null);`
+* $id = String Cart Id
+* $object = Array|Object 
+* $filter = (Optional) Array Example ['include'=>'redirect_urls']
+~~~php
+$items = array(
+    "line_items" => array(
+        array(
+            "quantity" => 1,
+            "product_id" => 1,
+            "variant_id" => 2
+        ),
+        array(
+            "quantity" => 1,
+            "product_id" => 2,
+            "variant_id" => 3
+        )
+    )
+);
+
+Bigcommerce::createCartLineItems("xxxxxxxxx",$items);
+ 
+ //or
+ 
+ $cart = Bigcommerce::getCart("xxxxxxxxxxx");
+ $cart->addItems($items) // CartObject->addItems($items, $filter = array(), $version = 'v3'); $filter, $version (Optional)
+ ~~~
+
+**Update Cart Item**: `updateCartLineItem($cart_id, $line_item_id, $object, $filter = array(), $version = null);`
+* $cart_id = String Cart Id
+* $line_item_id = String Line Item Id
+* $object = Array|Object 
+* $filter = (Optional) Array Example ['include'=>'redirect_urls']
+~~~php
+$item = array(
+    "line_items" => array(
+        "quantity" => 1,
+        "product_id" => 1,
+        "variant_id" => 2
+    )
+);
+
+Bigcommerce::updateCartLineItem("xxxxxxxxx","xxxxxxxxx",$item);
+ ~~~
+
+**Delete Cart Item**: `deleteCartLineItem($cart_id, $line_item_id, $version = null);`
+* $cart_id = String Cart Id
+* $line_item_id = String Line Item Id
+~~~php
+Bigcommerce::deleteCartLineItem("xxxxxxxxx","xxxxxxxxx");
+ ~~~
+
+##Brands (V2 and V3)
+you can use both 'v2' and 'v3' in Brands and I'm trying to do the same for all new versions.
+
+**Get All Brands**: `getBrands($filter = array(), $version = null);`
+* $filter = Array filter options refer Bigcommerce documentation for more.
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+Bigcommerce::configure(array(
+    'client_id' => 'xxxxxxxxxxxxxxxxxxxxxx',
+    'auth_token' => 'xxxxxxxxxxxxxxxxxxxxxxx',
+    'store_hash' => 'xxxxxxxxx'
+));
+// By default version will be 'v2'
+// API url will be https://api.bigcommerce.com/stores/{store_hash}/v2/brands
+$brands = Bigcommerce::getBrands();
+
+//or
+
+Bigcommerce::configure(array(
+    'client_id' => 'xxxxxxxxxxxxxxxxxxxxxx',
+    'auth_token' => 'xxxxxxxxxxxxxxxxxxxxxxx',
+    'store_hash' => 'xxxxxxxxx',
+    'version' => 'v3' \\ Optional
+));
+
+// API url will be https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands
+$brands = Bigcommerce::getBrands([],"v3");
+~~~
+**Get Brand by Brand Id:** `getBrand($id, $version = null);`
+* $id = Int Brand Id.
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+$brand = Bigcommerce::getBrand(1);
+//or
+$brand = Bigcommerce::getBrand(1,"v3");
+
+echo $brand->name;
+~~~
+**Create Brand:** `createBrand($object, $version = null);`
+* $object = Array|Object API Payload.
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+$brand = array(
+    "name" => "test"
+);
+$brand = Bigcommerce::createBrand($brand,'v3');
+//or
+$brand = new Bigcommerce\Api\Resources\Brand();
+$brand->name = "test";
+$brand->create(); // BrandObject->create($version = null); $version (Optional)
+~~~
+**Update Brand:** `createBrand($id, $object, $version = null);`
+* $id = Int Brand Id.
+* $object = Array|Object
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+$brand = array(
+    "name" => "test"
+);
+$brand = Bigcommerce::updateBrand(1, $brand, 'v3');
+//or
+$brand = Bigcommerce::getBrand(1);
+$brand->name = "test";
+$brand->update(); // BrandObject->update($version = null); $version (Optional)
+~~~
+**Delete Brand:** `deleteBrand($id, $version = null);`
+* $id = Int Brand Id.
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+Bigcommerce::deleteBrand(1);
+//or
+$brand = Bigcommerce::getBrand(1);
+$brand->delete(); // BrandObject->delete($version = null); $version (Optional)
+~~~
+**Delete All Brand:** `deleteAllBrands($version = null);`
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+Bigcommerce::deleteAllBrands();
+~~~
+**Get All Brand Meta Fields (Only on 'v3'):** `getBrandMetafields($id, $filter = array(), $version = null);`
+* $id = Int Brand Id
+* $filter = (Optional) Array|Object
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+Bigcommerce::getBrandMetafields(1, array(), 'v3');
+~~~
+**Get Brand Meta Field by Id (Only on 'v3'):** `getBrandMetafield($brand_id, $metafield_id, $filter = array(), $version = null);`
+* $brand_id = Int Brand Id
+* $metafield_id = Int Brand Meta Field Id
+* $filter = (Optional) Array|Object
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+Bigcommerce::getBrandMetafield(1, 1, array(), 'v3');
+~~~
+**Create Brand Meta Field (Only on 'v3'):** `createBrandMetafield($id, $object, $version = null);`
+* $id = Int Brand Id
+* $object = Array|Object
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+$metaField = array(
+    "permission_set" => "app_only",
+    "namespace" => "App Namespace",
+    "key" => "location_id",
+    "value" => "Shelf 3, Bin 5",
+);
+
+Bigcommerce::createBrandMetafield(1, $metaField, 'v3');
+~~~
+
+**Update Brand Meta Field (Only on 'v3'):** `updateBrandMetafield($brand_id, $metafield_id, $object, $version = null);`
+* $brand_id = Int Brand Id
+* $metafield_id = Int Brand Meta Field Id
+* $object = Array|Object
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+$metaField = array(
+    "permission_set" => "app_only",
+    "namespace" => "App Namespace",
+    "key" => "location_id",
+    "value" => "Shelf 3",
+);
+
+Bigcommerce::updateBrandMetafield(1, 1, $metaField, 'v3');
+~~~
+
+**Delete Brand Meta Field (Only on 'v3'):** `updateBrandMetafield($brand_id, $metafield_id, $version = null);`
+* $brand_id = Int Brand Id
+* $metafield_id = Int Brand Meta Field Id
+* $version = (Optional) String "v2", "v3", ..  
+~~~php
+Bigcommerce::deleteBrandMetafield(1, 1, 'v3');
+~~~
+
+That's all for now. I'll update for other APIs Continuously. **Feel free to Pull and Merge for other APIs**
+
+I'll publish this repo on composer for easy Installation
+
+**You can use all the features and Methods Below**
+
 Configuration
 -------------
 
@@ -90,6 +399,7 @@ Bigcommerce::configure(array(
 ~~~
 
 ### Basic Auth (deprecated)
+**Update - Totally Removed**
 ~~~php
 Bigcommerce::configure(array(
 	'store_url' => 'https://store.mybigcommerce.com',

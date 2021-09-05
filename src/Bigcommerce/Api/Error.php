@@ -11,6 +11,10 @@ class Error extends \Exception
     {
         if (is_array($message)) {
             $message = $message[0]->message;
+        } else {
+            if (isset($message->title)) {
+                $message = $message->title;
+            }
         }
 
         parent::__construct($message, $code);

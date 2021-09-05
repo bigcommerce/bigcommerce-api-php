@@ -1,5 +1,5 @@
 vendor
-composer.lock
+/composer.lock
 *.sh
 script/*
 
@@ -10,3 +10,4 @@ script/*
 .env
 /.php_cs
 /.php_cs.cache
+/test.php

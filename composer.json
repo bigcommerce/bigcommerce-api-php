@@ -1,5 +1,5 @@
 {
-    "name": "bigcommerce/api",
+    "name": "naveenrajbu/bigcommerce-api-php-v3",
     "type": "library",
     "description": "Enables PHP applications to communicate with the Bigcommerce API.",
     "keywords": [
@@ -15,6 +15,11 @@
         {
             "name": "Bigcommerce",
             "homepage": "http://www.bigcommerce.com"
+        },
+        {
+            "name": "Naveen Raj",
+            "homepage": "https://github.com/naveenrajbu/",
+            "email": "nvenrj@gmail.com"
         }
     ],
     "require": {
@@ -29,7 +34,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Bigcommerce": "src/"
+            "Bigcommerce\\Api": "src/"
         }
     },
     "autoload-dev": {
