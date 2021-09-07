@@ -1,7 +1,7 @@
 Bigcommerce API Client
 ======================
 
-PHP client for connecting to the Bigcommerce V2 REST API.
+PHP client for connecting to the Bigcommerce V2 and V3 REST API.
 
 To find out more, visit the official documentation website:
 http://developer.bigcommerce.com/
@@ -31,10 +31,10 @@ Installation
 ------------
 
 Use the following Composer command to install the
-API client from [the Bigcommerce vendor on Packagist](https://packagist.org/packages/bigcommerce/api):
+API client from [the Bigcommerce vendor on Packagist](https://packagist.org/packages/naveenrajbu/bigcommerce-api-php-v3):
 
 ~~~shell
- $ composer require bigcommerce/api
+ $ composer require naveenrajbu/bigcommerce-api-php-v3
  $ composer update
 ~~~
 
@@ -85,8 +85,8 @@ Set 'v3' by default if you're only using 'v3' APIs
 
 'v3' methods has `$version` parameter which can be used if you didn't set version 'v3' as default version.
 
-##Carts(V3)
-
+Carts(V3)
+------------
 you can do almost all the functions in cart.
 
 **Get Cart by Cart Id**: `getCart($id, $version = null);`
