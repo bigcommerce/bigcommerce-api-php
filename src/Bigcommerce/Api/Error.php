@@ -14,6 +14,8 @@ class Error extends \Exception
         } else {
             if (isset($message->title)) {
                 $message = $message->title;
+            } else {
+                $message = "Undefined Error Occurred";
             }
         }
 

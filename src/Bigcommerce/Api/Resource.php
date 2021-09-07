@@ -110,4 +110,9 @@ class Resource
 
         return false;
     }
+
+    public function toJson()
+    {
+        return json_encode($this->fields, true);
+    }
 }

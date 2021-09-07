@@ -73,7 +73,7 @@ class Client
     private static $stores_prefix = '/stores/%s/';
     private static $api_url = 'https://api.bigcommerce.com';
     private static $login_url = 'https://login.bigcommerce.com';
-    private static $available_versions = array("v2","v3");
+    private static $available_versions = array(null, "v2", "v3");
 
     /**
      * Configure the API client with the required settings to access
@@ -122,6 +122,14 @@ class Client
         self::$store_hash = $settings['store_hash'];
 
         self::$client_secret = isset($settings['client_secret']) ? $settings['client_secret'] : null;
+
+        if (isset($settings['version'])) {
+            if (in_array($settings['version'], self::$available_versions)) {
+                self::$version = (!is_null($settings['version']))? $settings['version']:'v2';
+            } else {
+                throw new Exception("'version' not available");
+            }
+        }
 
         self::$version = isset($settings['version']) ? $settings['version'] : "v2";
 
@@ -270,27 +278,20 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource resource class to map individual items
+     * @param null $version
      * @return mixed array|string mapped collection or XML string if useXml is true
      * @throws Exception
      */
-    public static function getCollection($path, $resource = 'Resource')
+    public static function getCollection($path, $resource = 'Resource', $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         $path = ($resource !== "Resource")?self::getUrl($resource).$path : $path;
-        $response = self::connection()->get(self::$api_path .self::$version. $path);
+        $response = self::connection()->get(self::$api_path .$temp_version. $path);
 
-        if ($response) {
-            if (self::$version === "v2") {
-                return self::mapCollection($resource, $response);
-            } else {
-                $response = (array)$response;
-                if (array_key_exists("data", $response)) {
-                    return self::mapCollection($resource, $response["data"]);
-                } else {
-                    return self::mapCollection($resource, $response);
-                }
-            }
+        if (isset($response->data)) {
+            return self::mapCollection($resource, $response->data);
         } else {
-            throw new Exception("'response' returns empty, check url and filters if exist");
+            return self::mapCollection($resource, $response);
         }
     }
 
@@ -299,27 +300,21 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource resource class to map individual items
+     * @param null $version
      * @return mixed Resource|string resource object or XML string if useXml is true
      * @throws Exception
      */
-    public static function getResource($path, $resource = 'Resource')
+    public static function getResource($path, $resource = 'Resource', $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         $path = ($resource !== "Resource")?self::getUrl($resource).$path : $path;
 
-        $response = self::connection()->get(self::$api_path .self::$version. $path);
+        $response = self::connection()->get(self::$api_path .$temp_version. $path);
 
-        if ($response) {
-            if (self::$version === "v2") {
-                return self::mapResource($resource, $response);
-            } else {
-                if (isset($response->data)) {
-                    return self::mapResource($resource, $response->data);
-                } else {
-                    return self::mapResource($resource, $response);
-                }
-            }
+        if (isset($response->data)) {
+            return self::mapResource($resource, $response->data);
         } else {
-            throw new Exception("'response' returns empty, check url and filters if exist");
+            return self::mapResource($resource, $response);
         }
     }
 
@@ -352,13 +347,16 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource
+     * @param null $version
      * @return mixed int|string count value or XML string if useXml is true
+     * @throws Exception
      */
-    public static function getCount($path, $resource = "Resource")
+    public static function getCount($path, $resource = "Resource", $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         $path = ($resource !== "Resource")?self::getUrl($resource).$path : $path;
 
-        $response = self::connection()->get(self::$api_path .self::$version. $path);
+        $response = self::connection()->get(self::$api_path .$temp_version. $path);
 
         if (self::$version == "v2") {
             if ($response == false || is_string($response)) {
@@ -377,16 +375,18 @@ class Client
      * @param string $path api endpoint
      * @param mixed $object object or XML string to create
      * @param string $resource
+     * @param null $version
      * @return mixed
      * @throws Exception
      */
-    public static function createResource($path, $object, $resource = "Resource")
+    public static function createResource($path, $object, $resource = "Resource", $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         if (is_array($object)) {
             $object = (object)$object;
         }
         $path = ($resource !== "Resource")?self::getUrl($resource).$path : $path;
-        return self::connection()->post(self::$api_path .self::$version. $path, $object);
+        return self::connection()->post(self::$api_path .$temp_version. $path, $object);
     }
 
     /**
@@ -395,17 +395,18 @@ class Client
      * @param string $path api endpoint
      * @param mixed $object object or XML string to update
      * @param string $resource
-     * @param string $version
+     * @param null $version
      * @return mixed
      * @throws Exception
      */
-    public static function updateResource($path, $object, $resource = "Resource")
+    public static function updateResource($path, $object, $resource = "Resource", $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         if (is_array($object)) {
             $object = (object)$object;
         }
         $path = ($resource !== "Resource")?self::getUrl($resource).$path : $path;
-        return self::connection()->put(self::$api_path .self::$version. $path, $object);
+        return self::connection()->put(self::$api_path .$temp_version. $path, $object);
     }
 
     /**
@@ -413,13 +414,15 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource
+     * @param null $version
      * @return mixed
      * @throws Exception
      */
-    public static function deleteResource($path, $resource = "Resource")
+    public static function deleteResource($path, $resource = "Resource", $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         $path = ($resource !== "Resource")?self::getUrl($resource).$path : $path;
-        return self::connection()->delete(self::$api_path .self::$version. $path);
+        return self::connection()->delete(self::$api_path .$temp_version. $path);
     }
 
     /**
@@ -889,10 +892,9 @@ class Client
      */
     public static function getBrands($filter = array(), $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
         $filter = Filter::create($filter);
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::getCollection($filter->toQuery(), 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::getCollection($filter->toQuery(), 'Brand', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -909,10 +911,9 @@ class Client
      */
     public static function getBrandMetafields($id, $filter = array(), $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
         $filter = Filter::create($filter);
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::getCollection('/'.$id.'/metafields'.$filter->toQuery(), 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::getCollection('/'.$id.'/metafields'.$filter->toQuery(), 'Brand', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -928,11 +929,10 @@ class Client
      */
     public static function getBrandsCount($filter = array(), $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
         $filter = Filter::create($filter);
-        if (in_array(self::$version, self::$available_versions)) {
-            $path = (self::$version == "v2")?'/count':'';
-            return self::getCount($path . $filter->toQuery(), "Brand");
+        if (in_array($version, self::$available_versions)) {
+            $path = ($version != "v3" and self::$version != "v3")?'/count':'';
+            return self::getCount($path . $filter->toQuery(), "Brand", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -948,9 +948,8 @@ class Client
      */
     public static function getBrand($id, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::getResource("/".$id, 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource("/".$id, 'Brand', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -968,10 +967,9 @@ class Client
      */
     public static function getBrandMetafield($brand_id, $metafield_id, $filter = array(), $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
         $filter = Filter::create($filter);
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::getResource("/".$brand_id.'/metafields/'.$metafield_id.$filter->toQuery(), 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource("/".$brand_id.'/metafields/'.$metafield_id.$filter->toQuery(), 'Brand', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -987,9 +985,8 @@ class Client
      */
     public static function createBrand($object, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::createResource('', $object, "Brand");
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('', $object, "Brand", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1006,9 +1003,8 @@ class Client
      */
     public static function createBrandMetafield($id, $object, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::createResource('/'.$id.'/metafields', $object, "Brand");
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('/'.$id.'/metafields', $object, "Brand", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1025,9 +1021,8 @@ class Client
      */
     public static function updateBrand($id, $object, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::updateResource('/' . $id, $object, "Brand");
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource('/' . $id, $object, "Brand", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1045,9 +1040,8 @@ class Client
      */
     public static function updateBrandMetafield($brand_id, $metafield_id, $object, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::updateResource("/".$brand_id.'/metafields/'.$metafield_id, $object, 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource("/".$brand_id.'/metafields/'.$metafield_id, $object, 'Brand', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1063,9 +1057,8 @@ class Client
      */
     public static function deleteBrand($id, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::deleteResource('/' . $id, "Brand");
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource('/' . $id, "Brand", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1082,9 +1075,8 @@ class Client
      */
     public static function deleteBrandMetafield($brand_id, $metafield_id, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::deleteResource("/".$brand_id.'/metafields/'.$metafield_id, 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource("/".$brand_id.'/metafields/'.$metafield_id, 'Brand', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1099,9 +1091,8 @@ class Client
      */
     public static function deleteAllBrands($version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
         if (in_array(self::$version, self::$available_versions)) {
-            return self::deleteResource('');
+            return self::deleteResource('', 'Brand', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1117,9 +1108,8 @@ class Client
      */
     public static function getCart($id, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::getResource("/".$id, 'Cart');
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource("/".$id, 'Cart', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1135,9 +1125,8 @@ class Client
      */
     public static function createCart($object, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::createResource('', $object, "Cart");
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('', $object, "Cart", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1155,10 +1144,9 @@ class Client
      */
     public static function createCartLineItems($id, $object, $filter = array(), $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
         $filter = Filter::create($filter);
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::createResource('/'.$id.'/items'.$filter->toQuery(), $object, "Cart");
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('/'.$id.'/items'.$filter->toQuery(), $object, "Cart", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1175,9 +1163,8 @@ class Client
      */
     public static function updateCartCustomerId($cart_id, $customer_id, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::updateResource("/".$cart_id, array("customer_id"=>$customer_id), 'Cart');
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource("/".$cart_id, array("customer_id"=>$customer_id), 'Cart', $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1196,10 +1183,9 @@ class Client
      */
     public static function updateCartLineItem($cart_id, $line_item_id, $object, $filter = array(), $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
         $filter = Filter::create($filter);
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::updateResource('/'.$cart_id.'/items/'.$line_item_id.$filter->toQuery(), $object, "Cart");
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource('/'.$cart_id.'/items/'.$line_item_id.$filter->toQuery(), $object, "Cart", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1215,9 +1201,8 @@ class Client
      */
     public static function deleteCart($id, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::deleteResource('/'.$id, "Cart");
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource('/'.$id, "Cart", $version);
         } else {
             throw new Exception("'version' not available");
         }
@@ -1234,9 +1219,8 @@ class Client
      */
     public static function deleteCartLineItem($cart_id, $line_item_id, $version = null)
     {
-        self::$version = (!is_null($version))?$version:self::$version;
-        if (in_array(self::$version, self::$available_versions)) {
-            return self::deleteResource('/'.$cart_id.'/items/'.$line_item_id, "Cart");
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource('/'.$cart_id.'/items/'.$line_item_id, "Cart", $version);
         } else {
             throw new Exception("'version' not available");
         }

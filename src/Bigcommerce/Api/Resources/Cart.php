@@ -57,4 +57,9 @@ class Cart extends Resource
         return Client::deleteCart($this->id, $version);
     }
 
+    public function toJson()
+    {
+        return parent::toJson();
+    }
+
 }

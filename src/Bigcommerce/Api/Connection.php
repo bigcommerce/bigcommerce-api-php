@@ -286,7 +286,6 @@ class Connection
         $status = $this->getStatus();
 
         if ($status >= 400 && $status <= 499) {
-            $this->failOnError();
             if ($this->failOnError) {
                 throw new ClientError($body, $status);
             } else {

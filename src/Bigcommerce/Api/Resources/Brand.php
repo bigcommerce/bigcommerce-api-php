@@ -34,4 +34,9 @@ class Brand extends Resource
     {
         return Client::deleteBrand($this->id, $version);
     }
+
+    public function toJson()
+    {
+        return parent::toJson();
+    }
 }
