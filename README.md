@@ -79,11 +79,102 @@ foreach($brands as $brand){
     echo $brand->name."\n";
 }
 ~~~
-As of now, Only `Carts, Wishlists and Catlalog\brands support 'v3'` other APIs are still in development will be added here once it is completed, Meanwhile `You can still use 'v2' features without any issues`.
+As of now, Only `Carts, Wishlists, Catalog\products and Catlalog\brands support 'v3'` other APIs are still in development will be added here once it is completed, Meanwhile `You can still use 'v2' features without any issues`.
 
 Set 'v3' by default if you're only using 'v3' APIs
 
-'v3' methods has `$version` parameter which can be used if you didn't set version 'v3' as default version.
+All 'v3' methods has `$version` parameter which can be used if you didn't set version 'v3' as default version.
+
+All the 'Get' Methods has `$filter = array()` if applicable to set query parameters
+
+Products(V2 and V3)
+------------
+you can get products and its variants, options variant metafields.
+~~~php
+Bigcommerce::configure(array(
+    'client_id' => 'xxxxxxxxxxxxxxxxxxxxxx',
+    'auth_token' => 'xxxxxxxxxxxxxxxxxxxxxxx',
+    'store_hash' => 'xxxxxxxxx',
+    'version' => 'v3' //optional By Default set as 'v2'
+));
+
+$products = Bigcommerce::getProducts(); //getProducts($filter = array(), $version = null);
+
+foreach($products as $item){
+    echo $item->name."\n";
+    $videos = $item->videos();
+}
+
+//Single Product
+
+$product = Bigcommerce::getProduct(1);
+
+//To get that product variants
+
+$variants = $product->variants(); //or Bigcommerce::getProduct(1)->variants(123);
+
+//To get Meta fields for a Single Variant
+
+$variant_metafield = Bigcommerce::getProducts(1)->variants(123)->meta_fields();
+
+//To delete a Meta field
+
+$variant_metafield->delete(); //or Bigcommerce::getProduct(1)->variants(123)->meta_fields(1)->delete();
+~~~
+The Product Instance has following member functions
+
+~~~php
+$product = Bigcommerce::getProduct(1);
+
+// Member Function works only on 'v3'
+//All the 'v3' Resource Class has create(), update() and delete() functions
+
+$product->bulk_pricing_rules(1)->delete();    // Delete bulk pricing id 1 for product id 1
+$bulk = $product->bulk_pricing_rules();       // Retrieve all Bulk Pricing rules for product id 1
+$complex_rules = $product->complex_rules();   // or Bigcommerce::getProductComplexRules($product_id);
+
+$variants = $product->variants();             // or Bigcommerce::getProductVariants($product_id);
+$variant = $product->variant(1);
+
+//'ProductVariant' Object has meta_fields(), create_image(), create(), update(), delete() functions
+
+$variant->create_image("https://image.jpg");  // ProductVariantObject->create_image($image_url);
+
+$variant_metafield = $variant->meta_fields(); // 'ProductVariantMetafield' object has create(), update(), delete() functions
+$variant_metafield->delete();
+
+// ProductObject->options() works on both 'v2' and 'v3' but ProductObject->options(1)->values() works only on 'v3'
+// So, By default ProductObject->options($version = "v3") set to version 'v3'
+
+$options = $product->options("v2");
+$option_values = $product->options("v3")->values();
+$option_value = $product->options("v3")->values(1);
+$option_value->delete();
+
+// Member Functions works on both 'v2' and 'v3'
+
+$brand = $product->brand();
+$image = $product->images(1)->delete();        // or Bigcommerce::getProductImage(1);
+$videos = $product->videos();                  // or Bigcommerce::getProductVideos();
+
+$video = $product->videos(1);                  // or Bigcommerce::getProductVideo(1);
+$video->name = "Updated Video";                // or Bigcommerce::updateProductVideo($product_id, $video_id, $array);
+$video->update(); // or $video->delete();      // or Bigcommerce::deleteProductVideo($product_id, $video_id);
+
+$custom_fields = $product->custom_fields();    // or Bigcommerce::getProductCustomFields($product_id);
+$reviews = $product->reviews();                // or Bigcommerce::getProductReviews($product_id);
+
+// Member Functions works only on 'v2'
+// May return empty data since 'v2' has been abandoned by Bigcommerce
+
+$skus = $product->skus();
+$rules = $product->rules();
+$configurable_rules = $product->configurable_rules();
+$discount_rules = $product->discount_rules();
+$option_set = $product->option_set();
+$tax_class = $product->tax_class();
+~~~
+**Product Modifiers and Meta Fields are still in Development**
 
 Carts(V3)
 ------------
@@ -357,6 +448,43 @@ Bigcommerce::updateBrandMetafield(1, 1, $metaField, 'v3');
 * $version = (Optional) String "v2", "v3", ..  
 ~~~php
 Bigcommerce::deleteBrandMetafield(1, 1, 'v3');
+~~~
+
+Wishlists (Only on 'v3')
+-----------
+The wishlists has following Functions
+~~~php
+$wishlists = Bigcommerce::getWishlists();
+
+foreach($wishlists as $item){
+    echo $item->name;
+}
+
+$items = array(
+    "items" = array(
+        array(
+            "product_id" => 1,
+            "variant_id" => 2
+        )
+    )
+);
+
+Bigcommerce::createWishlist($items);
+
+//or
+
+$wishlistObject = new Bigcommerce\Api\Resources\Wishlist();
+$wishlistObject->name = "New List";
+$wishlistObject->items = $items['items'];
+$wishlistObject->create();
+
+$wishlist = Bigcommerce::getWishlist(1);
+$wishlist->name = "Test Wishlist";
+$wishlist->update();                          \\ or Bigcommerce::updateWishlist($wishlist_id, $array);
+
+$wishlist->addItems($items);                   \\ or Bigcommerce::createWishlistItems($wishlist_id, $items);
+
+$wishlist->delete();
 ~~~
 
 That's all for now. I'll update for other APIs Continuously. **Feel free to Pull and Merge for other APIs**

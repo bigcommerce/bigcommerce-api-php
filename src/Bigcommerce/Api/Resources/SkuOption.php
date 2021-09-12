@@ -19,13 +19,17 @@ class SkuOption extends Resource
         'sku_id',
     );
 
+    public $urls = array(
+        "v2" => "/products"
+    );
+
     public function create()
     {
-        return Client::createResource('/products/' . $this->fields->product_id . '/skus/' . $this->fields->sku_id . '/options', $this->getCreateFields());
+        return Client::createResource('/' . $this->fields->product_id . '/skus/' . $this->fields->sku_id . '/options', $this->getCreateFields(), 'SkuOption', 'v2');
     }
 
     public function update()
     {
-        Client::updateResource('/products/' . $this->fields->product_id . '/skus/' . $this->fields->sku_id . '/options/' . $this->id, $this->getUpdateFields());
+        Client::updateResource('/' . $this->fields->product_id . '/skus/' . $this->fields->sku_id . '/options/' . $this->id, $this->getUpdateFields(), 'SkuOption', 'v2');
     }
 }

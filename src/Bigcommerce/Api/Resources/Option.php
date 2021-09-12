@@ -12,6 +12,6 @@ class Option extends Resource
 {
     public function values()
     {
-        return Client::getCollection($this->fields->values->resource, 'OptionValue');
+        return Client::getCollection($this->fields->values->resource, 'OptionValue', "v2");
     }
 }

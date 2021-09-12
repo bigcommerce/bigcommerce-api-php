@@ -20,6 +20,10 @@ class Rule extends Resource
         'product_id',
     );
 
+    public $urls = array(
+        "v2" => "/products"
+    );
+
     public function conditions()
     {
         $conditions = Client::getCollection($this->fields->conditions->resource, 'RuleCondition');
@@ -33,11 +37,11 @@ class Rule extends Resource
 
     public function create()
     {
-        return Client::createResource('/products/' . $this->fields->product_id . '/rules', $this->getCreateFields());
+        return Client::createResource('/' . $this->fields->product_id . '/rules', $this->getCreateFields(), 'Rule', 'v2');
     }
 
     public function update()
     {
-        Client::updateResource('/products/' . $this->fields->product_id . '/rules/' . $this->fields->id, $this->getUpdateFields());
+        Client::updateResource('/' . $this->fields->product_id . '/rules/' . $this->fields->id, $this->getUpdateFields(), 'Rule', 'v2');
     }
 }

@@ -20,18 +20,23 @@ class ProductCustomField extends Resource
         'product_id'
     );
 
-    public function create()
+    public $urls = array(
+        "v2" => "/products",
+        "v3" => "/catalog/products"
+    );
+
+    public function create($version = null)
     {
-        return Client::createResource('/products/' . $this->fields->product_id . '/customfields', $this->getCreateFields());
+        return Client::createProductCustomField($this->fields->product_id, $this->getCreateFields(), $version);
     }
 
-    public function update()
+    public function update($version = null)
     {
-        Client::updateResource('/products/' . $this->fields->product_id . '/customfields/' . $this->id, $this->getUpdateFields());
+        Client::updateProductCustomField($this->fields->product_id, $this->id, $this->getUpdateFields(), $version);
     }
 
-    public function delete()
+    public function delete($version = null)
     {
-        Client::deleteResource('/products/' . $this->fields->product_id . '/customfields/' . $this->id);
+        Client::deleteProductCustomField($this->fields->product_id, $this->id, $version);
     }
 }
