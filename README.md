@@ -230,7 +230,8 @@ Bigcommerce::deleteCartLineItem("xxxxxxxxx","xxxxxxxxx");
  
  Products(V2 and V3)
 ------------
-you can get products and its variants, options variant metafields.
+You can do all the functions of Products and More...
+
 ~~~php
 Bigcommerce::configure(array(
     'client_id' => 'xxxxxxxxxxxxxxxxxxxxxx',
@@ -269,26 +270,21 @@ $variant_metafield->delete();
 //or 
 Bigcommerce::getProduct(1)->variants(123)->meta_fields(1)->delete();
 ~~~
-The Product Instance has following member functions
+**The 'Product' Object has following member functions**
 
+**Member Function works only on 'v3'**
+All the 'v3' Resource Class has `create(), update() and delete()` functions
 ~~~php
 $product = Bigcommerce::getProduct(1);
-
-/* Member Function works only on 'v3' */
-// All the 'v3' Resource Class has create(), update() and delete() functions
 
 
 // Delete bulk pricing id 1 for product id 1
 $product->bulk_pricing_rules(1)->delete();
 
 
-// 'ProductBulkPricingRule' Object has create(), update(), delete() functions
-
 // Retrieve all Bulk Pricing rules for product id 1
 $bulk = $product->bulk_pricing_rules();
 
-
-// 'ProductComplexRule' Object has create(), update(), delete() functions
 
 $complex_rules = $product->complex_rules();
 // or Bigcommerce::getProductComplexRules($product_id);
@@ -319,9 +315,14 @@ $options = $product->options("v2");
 $option_values = $product->options("v3")->values();
 $option_value = $product->options("v3")->values(1);
 $option_value->delete();
+~~~
 
+**Member Functions works on both 'v2' and 'v3'**
+Below are the function that works on both `v2` and `v3` versions
+you can override the default version by setting it in functions like: `Bigcommerce::getProduct(1)->brand("v3");`
 
-/* Member Functions works on both 'v2' and 'v3' */
+~~~php
+$product = Bigcommerce::getProduct(1);
 
 $brand = $product->brand();
 
@@ -348,11 +349,12 @@ $custom_fields = $product->custom_fields();
 
 $reviews = $product->reviews();
 // or Bigcommerce::getProductReviews($product_id);
+~~~
 
-
-/* Member Functions works only on 'v2' */
-// May return empty data since 'v2' has been abandoned by Bigcommerce
-
+**Member Functions works only on 'v2'**
+Some functions may return empty data since 'v2' has been abandoned by Bigcommerce
+~~~php
+$product = Bigcommerce::getProduct(1);
 
 $skus = $product->skus();
 $rules = $product->rules();
