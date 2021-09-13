@@ -131,7 +131,7 @@ Bigcommerce::getProduct(1)->variants(123)->meta_fields(1)->delete();
 ~~~
 **The 'Product' Object has following member functions**
 
-**Member Function works only on 'v3'**
+**Member Functions that works only on 'v3'**
 All the 'v3' Resource Class has `create(), update() and delete()` functions
 ~~~php
 $product = Bigcommerce::getProduct(1);
@@ -176,7 +176,7 @@ $option_value = $product->options("v3")->values(1);
 $option_value->delete();
 ~~~
 
-**Member Functions works on both 'v2' and 'v3'**
+**Member Functions that works on both 'v2' and 'v3'**
 Below are the function that works on both `v2` and `v3` versions
 you can override the default version by setting it in functions like: `Bigcommerce::getProduct(1)->brand("v3");`
 
@@ -210,7 +210,7 @@ $reviews = $product->reviews();
 // or Bigcommerce::getProductReviews($product_id);
 ~~~
 
-**Member Functions works only on 'v2'**
+**Member Functions that works only on 'v2'**
 Some functions may return empty data since 'v2' has been abandoned by Bigcommerce
 ~~~php
 $product = Bigcommerce::getProduct(1);
