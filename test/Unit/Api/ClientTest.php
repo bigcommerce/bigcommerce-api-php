@@ -283,21 +283,18 @@ class ClientTest extends TestCase
 
     public function collections()
     {
-        return array(
+        return [
             //      path           function             classname
-            array('products', 'getProducts', 'Product'),
-            array('brands', 'getBrands', 'Brand'),
-            array('orders', 'getOrders', 'Order'),
-            array('customers', 'getCustomers', 'Customer'),
-            array('coupons', 'getCoupons', 'Coupon'),
-            array('order_statuses', 'getOrderStatuses', 'OrderStatus'),
-            array('categories', 'getCategories', 'Category'),
-            array('options', 'getOptions', 'Option'),
-            array('optionsets', 'getOptionSets', 'OptionSet'),
-            array('products/skus', 'getSkus', 'Sku'),
-            array('requestlogs', 'getRequestLogs', 'RequestLog'),
-            array('pages', 'getPages', 'Page'),
-        );
+            ['products', 'getProducts', 'Product'],
+            ['brands', 'getBrands', 'Brand'],
+            ['orders', 'getOrders', 'Order'],
+            ['customers', 'getCustomers', 'Customer'],
+            ['coupons', 'getCoupons', 'Coupon'],
+            ['categories', 'getCategories', 'Category'],
+            ['options', 'getOptions', 'Option'],
+            ['optionsets', 'getOptionSets', 'OptionSet'],
+            ['products/skus', 'getSkus', 'Sku'],
+        ];
     }
 
     /**
@@ -322,11 +319,6 @@ class ClientTest extends TestCase
      */
     public function testGettingTheCountOfACollectionReturnsThatCollectionsCount($path, $fnName, $class)
     {
-        if (in_array($path, array('order_statuses', 'requestlogs', 'pages'))) {
-            //$this->markTestSkipped(sprintf('The API does not currently support getting the count of %s', $path));
-            return;
-        }
-
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/' . $path . '/count', false)
@@ -339,19 +331,19 @@ class ClientTest extends TestCase
 
     public function resources()
     {
-        return array(
+        return [
             //    path            function        classname
-            array('products',     '%sProduct',    'Product'),
-            array('brands',       '%sBrand',      'Brand'),
-            array('orders',       '%sOrder',      'Order'),
-            array('customers',    '%sCustomer',   'Customer'),
-            array('categories',   '%sCategory',   'Category'),
-            array('options',      '%sOption',     'Option'),
-            array('optionsets',   '%sOptionSet',  'OptionSet'),
-            array('coupons',      '%sCoupon',     'Coupon'),
-            array('currencies',   '%sCurrency',   'Currency'),
-            array('pages',        '%sPage',       'Page'),
-        );
+            ['products',     '%sProduct',    'Product'],
+            ['brands',       '%sBrand',      'Brand'],
+            ['orders',       '%sOrder',      'Order'],
+            ['customers',    '%sCustomer',   'Customer'],
+            ['categories',   '%sCategory',   'Category'],
+            ['options',      '%sOption',     'Option'],
+            ['optionsets',   '%sOptionSet',  'OptionSet'],
+            ['coupons',      '%sCoupon',     'Coupon'],
+            ['currencies',   '%sCurrency',   'Currency'],
+            ['pages',        '%sPage',       'Page'],
+        ];
     }
 
     /**
