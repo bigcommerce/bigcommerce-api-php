@@ -8,7 +8,7 @@ class NetworkErrorTest extends TestCase
 {
     public function testBehavesExactlyLikeException()
     {
-        $error = new NetworkError('message', 100);
+        $error = new NetworkError('message', 100, []);
         $this->assertSame('message', $error->getMessage());
         $this->assertSame(100, $error->getCode());
     }

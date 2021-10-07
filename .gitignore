@@ -8,5 +8,6 @@ script/*
 /build
 /test/reports
 .env
+.idea
 /.php_cs
 /.php_cs.cache

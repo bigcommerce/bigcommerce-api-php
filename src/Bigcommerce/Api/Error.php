@@ -7,12 +7,32 @@ namespace Bigcommerce\Api;
  */
 class Error extends \Exception
 {
-    public function __construct($message, $code)
+    /**
+     * @var array
+     */
+    private $headers;
+
+    /**
+     * @param $message
+     * @param $code
+     * @param string[] $headers
+     */
+    public function __construct($message, $code, array $headers = [])
     {
         if (is_array($message)) {
             $message = $message[0]->message;
         }
 
         parent::__construct($message, $code);
+        $this->headers = $headers;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getResponseHeaders(): array
+    {
+        return $this->headers;
+    }
+
 }
