@@ -1,0 +1,14 @@
+version: 2.1
+
+orbs:
+  php: bigcommerce/internal-php@volatile
+
+workflows:
+  version: 2
+  full:
+    jobs:
+      - php/composer-github:
+          filters:
+            branches:
+              only:
+                - master
