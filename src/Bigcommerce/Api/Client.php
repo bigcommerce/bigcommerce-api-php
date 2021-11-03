@@ -269,20 +269,6 @@ class Client
     }
 
     /**
-     * Get a resource entity from the specified endpoint.
-     *
-     * @param string $path api endpoint
-     * @param string $resource resource class to map individual items
-     * @return mixed Resource|string resource object or XML string if useXml is true
-     */
-    public static function getResource($path, $resource = 'Resource')
-    {
-        $response = self::connection()->get(self::$api_path . $path);
-
-        return self::mapResource($resource, $response);
-    }
-
-    /**
      * Get a count value from the specified endpoint.
      *
      * @param string $path api endpoint
