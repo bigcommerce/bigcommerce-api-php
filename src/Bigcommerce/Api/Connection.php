@@ -97,6 +97,7 @@ class Connection
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, [$this, 'parseHeader']);
         curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, [$this, 'parseBody']);
+        curl_setopt($this->curl, CURLOPT_USERAGENT, 'PHP CURL - Bigcommerce API Client');
 
         // Set to a blank string to make cURL include all encodings it can handle (gzip, deflate, identity) in the 'Accept-Encoding' request header and respect the 'Content-Encoding' response header
         curl_setopt($this->curl, CURLOPT_ENCODING, '');
