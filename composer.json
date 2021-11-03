@@ -18,15 +18,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
         "firebase/php-jwt": "~3.0 || ~5.0",
         "ext-curl": "*"
-    },
-    "require-dev": {
-        "codeless/jugglecode": "1.0",
-        "friendsofphp/php-cs-fixer": "^2.13",
-        "php-coveralls/php-coveralls": "2.1",
-        "phpunit/phpunit": "^6.4 || ^7.4"
     },
     "autoload": {
         "psr-0": {
