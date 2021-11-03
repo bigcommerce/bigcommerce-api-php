@@ -254,13 +254,18 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource resource class to map individual items
-     * @return mixed array|string mapped collection or XML string if useXml is true
+     * @return mixed Resource|string|array resource object or XML string if useXml is true
      */
-    public static function getCollection($path, $resource = 'Resource')
+    public static function getResource($path, $resource = 'Resource')
     {
         $response = self::connection()->get(self::$api_path . $path);
 
-        return self::mapCollection($resource, $response);
+        $return = [];
+        foreach ($response as $value) {
+            $return[] = self::mapResource($resource, $value);
+        }
+
+        return $return;
     }
 
     /**
