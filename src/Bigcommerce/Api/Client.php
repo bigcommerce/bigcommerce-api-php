@@ -242,9 +242,9 @@ class Client
     /**
      * Set the HTTP connection object. DANGER: This can screw up your Client!
      *
-     * @param Connection $connection The connection to use
+     * @param ConnectionInterface $connection The connection to use
      */
-    public static function setConnection(Connection $connection = null)
+    public static function setConnection(ConnectionInterface $connection = null)
     {
         self::$connection = $connection;
     }
