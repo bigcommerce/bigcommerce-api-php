@@ -28,12 +28,12 @@ class Connection
     /**
      * @var array Hash of HTTP request headers.
      */
-    private $headers = array();
+    private $headers = [];
 
     /**
      * @var array Hash of headers from HTTP response
      */
-    private $responseHeaders = array();
+    private $responseHeaders = [];
 
     /**
      * The status line of the response.
@@ -95,8 +95,9 @@ class Connection
             define('STDIN', fopen('php://stdin', 'r'));
         }
         $this->curl = curl_init();
-        curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
-        curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, array($this, 'parseBody'));
+        curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, [$this, 'parseHeader']);
+        curl_setopt($this->curl, CURLOPT_WRITEFUNCTION, [$this, 'parseBody']);
+        curl_setopt($this->curl, CURLOPT_USERAGENT, 'PHP CURL - Bigcommerce API Client');
 
         // Set to a blank string to make cURL include all encodings it can handle (gzip, deflate, identity) in the 'Accept-Encoding' request header and respect the 'Content-Encoding' response header
         curl_setopt($this->curl, CURLOPT_ENCODING, '');
@@ -257,7 +258,7 @@ class Connection
     private function initializeRequest()
     {
         $this->responseBody = '';
-        $this->responseHeaders = array();
+        $this->responseHeaders = [];
         $this->lastError = false;
         $this->addHeader('Accept', $this->getContentType());
 
@@ -277,7 +278,7 @@ class Connection
     private function handleResponse()
     {
         if (curl_errno($this->curl)) {
-            throw new NetworkError(curl_error($this->curl), curl_errno($this->curl));
+            throw new NetworkError(curl_error($this->curl), curl_errno($this->curl), $this->responseHeaders);
         }
 
         $body = ($this->rawResponse) ? $this->getBody() : json_decode($this->getBody());
@@ -286,14 +287,14 @@ class Connection
 
         if ($status >= 400 && $status <= 499) {
             if ($this->failOnError) {
-                throw new ClientError($body, $status);
+                throw new ClientError($body, $status, $this->responseHeaders);
             } else {
                 $this->lastError = $body;
                 return false;
             }
         } elseif ($status >= 500 && $status <= 599) {
             if ($this->failOnError) {
-                throw new ServerError($body, $status);
+                throw new ServerError($body, $status, $this->responseHeaders);
             } else {
                 $this->lastError = $body;
                 return false;
@@ -342,7 +343,7 @@ class Connection
                 $this->get($url);
             } else {
                 $errorString = "Too many redirects when trying to follow location.";
-                throw new NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS);
+                throw new NetworkError($errorString, CURLE_TOO_MANY_REDIRECTS, $this->responseHeaders);
             }
         } else {
             $this->redirectsFollowed = 0;
