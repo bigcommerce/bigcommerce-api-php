@@ -2053,4 +2053,42 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/products/'.$productId.'/skus' . $filter->toQuery(), 'Sku');
     }
+    
+    /**
+     * Delete the given optionValue.
+     *
+     * @param int $optionId
+     * @Param int $valueId
+     * @return mixed
+     */
+    public static function deleteOptionValue($optionId, $valueId)
+    {
+        return self::deleteResource('/options/' . $optionId .'/values/'. $valueId);
+    }
+    
+    /**
+     * Return the collection of all option values By OptionID
+     *
+     * @param int $optionId
+     * @param array $filter
+     * @return array
+     */
+    public static function getOptionValuesByOption($optionId, $filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/options/' . $optionId . '/values' . $filter->toQuery(), 'OptionValue');
+    }
+    
+    /**
+     * Get collection of product rules by ProductId
+     *
+     * @param int $productId
+     * @param array $filter
+     * @return mixed
+     */
+    public static function getRulesByProduct($productId, $filter = array())
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/products/'.$productId.'/rules' . $filter->toQuery(), 'Rule');
+    }
 }
