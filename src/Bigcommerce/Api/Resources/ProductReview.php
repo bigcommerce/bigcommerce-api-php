@@ -10,4 +10,8 @@ use Bigcommerce\Api\Client;
  */
 class ProductReview extends Resource
 {
+    public $urls = array(
+        "v2" => "/products",
+        "v3" => "/catalog/products"
+    );
 }

@@ -166,6 +166,7 @@ class Connection
      *
      * @param string $username
      * @param string $password
+     * @deprecated
      */
     public function authenticateBasic($username, $password)
     {

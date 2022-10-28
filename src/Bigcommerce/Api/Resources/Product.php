@@ -40,73 +40,135 @@ class Product extends Resource
         'tax_class',
     );
 
+    public $urls = array(
+        "v2" => "/products",
+        "v3" => "/catalog/products"
+    );
+
     protected $ignoreIfZero = array(
         'tax_class_id',
     );
 
-    public function brand()
+    protected function getProductId()
     {
-        return Client::getResource($this->fields->brand->resource, 'Brand');
+        return $this->id;
     }
 
-    public function images()
+    public function brand($version = null)
     {
-        return Client::getCollection($this->fields->images->resource, 'ProductImage');
+        return Client::getBrand($this->brand_id, $version);
     }
 
-    public function skus()
+    public function images($id = null, $filter = array(), $version = null)
     {
-        return Client::getCollection($this->fields->skus->resource, 'Sku');
+        if (is_null($id)) {
+            return Client::getProductImages($this->id, $filter, $version);
+        } else {
+            return Client::getProductImage($this->id, $id, $version);
+        }
     }
 
-    public function rules()
+    public function skus($filter = array(), $version = "v2")
     {
-        return Client::getCollection($this->fields->rules->resource, 'Rule');
+        return Client::getProductSkus($this->id, $filter, $version);
     }
 
-    public function videos()
+    public function rules($id, $version = "v2")
     {
-        return Client::getCollection($this->fields->videos->resource, 'ProductVideo');
+        if (is_null($id)) {
+            return Client::getProductRules($this->id, $version);
+        } else {
+            return Client::getProductRule($this->id, $id, $version);
+        }
     }
 
-    public function custom_fields()
+    public function videos($id = null, $filter = array(), $version = null)
     {
-        return Client::getCollection($this->fields->custom_fields->resource, 'ProductCustomField');
+        if (is_null($id)) {
+            return Client::getProductVideos($this->id, $filter, $version);
+        } else {
+            return Client::getProductVideo($this->id, $id, $version);
+        }
+    }
+
+    public function bulk_pricing_rules($id = null, $filter = array(), $version = 'v3')
+    {
+        if (is_null($id)) {
+            return Client::getProductBulkPricingRules($this->id, $filter, $version);
+        } else {
+            return Client::getProductBulkPricingRule($this->id, $id, $filter, $version);
+        }
+    }
+
+    public function complex_rules($id = null, $filter = array(), $version = 'v3')
+    {
+        if (is_null($id)) {
+            return Client::getProductComplexRules($this->id, $filter, $version);
+        } else {
+            return Client::getProductComplexRule($this->id, $id, $filter, $version);
+        }
+    }
+
+    public function variants($id = null, $filter = array(), $version = 'v3')
+    {
+        if (is_null($id)) {
+            return Client::getProductVariants($this->id, $filter, $version);
+        } else {
+            return Client::getProductVariant($this->id, $id, $filter, $version);
+        }
+    }
+
+    public function custom_fields($id = null, $version = null)
+    {
+        if (is_null($id)) {
+            return Client::getProductCustomFields($this->id, $version);
+        } else {
+            return Client::getProductCustomField($this->id, $id, $version);
+        }
     }
 
     public function configurable_fields()
     {
-        return Client::getCollection($this->fields->configurable_fields->resource, 'ProductConfigurableField');
+        return Client::getCollection($this->fields->configurable_fields->resource, 'ProductConfigurableField', "v2");
     }
 
     public function discount_rules()
     {
-        return Client::getCollection($this->fields->discount_rules->resource, 'DiscountRule');
+        return Client::getCollection($this->fields->discount_rules->resource, 'DiscountRule', "v2");
     }
 
     public function option_set()
     {
-        return Client::getResource($this->fields->option_set->resource, 'OptionSet');
+        return Client::getResource($this->fields->option_set->resource, 'OptionSet', "v2");
     }
 
-    public function options()
+    public function options($id, $filter = array(), $version = "v3")
     {
-        return Client::getCollection('/products/' . $this->id . '/options', 'ProductOption');
+        if (is_null($id)) {
+            return Client::getProductOptions($this->id, $filter, $version);
+        } else {
+            return Client::getProductOption($this->id, $id, $filter, $version);
+        }
     }
 
-    public function create()
+    public function reviews($version = null)
     {
-        return Client::createProduct($this->getCreateFields());
+        return Client::getProductReviews('/' . $this->id . '/reviews', $version);
     }
 
-    public function update()
+    public function create($version = null)
     {
-        return Client::updateProduct($this->id, $this->getUpdateFields());
+        return Client::createProduct($this->getCreateFields(), $version);
     }
 
-    public function delete()
+    public function update($version = null)
     {
-        return Client::deleteProduct($this->id);
+        return Client::updateProduct($this->id, $this->getUpdateFields(), $version);
+    }
+
+    public function delete($version = null)
+    {
+        return Client::deleteProduct($this->id, $version);
     }
 
     public function tax_class()

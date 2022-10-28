@@ -21,6 +21,12 @@ class Error extends \Exception
     {
         if (is_array($message)) {
             $message = $message[0]->message;
+        } else {
+            if (isset($message->title)) {
+                $message = $message->title;
+            } else {
+                $message = "Undefined Error Occurred";
+            }
         }
 
         parent::__construct($message, $code);

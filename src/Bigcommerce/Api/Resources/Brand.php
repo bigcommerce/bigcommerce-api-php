@@ -15,13 +15,28 @@ class Brand extends Resource
         'id',
     );
 
-    public function create()
+    public $urls = array(
+        "v2" => "/brands",
+        "v3" => "/catalog/brands"
+    );
+
+    public function create($version = null)
     {
-        return Client::createBrand($this->getCreateFields());
+        return Client::createBrand($this->getCreateFields(), $version);
     }
 
-    public function update()
+    public function update($version = null)
     {
-        return Client::updateBrand($this->id, $this->getUpdateFields());
+        return Client::updateBrand($this->id, $this->getUpdateFields(), $version);
+    }
+
+    public function delete($version = null)
+    {
+        return Client::deleteBrand($this->id, $version);
+    }
+
+    public function toJson()
+    {
+        return parent::toJson();
     }
 }

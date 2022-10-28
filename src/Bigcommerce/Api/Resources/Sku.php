@@ -19,6 +19,10 @@ class Sku extends Resource
         'product_id',
     );
 
+    public $urls = array(
+        "v2" => "/products"
+    );
+
     public function options()
     {
         $options = array();
@@ -36,11 +40,11 @@ class Sku extends Resource
 
     public function create()
     {
-        return Client::createResource('/products/' . $this->product_id . '/skus', $this->getCreateFields());
+        return Client::createResource('/' . $this->product_id . '/skus', $this->getCreateFields(), 'Sku', 'v2');
     }
 
     public function update()
     {
-        Client::updateResource('/products/' . $this->product_id . '/skus/' . $this->id, $this->getUpdateFields());
+        Client::updateResource('/' . $this->product_id . '/skus/' . $this->id, $this->getUpdateFields(), 'Sku', 'v2');
     }
 }

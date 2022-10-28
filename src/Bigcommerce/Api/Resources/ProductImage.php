@@ -22,18 +22,23 @@ class ProductImage extends Resource
         'product_id',
     );
 
-    public function create()
+    public $urls = array(
+        "v2" => "/products",
+        "v3" => "/catalog/products"
+    );
+
+    public function create($version = null)
     {
-        return Client::createProductImage($this->product_id, $this->getCreateFields());
+        return Client::createProductImage($this->product_id, $this->getCreateFields(), $version);
     }
 
-    public function update()
+    public function update($version = null)
     {
-        return Client::updateProductImage($this->product_id, $this->id, $this->getUpdateFields());
+        return Client::updateProductImage($this->product_id, $this->id, $this->getUpdateFields(), $version);
     }
 
-    public function delete()
+    public function delete($version = null)
     {
-        return Client::deleteProductImage($this->product_id, $this->id);
+        return Client::deleteProductImage($this->product_id, $this->id, $version);
     }
 }

@@ -21,13 +21,18 @@ class RuleCondition extends Resource
 
     public $product_id;
 
+    public $urls = array(
+        "v2" => "/products"
+    );
+
+
     public function create()
     {
-        return Client::createResource('/products/' . $this->product_id . '/rules/' . $this->fields->rule_id . '/conditions', $this->getCreateFields());
+        return Client::createResource('/' . $this->product_id . '/rules/' . $this->fields->rule_id . '/conditions', $this->getCreateFields(), 'RuleCondition', "v2");
     }
 
     public function update()
     {
-        Client::updateResource('/products/' . $this->product_id . '/rules/' . $this->fields->rule_id . '/conditions/' . $this->id, $this->getUpdateFields());
+        Client::updateResource('/' . $this->product_id . '/rules/' . $this->fields->rule_id . '/conditions/' . $this->id, $this->getUpdateFields(), 'RuleCondition', 'v3');
     }
 }

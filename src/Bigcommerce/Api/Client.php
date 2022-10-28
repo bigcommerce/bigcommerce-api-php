@@ -46,9 +46,17 @@ class Client
     private static $resource;
 
     /**
+     * version name
+     *
+     * @var string
+     */
+    public static $version;
+
+    /**
      * API path prefix to be added to store URL for requests
      *
      * @var string
+     * @deprecated
      */
     private static $path_prefix = '/api/v2';
 
@@ -62,9 +70,10 @@ class Client
     private static $store_hash;
     private static $auth_token;
     private static $client_secret;
-    private static $stores_prefix = '/stores/%s/v2';
+    private static $stores_prefix = '/stores/%s/';
     private static $api_url = 'https://api.bigcommerce.com';
     private static $login_url = 'https://login.bigcommerce.com';
+    private static $available_versions = array(null, "v2", "v3");
 
     /**
      * Configure the API client with the required settings to access
@@ -72,14 +81,17 @@ class Client
      *
      * Accepts OAuth and (for now!) Basic Auth credentials
      *
+     * configure using Basic Auth credentials doesn't support anymore
+     *
      * @param array $settings
+     * @throws Exception
      */
     public static function configure($settings)
     {
         if (isset($settings['client_id'])) {
             self::configureOAuth($settings);
         } else {
-            self::configureBasicAuth($settings);
+            throw new Exception("'client_id' must be provided");
         }
     }
 
@@ -93,7 +105,7 @@ class Client
      * - store_hash
      *
      * @param array $settings
-     * @throws \Exception
+     * @throws Exception
      */
     public static function configureOAuth($settings)
     {
@@ -111,6 +123,16 @@ class Client
 
         self::$client_secret = isset($settings['client_secret']) ? $settings['client_secret'] : null;
 
+        if (isset($settings['version'])) {
+            if (in_array($settings['version'], self::$available_versions)) {
+                self::$version = (!is_null($settings['version']))? $settings['version']:'v2';
+            } else {
+                throw new Exception("'version' not available");
+            }
+        }
+
+        self::$version = isset($settings['version']) ? $settings['version'] : "v2";
+
         self::$api_path = self::$api_url . sprintf(self::$stores_prefix, self::$store_hash);
         self::$connection = false;
     }
@@ -125,7 +147,8 @@ class Client
      * - api_key
      *
      * @param array $settings
-     * @throws \Exception
+     * @throws Exception
+     * @deprecated
      */
     public static function configureBasicAuth(array $settings)
     {
@@ -219,11 +242,12 @@ class Client
     {
         if (!self::$connection) {
             self::$connection = new Connection();
-            if (self::$client_id) {
-                self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
-            } else {
-                self::$connection->authenticateBasic(self::$username, self::$api_key);
-            }
+            self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
+//            if (self::$client_id) {
+//                self::$connection->authenticateOauth(self::$client_id, self::$auth_token);
+//            } else {
+//                self::$connection->authenticateBasic(self::$username, self::$api_key);
+//            }
         }
 
         return self::$connection;
@@ -254,13 +278,20 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource resource class to map individual items
+     * @param null $version
      * @return mixed array|string mapped collection or XML string if useXml is true
+     * @throws Exception
      */
-    public static function getCollection($path, $resource = 'Resource')
+    public static function getCollection($path, $resource = 'Resource', $version = null)
     {
-        $response = self::connection()->get(self::$api_path . $path);
-
-        return self::mapCollection($resource, $response);
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
+        $path = ($resource !== "Resource")?self::getUrl($resource, $temp_version).$path : $path;
+        $response = self::connection()->get(self::$api_path .$temp_version. $path);
+        if (isset($response->data)) {
+            return self::mapCollection($resource, $response->data);
+        } else {
+            return self::mapCollection($resource, $response);
+        }
     }
 
     /**
@@ -268,30 +299,74 @@ class Client
      *
      * @param string $path api endpoint
      * @param string $resource resource class to map individual items
+     * @param null $version
      * @return mixed Resource|string resource object or XML string if useXml is true
+     * @throws Exception
      */
-    public static function getResource($path, $resource = 'Resource')
+    public static function getResource($path, $resource = 'Resource', $version = null)
     {
-        $response = self::connection()->get(self::$api_path . $path);
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
+        $path = ($resource !== "Resource")?self::getUrl($resource, $temp_version).$path : $path;
 
-        return self::mapResource($resource, $response);
+        $response = self::connection()->get(self::$api_path .$temp_version. $path);
+
+        if (isset($response->data)) {
+            return self::mapResource($resource, $response->data);
+        } else {
+            return self::mapResource($resource, $response);
+        }
+    }
+
+    /**
+     * Get url from Resource Class if exist.
+     *
+     * @param string $resource resource class to map individual items
+     * @param $version
+     * @return mixed Resource|string resource object or XML string if useXml is true
+     * @throws Exception
+     */
+
+    public static function getUrl($resource, $version)
+    {
+        $baseResource = __NAMESPACE__ . '\\' . $resource;
+        $resource_namespace = (class_exists($baseResource)) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
+        $object = new $resource_namespace();
+        if (isset($object->urls)) {
+            if (array_key_exists($version, $object->urls)) {
+                return $object->urls[$version];
+            } else {
+                throw new Exception($version." not available for this resource");
+            }
+        } else {
+            return "";
+        }
     }
 
     /**
      * Get a count value from the specified endpoint.
      *
      * @param string $path api endpoint
+     * @param string $resource
+     * @param null $version
      * @return mixed int|string count value or XML string if useXml is true
+     * @throws Exception
      */
-    public static function getCount($path)
+    public static function getCount($path, $resource = "Resource", $version = null)
     {
-        $response = self::connection()->get(self::$api_path . $path);
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
+        $path = ($resource !== "Resource")?self::getUrl($resource, $temp_version).$path : $path;
 
-        if ($response == false || is_string($response)) {
-            return $response;
+        $response = self::connection()->get(self::$api_path .$temp_version. $path);
+
+        if (self::$version == "v2") {
+            if ($response == false || is_string($response)) {
+                return $response;
+            }
+
+            return $response->count;
+        } else {
+            return $response->meta->pagination->total;
         }
-
-        return $response->count;
     }
 
     /**
@@ -299,15 +374,19 @@ class Client
      *
      * @param string $path api endpoint
      * @param mixed $object object or XML string to create
+     * @param string $resource
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function createResource($path, $object)
+    public static function createResource($path, $object, $resource = "Resource", $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         if (is_array($object)) {
             $object = (object)$object;
         }
-
-        return self::connection()->post(self::$api_path . $path, $object);
+        $path = ($resource !== "Resource")?self::getUrl($resource, $temp_version).$path : $path;
+        return self::connection()->post(self::$api_path .$temp_version. $path, $object);
     }
 
     /**
@@ -315,26 +394,35 @@ class Client
      *
      * @param string $path api endpoint
      * @param mixed $object object or XML string to update
+     * @param string $resource
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function updateResource($path, $object)
+    public static function updateResource($path, $object, $resource = "Resource", $version = null)
     {
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
         if (is_array($object)) {
             $object = (object)$object;
         }
-
-        return self::connection()->put(self::$api_path . $path, $object);
+        $path = ($resource !== "Resource")?self::getUrl($resource, $temp_version).$path : $path;
+        return self::connection()->put(self::$api_path .$temp_version. $path, $object);
     }
 
     /**
      * Send a delete request to remove the specified resource.
      *
      * @param string $path api endpoint
+     * @param string $resource
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function deleteResource($path)
+    public static function deleteResource($path, $resource = "Resource", $version = null)
     {
-        return self::connection()->delete(self::$api_path . $path);
+        $temp_version = (!is_null($version) and in_array($version, self::$available_versions))?$version:self::$version;
+        $path = ($resource !== "Resource")?self::getUrl($resource, $temp_version).$path : $path;
+        return self::connection()->delete(self::$api_path .$temp_version. $path);
     }
 
     /**
@@ -365,7 +453,6 @@ class Client
     private static function mapCollectionObject($object)
     {
         $class = self::$resource;
-
         return new $class($object);
     }
 
@@ -468,45 +555,65 @@ class Client
      * Returns the default collection of products.
      *
      * @param array $filter
+     * @param null $version
      * @return mixed array|string list of products or XML string if useXml is true
+     * @throws Exception
      */
-    public static function getProducts($filter = array())
+    public static function getProducts($filter = array(), $version = null)
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products' . $filter->toQuery(), 'Product');
+        return self::getCollection('' . $filter->toQuery(), 'Product', $version);
     }
 
     /**
      * Gets collection of images for a product.
      *
      * @param int $id product id
+     * @param array $filter
+     * @param null $version
      * @return mixed array|string list of products or XML string if useXml is true
+     * @throws Exception
      */
-    public static function getProductImages($id)
+    public static function getProductImages($id, $filter = array(), $version = null)
     {
-        return self::getCollection('/products/' . $id . '/images/', 'ProductImage');
+        $filter = Filter::create($filter);
+        return self::getCollection('/' . $id . '/images'.$filter->toQuery(), 'ProductImage', $version);
     }
 
     /**
      * Gets collection of custom fields for a product.
      *
      * @param int $id product ID
+     * @param null $version
      * @return array|string list of products or XML string if useXml is true
+     * @throws Exception
      */
-    public static function getProductCustomFields($id)
+    public static function getProductCustomFields($id, $version = null)
     {
-        return self::getCollection('/products/' . $id . '/custom_fields', 'ProductCustomField');
+        $temp_version = (is_null($version))?self::$version:$version;
+        if ($temp_version === "v2") {
+            return self::getCollection('/' . $id . '/custom_fields', 'ProductCustomField', $version);
+        } else {
+            return self::getCollection('/' . $id . '/custom-fields', 'ProductCustomField', $version);
+        }
     }
 
     /**
      * Returns a single custom field by given id
-     * @param  int $product_id product id
-     * @param  int $id custom field id
+     * @param int $product_id product id
+     * @param int $id custom field id
+     * @param null $version
      * @return Resources\ProductCustomField|bool Returns ProductCustomField if exists, false if not exists
+     * @throws Exception
      */
-    public static function getProductCustomField($product_id, $id)
+    public static function getProductCustomField($product_id, $id, $version = null)
     {
-        return self::getResource('/products/' . $product_id . '/custom_fields/' . $id, 'ProductCustomField');
+        $temp_version = (is_null($version))?self::$version:$version;
+        if ($temp_version === "v2") {
+            return self::getResource('/' . $product_id . '/custom_fields/' . $id, 'ProductCustomField', $version);
+        } else {
+            return self::getResource('/' . $product_id . '/custom-fields/' . $id, 'ProductCustomField', $version);
+        }
     }
 
     /**
@@ -514,22 +621,31 @@ class Client
      *
      * @param int $product_id product id
      * @param mixed $object fields to create
+     * @param $version
      * @return Object Object with `id`, `product_id`, `name` and `text` keys
+     * @throws Exception
      */
-    public static function createProductCustomField($product_id, $object)
+    public static function createProductCustomField($product_id, $object, $version)
     {
-        return self::createResource('/products/' . $product_id . '/custom_fields', $object);
+        $temp_version = (is_null($version))?self::$version:$version;
+        if ($temp_version === "v2") {
+            return self::createResource('/' . $product_id . '/custom_fields', $object, 'ProductCustomField', $version);
+        } else {
+            return self::createResource('/' . $product_id . '/custom-fields', $object, 'ProductCustomField', $version);
+        }
     }
 
     /**
      * Gets collection of reviews for a product.
      *
      * @param $id
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function getProductReviews($id)
+    public static function getProductReviews($id, $version = null)
     {
-        return self::getCollection('/products/' . $id . '/reviews/', 'ProductReview');
+        return self::getCollection('/' . $id . '/reviews/', 'ProductReview', $version);
     }
 
     /**
@@ -538,11 +654,18 @@ class Client
      * @param int $product_id product id
      * @param int $id custom field id
      * @param mixed $object custom field to update
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function updateProductCustomField($product_id, $id, $object)
+    public static function updateProductCustomField($product_id, $id, $object, $version = null)
     {
-        return self::updateResource('/products/' . $product_id . '/custom_fields/' . $id, $object);
+        $temp_version = (is_null($version))?self::$version:$version;
+        if ($temp_version === "v2") {
+            return self::updateResource('/' . $product_id . '/custom_fields/' . $id, $object, 'ProductCustomField', $version);
+        } else {
+            return self::updateResource('/' . $product_id . '/custom-fields/' . $id, $object, 'ProductCustomField', $version);
+        }
     }
 
     /**
@@ -550,11 +673,18 @@ class Client
      *
      * @param int $product_id product id
      * @param int $id custom field id
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function deleteProductCustomField($product_id, $id)
+    public static function deleteProductCustomField($product_id, $id, $version = null)
     {
-        return self::deleteResource('/products/' . $product_id . '/custom_fields/' . $id);
+        $temp_version = (is_null($version))?self::$version:$version;
+        if ($temp_version === "v2") {
+            return self::deleteResource('/' . $product_id . '/custom_fields/' . $id, 'ProductCustomField', $version);
+        } else {
+            return self::deleteResource('/' . $product_id . '/custom-fields/' . $id, 'ProductCustomField', $version);
+        }
     }
 
     /**
@@ -573,22 +703,30 @@ class Client
      * Returns a single product resource by the given id.
      *
      * @param int $id product id
+     * @param null $version
      * @return Resources\Product|string
+     * @throws Exception
      */
-    public static function getProduct($id)
+    public static function getProduct($id, $version = null)
     {
-        return self::getResource('/products/' . $id, 'Product');
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource('/' . $id, 'Product', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
      * Create a new product.
      *
      * @param mixed $object fields to create
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function createProduct($object)
+    public static function createProduct($object, $version = null)
     {
-        return self::createResource('/products', $object);
+        return self::createResource('', $object, 'Product', $version);
     }
 
     /**
@@ -596,32 +734,64 @@ class Client
      *
      * @param int $id product id
      * @param mixed $object fields to update
+     * @param $version
      * @return mixed
+     * @throws Exception
      */
-    public static function updateProduct($id, $object)
+    public static function updateProduct($id, $object, $version = null)
     {
-        return self::updateResource('/products/' . $id, $object);
+        return self::updateResource('/' . $id, $object, 'Product', $version);
+    }
+
+    /**
+     * Update the product Batch.
+     *
+     * @param int $id product id
+     * @param mixed $object fields to update
+     * @param $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function updateProducts($object, $version = null)
+    {
+        return self::updateResource('', $object, 'Product', $version);
     }
 
     /**
      * Delete the given product.
      *
      * @param int $id product id
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function deleteProduct($id)
+    public static function deleteProduct($id, $version = null)
     {
-        return self::deleteResource('/products/' . $id);
+        return self::deleteResource('/' . $id, 'Product', $version);
+    }
+
+    /**
+     * Delete All products.
+     *
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function deleteProducts($version = null)
+    {
+        return self::deleteResource('', 'Product', $version);
     }
 
     /**
      * Delete all products.
      *
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function deleteAllProducts()
+    public static function deleteAllProducts($version = null)
     {
-        return self::deleteResource('/products');
+        return self::deleteResource('', 'Product', $version);
     }
 
     /**
@@ -719,6 +889,7 @@ class Client
      *
      * @param array $filter
      * @return array
+     * @throws Exception
      */
     public static function getCategories($filter = array())
     {
@@ -743,6 +914,7 @@ class Client
      *
      * @param int $id category id
      * @return Resources\Category
+     * @throws Exception
      */
     public static function getCategory($id)
     {
@@ -797,46 +969,128 @@ class Client
      * The collection of brands.
      *
      * @param array $filter
+     * @param string $version
      * @return array
+     * @throws Exception
      */
-    public static function getBrands($filter = array())
+    public static function getBrands($filter = array(), $version = null)
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/brands' . $filter->toQuery(), 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::getCollection($filter->toQuery(), 'Brand', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * The collection of Brand Metafields.
+     *
+     * @param int $id Brand Id
+     * @param array $filter
+     * @param string $version
+     * @return array
+     * @throws Exception
+     */
+    public static function getBrandMetafields($id, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        if (in_array($version, self::$available_versions)) {
+            return self::getCollection('/'.$id.'/metafields'.$filter->toQuery(), 'Brand', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
      * The total number of brands in the collection.
      *
      * @param array $filter
+     * @param null $version
      * @return int
+     * @throws Exception
      */
-    public static function getBrandsCount($filter = array())
+    public static function getBrandsCount($filter = array(), $version = null)
     {
         $filter = Filter::create($filter);
-        return self::getCount('/brands/count' . $filter->toQuery());
+        if (in_array($version, self::$available_versions)) {
+            $path = ($version != "v3" and self::$version != "v3")?'/count':'';
+            return self::getCount($path . $filter->toQuery(), "Brand", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
      * A single brand by given id.
      *
      * @param int $id brand id
+     * @param string $version
      * @return Resources\Brand
+     * @throws Exception
      */
-    public static function getBrand($id)
+    public static function getBrand($id, $version = null)
     {
-        return self::getResource('/brands/' . $id, 'Brand');
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource("/".$id, 'Brand', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * A single brand Metafield by given brnad id and Metafield id.
+     *
+     * @param $brand_id
+     * @param $metafield_id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\Brand
+     * @throws Exception
+     */
+    public static function getBrandMetafield($brand_id, $metafield_id, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource("/".$brand_id.'/metafields/'.$metafield_id.$filter->toQuery(), 'Brand', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
      * Create a new brand from the given data.
      *
      * @param mixed $object
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function createBrand($object)
+    public static function createBrand($object, $version = null)
     {
-        return self::createResource('/brands', $object);
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('', $object, "Brand", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Create a new brand from the given data.
+     *
+     * @param $id
+     * @param mixed $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createBrandMetafield($id, $object, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('/'.$id.'/metafields', $object, "Brand", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
@@ -844,32 +1098,338 @@ class Client
      *
      * @param int $id brand id
      * @param mixed $object
+     * @param null|string $version
      * @return mixed
+     * @throws Exception
      */
-    public static function updateBrand($id, $object)
+    public static function updateBrand($id, $object, $version = null)
     {
-        return self::updateResource('/brands/' . $id, $object);
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource('/' . $id, $object, "Brand", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Update single brand Metafield by given brand id and Metafield id.
+     *
+     * @param int $brand_id
+     * @param int $metafield_id
+     * @param array|object $object
+     * @param string $version
+     * @return Resources\Brand
+     * @throws Exception
+     */
+    public static function updateBrandMetafield($brand_id, $metafield_id, $object, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource("/".$brand_id.'/metafields/'.$metafield_id, $object, 'Brand', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
      * Delete the given brand.
      *
      * @param int $id brand id
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function deleteBrand($id)
+    public static function deleteBrand($id, $version = null)
     {
-        return self::deleteResource('/brands/' . $id);
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource('/' . $id, "Brand", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Delete single brand Metafield by given brand id and Metafield id.
+     *
+     * @param int $brand_id
+     * @param int $metafield_id
+     * @param string $version
+     * @return Resources\Brand
+     * @throws Exception
+     */
+    public static function deleteBrandMetafield($brand_id, $metafield_id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource("/".$brand_id.'/metafields/'.$metafield_id, 'Brand', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
      * Delete all brands.
      *
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function deleteAllBrands()
+    public static function deleteAllBrands($version = null)
     {
-        return self::deleteResource('/brands');
+        if (in_array(self::$version, self::$available_versions)) {
+            return self::deleteResource('', 'Brand', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get a cart from cart id.
+     *
+     * @param $id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getCart($id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource("/".$id, 'Cart', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Create a new cart from the given data.
+     *
+     * @param mixed $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createCart($object, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('', $object, "Cart", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Create a Line items for existing cart from the given data.
+     *
+     * @param $id
+     * @param mixed $object
+     * @param array $filter
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createCartLineItems($id, $object, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource('/'.$id.'/items'.$filter->toQuery(), $object, "Cart", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * update cart customer id.
+     *
+     * @param $cart_id
+     * @param $customer_id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function updateCartCustomerId($cart_id, $customer_id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource("/".$cart_id, array("customer_id"=>$customer_id), 'Cart', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Update a Line items for existing cart from the given data.
+     *
+     * @param $cart_id
+     * @param $line_item_id
+     * @param array|object $object
+     * @param array $filter
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function updateCartLineItem($cart_id, $line_item_id, $object, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource('/'.$cart_id.'/items/'.$line_item_id.$filter->toQuery(), $object, "Cart", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Delete a Cart by Cart Id
+     *
+     * @param $id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function deleteCart($id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource('/'.$id, "Cart", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Delete a Cart Line Item by Cart Id and Line Item Id
+     *
+     * @param $cart_id
+     * @param $line_item_id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function deleteCartLineItem($cart_id, $line_item_id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource('/'.$cart_id.'/items/'.$line_item_id, "Cart", $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get All Wishlists.
+     *
+     * @param array $filter
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getWishlists($filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        if (in_array($version, self::$available_versions)) {
+            return self::getCollection($filter->toQuery(), 'Wishlist', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get Wishlist by Wishlist Id.
+     *
+     * @param $id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getWishlist($id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::getResource("/".$id, 'Wishlist', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get Wishlist by Wishlist Id.
+     *
+     * @param array|object $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createWishlist($object, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource("", $object, 'Wishlist', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get Wishlist by Wishlist Id.
+     *
+     * @param $id
+     * @param array|object $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createWishlistItems($id, $object, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::createResource("/".$id."/items", $object, 'Wishlist', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get Wishlist by Wishlist Id.
+     *
+     * @param $id
+     * @param array|object $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function updateWishlist($id, $object, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::updateResource("/".$id, $object, 'Wishlist', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get Wishlist by Wishlist Id.
+     *
+     * @param $id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function deleteWishlist($id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource("/".$id, 'Wishlist', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
+    }
+
+    /**
+     * Get Wishlist by Wishlist Id.
+     *
+     * @param $wishlist_id
+     * @param $item_id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function deleteWishlistItem($wishlist_id, $item_id, $version = null)
+    {
+        if (in_array($version, self::$available_versions)) {
+            return self::deleteResource("/".$wishlist_id."/items/".$item_id, 'Wishlist', $version);
+        } else {
+            throw new Exception("'version' not available");
+        }
     }
 
     /**
@@ -877,6 +1437,7 @@ class Client
      *
      * @param array $filter
      * @return array
+     * @throws Exception
      */
     public static function getOrders($filter = array())
     {
@@ -901,6 +1462,7 @@ class Client
      *
      * @param array $filter
      * @return Resources\OrderStatus
+     * @throws Exception
      */
     public static function getOrderStatusesWithCounts($filter = array())
     {
@@ -914,6 +1476,7 @@ class Client
      *
      * @param int $id order id
      * @return Resources\Order
+     * @throws Exception
      */
     public static function getOrder($id)
     {
@@ -923,6 +1486,7 @@ class Client
     /**
      * @param $orderID
      * @return mixed
+     * @throws Exception
      */
     public static function getOrderProducts($orderID)
     {
@@ -948,6 +1512,7 @@ class Client
      *
      * @param int $id order id
      * @return mixed
+     * @throws Exception
      */
     public static function deleteOrder($id)
     {
@@ -992,6 +1557,7 @@ class Client
      *
      * @param array $filter
      * @return array
+     * @throws Exception
      */
     public static function getCustomers($filter = array())
     {
@@ -1184,12 +1750,29 @@ class Client
      * Get collection of product skus
      *
      * @param array $filter
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function getSkus($filter = array())
+    public static function getSkus($filter = array(), $version = null)
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products/skus' . $filter->toQuery(), 'Sku');
+        return self::getCollection('/skus' . $filter->toQuery(), 'Sku', $version);
+    }
+
+    /**
+     * Get collection of product skus
+     *
+     * @param $id
+     * @param array $filter
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getProductSkus($id, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/'.$id.'/skus' . $filter->toQuery(), 'Sku', $version);
     }
 
     /**
@@ -1524,11 +2107,13 @@ class Client
      *
      * @param string $productId
      * @param mixed $object
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function createProductImage($productId, $object)
+    public static function createProductImage($productId, $object, $version = null)
     {
-        return self::createResource('/products/' . $productId . '/images', $object);
+        return self::createResource('/' . $productId . '/images', $object, 'ProductImage', $version);
     }
 
     /**
@@ -1537,11 +2122,13 @@ class Client
      * @param string $productId
      * @param string $imageId
      * @param mixed $object
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function updateProductImage($productId, $imageId, $object)
+    public static function updateProductImage($productId, $imageId, $object, $version = null)
     {
-        return self::updateResource('/products/' . $productId . '/images/' . $imageId, $object);
+        return self::updateResource('/' . $productId . '/images/' . $imageId, $object, 'ProductImage', $version);
     }
 
     /**
@@ -1549,11 +2136,13 @@ class Client
      *
      * @param int $productId
      * @param int $imageId
+     * @param null $version
      * @return Resources\ProductImage|string
+     * @throws Exception
      */
-    public static function getProductImage($productId, $imageId)
+    public static function getProductImage($productId, $imageId, $version = null)
     {
-        return self::getResource('/products/' . $productId . '/images/' . $imageId, 'ProductImage');
+        return self::getResource('/' . $productId . '/images/' . $imageId, 'ProductImage', $version);
     }
 
     /**
@@ -1561,11 +2150,422 @@ class Client
      *
      * @param int $productId
      * @param int $imageId
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function deleteProductImage($productId, $imageId)
+    public static function deleteProductImage($productId, $imageId, $version = null)
     {
-        return self::deleteResource('/products/' . $productId . '/images/' . $imageId);
+        return self::deleteResource('/' . $productId . '/images/' . $imageId, 'ProductImage', $version);
+    }
+
+    /**
+     * Returns a product videos resource by the given product id.
+     *
+     * @param $id
+     * @param null $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function getProductVideos($id, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/' . $id . '/videos'.$filter->toQuery(), 'ProductVideo', $version);
+    }
+
+    /**
+     * Create a product videos resource by the given product id.
+     *
+     * @param $id
+     * @param $object
+     * @param null $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function createProductVideo($id, $object, $version = null)
+    {
+        return self::createResource('/' . $id . '/videos', $object, 'ProductVideo', $version);
+    }
+
+    /**
+     * Returns a product videos resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param null $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function getProductVideo($product_id, $id, $version = null)
+    {
+        return self::getResource('/' . $product_id . '/videos/'.$id, 'ProductVideo', $version);
+    }
+
+    /**
+     * Update a product videos resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $object
+     * @param null $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function updateProductVideo($product_id, $id, $object, $version = null)
+    {
+        return self::updateResource('/' . $product_id . '/videos/'.$id, $object, 'ProductVideo', $version);
+    }
+
+    /**
+     * Delete a product videos resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param null $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function deleteProductVideo($product_id, $id, $version = null)
+    {
+        return self::deleteResource('/' . $product_id . '/videos/'.$id, 'ProductVideo', $version);
+    }
+
+    /**
+     * Returns a product bulk pricing rules resource by the given product id.
+     *
+     * @param $id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductBulkPricingRules($id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        $temp_object =  self::getCollection('/' . $id . '/bulk-pricing-rules'.$filter->toQuery(), 'ProductBulkPricingRule', $version);
+        if (gettype($temp_object) == "object") {
+            foreach ($temp_object as $obj) {
+                $obj->product_id = $id;
+            }
+        }
+        return $temp_object;
+    }
+
+    /**
+     * Returns a product bulk pricing rule resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductBulkPricingRule($product_id, $id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        $temp_object = self::getResource('/' . $product_id . '/bulk-pricing-rules/'.$id.$filter->toQuery(), 'ProductBulkPricingRule', $version);
+        if (gettype($temp_object) == "object") {
+            $temp_object->product_id = $product_id;
+        }
+        return $temp_object;
+    }
+
+    /**
+     * Create a Bulk Pricing Rule resource by the given product id.
+     *
+     * @param $id
+     * @param $object
+     * @param array $filter
+     * @param null $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function createProductBulkPricingRule($id, $object, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        return self::createResource('/' . $id . '/bulk-pricing-rules'.$filter->toQuery(), $object, 'ProductBulkPricingRule', $version);
+    }
+
+    /**
+     * Update a Bulk Pricing Rule resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $object
+     * @param string $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function updateProductBulkPricingRule($product_id, $id, $object, $version = "v3")
+    {
+        return self::updateResource('/' . $product_id . '/bulk-pricing-rules/'.$id, $object, 'ProductBulkPricingRule', $version);
+    }
+
+    /**
+     * Update a Bulk Pricing Rule resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param string $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function deleteProductBulkPricingRule($product_id, $id, $version = "v3")
+    {
+        return self::deleteResource('/' . $product_id . '/bulk-pricing-rules/'.$id, 'ProductBulkPricingRule', $version);
+    }
+
+    /**
+     * Returns a product bulk pricing rules resource by the given product id.
+     *
+     * @param $id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductComplexRules($id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/' . $id . '/complex-rules'.$filter->toQuery(), 'ProductComplexRule', $version);
+    }
+
+    /**
+     * Returns a product bulk pricing rule resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductComplexRule($product_id, $id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        return self::getResource('/' . $product_id . '/complex-rules/'.$id.$filter->toQuery(), 'ProductComplexRule', $version);
+    }
+
+    /**
+     * Create a Complex Rule resource by the given product id.
+     *
+     * @param $id
+     * @param $object
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function createProductComplexRule($id, $object, $version = "v3")
+    {
+        return self::createResource('/' . $id . '/complex-rules', $object, 'ProductComplexRule', $version);
+    }
+
+    /**
+     * Update a Complex Rule resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $object
+     * @param string $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function updateProductComplexRule($product_id, $id, $object, $version = "v3")
+    {
+        return self::updateResource('/' . $product_id . '/complex-rules/'.$id, $object, 'ProductComplexRule', $version);
+    }
+
+    /**
+     * Update a Complex Rule resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param string $version
+     * @return Resources\ProductImage|string
+     * @throws Exception
+     */
+    public static function deleteProductComplexRule($product_id, $id, $version = "v3")
+    {
+        return self::deleteResource('/' . $product_id . '/complex-rules/'.$id, 'ProductComplexRule', $version);
+    }
+
+    /**
+     * Returns a product variants resource by the given product id.
+     *
+     * @param $id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductVariants($id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        return self::getCollection('/' . $id . '/variants'.$filter->toQuery(), 'ProductVariant', $version);
+    }
+
+    /**
+     * Returns a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductVariant($product_id, $id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        return self::getResource('/' . $product_id . '/variants/'.$id.$filter->toQuery(), 'ProductVariant', $version);
+    }
+
+    /**
+     * Returns a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $object
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function createProductVariant($product_id, $object, $version = "v3")
+    {
+        return self::createResource('/' . $product_id . '/variants', $object, 'ProductVariant', $version);
+    }
+
+    /**
+     * Returns a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $image_url
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function createProductVariantImage($product_id, $id, $image_url, $version = "v3")
+    {
+        return self::createResource('/' . $product_id . '/variants/'.$id.'/image', array("image_url" => $image_url), 'ProductVariant', $version);
+    }
+
+    /**
+     * Update a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $object
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function updateProductVariant($product_id, $id, $object, $version = "v3")
+    {
+        return self::updateResource('/' . $product_id . '/variants/'.$id, $object, 'ProductVariant', $version);
+    }
+
+    /**
+     * Delete a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function deleteProductVariant($product_id, $id, $version = "v3")
+    {
+        return self::deleteResource('/' . $product_id . '/variants/'.$id, 'ProductVariant', $version);
+    }
+
+    /**
+     * Returns a product variants resource by the given product id.
+     *
+     * @param $product_id
+     * @param $variant_id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductVariantMetafields($product_id, $variant_id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        $temp_object = self::getCollection('/' . $product_id . '/variants/'.$variant_id.'/metafields'.$filter->toQuery(), 'ProductVariantMetafield', $version);
+        if (gettype($temp_object) == "object") {
+            foreach ($temp_object as $obj) {
+                $obj->product_id = $product_id;
+            }
+        }
+        return $temp_object;
+    }
+
+    /**
+     * Returns a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $id
+     * @param array $filter
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function getProductVariantMetafield($product_id, $variant_id, $id, $filter = array(), $version = "v3")
+    {
+        $filter = Filter::create($filter);
+        $temp_object = self::getResource('/' . $product_id . '/variants/'.$variant_id.'/metafields/'.$id.$filter->toQuery(), 'ProductVariantMetafield', $version);
+        if (gettype($temp_object) == "object") {
+            $temp_object->product_id = $product_id;
+        }
+        return $temp_object;
+    }
+
+    /**
+     * Returns a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $variant_id
+     * @param $object
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function createProductVariantMetafield($product_id, $variant_id, $object, $version = "v3")
+    {
+        return self::createResource('/' . $product_id . '/variants/'.$variant_id.'/metafields', $object, 'ProductVariantMetafield', $version);
+    }
+
+    /**
+     * Returns a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $variant_id
+     * @param $id
+     * @param $object
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function updateProductVariantMetafield($product_id, $variant_id, $id, $object, $version = "v3")
+    {
+        return self::updateResource('/' . $product_id . '/variants/'.$variant_id.'/metafields/'.$id, $object, 'ProductVariantMetafield', $version);
+    }
+
+    /**
+     * Returns a product variant resource by the given product id.
+     *
+     * @param $product_id
+     * @param $variant_id
+     * @param $id
+     * @param string $version
+     * @return Resources\ProductBulkPricingRule|string
+     * @throws Exception
+     */
+    public static function deleteProductVariantMetafield($product_id, $variant_id, $id, $version = "v3")
+    {
+        return self::deleteResource('/' . $product_id . '/variants/'.$variant_id.'/metafields/'.$id, 'ProductVariantMetafield', $version);
     }
 
     /**
@@ -1785,11 +2785,13 @@ class Client
      *
      * @param int $productID
      * @param array $object
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function createProductRule($productID, $object)
+    public static function createProductRule($productID, $object, $version = "v2")
     {
-        return self::createResource('/products/' . $productID . '/rules', $object);
+        return self::createResource('/' . $productID . '/rules', $object, 'Rule', $version);
     }
 
     /**
@@ -1847,24 +2849,167 @@ class Client
     /**
      * Return the collection of all option values for a given option.
      *
-     * @param int $productId
+     * @param $id
+     * @param array $filter
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function getProductOptions($productId)
+    public static function getProductOptions($id, $filter = array(), $version = null)
     {
-        return self::getCollection('/products/' . $productId . '/options');
+        $filter = Filter::create($filter);
+        return self::getCollection('/' . $id . '/options'.$filter->toQuery(), 'ProductOption', $version);
     }
 
     /**
      * Return the collection of all option values for a given option.
      *
-     * @param int $productId
-     * @param int $productOptionId
+     * @param $product_id
+     * @param $id
+     * @param array $filter
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function getProductOption($productId, $productOptionId)
+    public static function getProductOption($product_id, $id, $filter = array(), $version = null)
     {
-        return self::getResource('/products/' . $productId . '/options/' . $productOptionId);
+        $filter = Filter::create($filter);
+        return self::getResource('/' . $product_id . '/options/' . $id.$filter->toQuery(), 'ProductOption', $version);
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createProductOption($product_id, $id, $object, $version = null)
+    {
+        return self::createResource('/' . $product_id . '/options/' . $id, $object, 'ProductOption', $version);
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function updateProductOption($product_id, $id, $object, $version = null)
+    {
+        return self::updateResource('/' . $product_id . '/options/' . $id, $object, 'ProductOption', $version);
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function deleteProductOption($product_id, $id, $version = null)
+    {
+        return self::deleteResource('/' . $product_id . '/options/' . $id, 'ProductOption', $version);
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $option_id
+     * @param array $filter
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getProductOptionValues($product_id, $option_id, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        $temp_object = self::getCollection('/' . $product_id . '/options/'.$option_id.'/values'.$filter->toQuery(), 'ProductOptionValue', $version);
+        if (gettype($temp_object) == "object") {
+            foreach ($temp_object as $obj) {
+                $obj->product_id = $product_id;
+                $obj->option_id = $option_id;
+            }
+        }
+        return $temp_object;
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $option_id
+     * @param $id
+     * @param array $filter
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getProductOptionValue($product_id, $option_id, $id, $filter = array(), $version = null)
+    {
+        $filter = Filter::create($filter);
+        $temp_object = self::getResource('/' . $product_id . '/options/'.$option_id.'/values/'.$id.$filter->toQuery(), 'ProductOptionValue', $version);
+        if (gettype($temp_object) == "object") {
+            $temp_object->product_id = $product_id;
+            $temp_object->option_id = $option_id;
+        }
+        return $temp_object;
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $id
+     * @param $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function createProductOptionValue($product_id, $option_id, $object, $version = null)
+    {
+        return self::createResource('/' . $product_id . '/options/' . $option_id.'/values', $object, 'ProductOptionValue', $version);
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $option_id
+     * @param $id
+     * @param $object
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function updateProductOptionValue($product_id, $option_id, $id, $object, $version = null)
+    {
+        return self::updateResource('/' . $product_id . '/options/' . $option_id.'/values/'.$id, $object, 'ProductOptionValue', $version);
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param $product_id
+     * @param $option_id
+     * @param $id
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function deleteProductOptionValue($product_id, $option_id, $id, $version = null)
+    {
+        return self::deleteResource('/' . $product_id . '/options/' . $option_id.'/values/'.$id, 'ProductOptionValue', $version);
     }
 
     /**
@@ -1872,11 +3017,26 @@ class Client
      *
      * @param int $productId
      * @param int $productRuleId
+     * @param null $version
      * @return mixed
+     * @throws Exception
      */
-    public static function getProductRule($productId, $productRuleId)
+    public static function getProductRule($productId, $productRuleId, $version = "v2")
     {
-        return self::getResource('/products/' . $productId . '/rules/' . $productRuleId);
+        return self::getResource('/' . $productId . '/rules/' . $productRuleId, 'Rule', $version);
+    }
+
+    /**
+     * Return the collection of all option values for a given option.
+     *
+     * @param int $productId
+     * @param null $version
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getProductRules($productId, $version = "v2")
+    {
+        return self::getResource('/' . $productId . '/rules', 'Rule', $version);
     }
 
     /**
@@ -2046,12 +3206,14 @@ class Client
      *
      * @param $productId
      * @param array $filter
+     * @param string $version
      * @return mixed
+     * @throws Exception
      */
-    public static function getSkusByProduct($productId, $filter = array())
+    public static function getSkusByProduct($productId, $filter = array(), $version = "v2")
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products/'.$productId.'/skus' . $filter->toQuery(), 'Sku');
+        return self::getCollection('/'.$productId.'/skus' . $filter->toQuery(), 'Sku', $version);
     }
     
     /**
