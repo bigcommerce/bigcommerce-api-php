@@ -63,7 +63,7 @@ class ProductTest extends ResourceTestBase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = $product->$property;
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $value) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\' . $className, $value);
         }

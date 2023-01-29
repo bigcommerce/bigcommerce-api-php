@@ -9,24 +9,24 @@
         "ecommerce",
         "business"
     ],
-    "homepage": "http://developer.bigcommerce.com",
+    "homepage": "https://developer.bigcommerce.com",
     "license": "MIT",
     "authors": [
         {
             "name": "Bigcommerce",
-            "homepage": "http://www.bigcommerce.com"
+            "homepage": "https://www.bigcommerce.com"
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "firebase/php-jwt": "~3.0 || ~5.0",
         "ext-curl": "*"
     },
     "require-dev": {
         "codeless/jugglecode": "1.0",
-        "friendsofphp/php-cs-fixer": "^2.13",
-        "php-coveralls/php-coveralls": "2.1",
-        "phpunit/phpunit": "^6.4 || ^7.4"
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "php-coveralls/php-coveralls": "2.5",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-0": {

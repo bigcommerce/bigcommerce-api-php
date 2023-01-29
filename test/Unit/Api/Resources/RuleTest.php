@@ -38,7 +38,7 @@ class RuleTest extends ResourceTestBase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = $rule->conditions;
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $condition) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\RuleCondition', $condition);
         }
