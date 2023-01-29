@@ -13,7 +13,7 @@ class ResourceTestBase extends TestCase
     protected $connection;
     protected $basePath = '';
 
-    public function setUp()
+    public function setUp(): void
     {
         $methods = array(
             'useXml',
@@ -40,7 +40,7 @@ class ResourceTestBase extends TestCase
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();
-        $this->basePath = $this->getStaticAttribute('Bigcommerce\\Api\\Client', 'api_path');
+        $this->basePath = Client::$api_path;
         Client::setConnection($this->connection);
     }
 }

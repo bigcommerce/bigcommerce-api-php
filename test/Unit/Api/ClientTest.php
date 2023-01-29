@@ -14,7 +14,7 @@ class ClientTest extends TestCase
     private $connection;
     private $basePath = '';
 
-    public function setUp()
+    public function setUp(): void
     {
         $methods = array(
             'useXml',
@@ -37,7 +37,7 @@ class ClientTest extends TestCase
             'getHeaders',
             '__destruct'
         );
-        $this->basePath = $this->getStaticAttribute('Bigcommerce\\Api\\Client', 'api_path');
+        $this->basePath = Client::$api_path;
         $this->connection = $this->getMockBuilder('Bigcommerce\\Api\\Connection')
             ->disableOriginalConstructor()
             ->setMethods($methods)
@@ -45,7 +45,7 @@ class ClientTest extends TestCase
         Client::setConnection($this->connection);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Client::configure(array('username' => '', 'api_key' => '', 'store_url' => ''));
         unset($this->connection);
@@ -138,7 +138,9 @@ class ClientTest extends TestCase
         );
         $token = Client::getCustomerLoginToken(1);
         $actualPayload = (array)\Firebase\JWT\JWT::decode($token, 'zyx', array('HS256'));
-        $this->assertArraySubset($expectedPayload, $actualPayload);
+        foreach ($expectedPayload as $value) {
+            $this->assertContains($value, $actualPayload);
+        }
     }
 
     public function testGetCustomerLoginTokenThrowsIfNoClientSecret()
@@ -189,7 +191,7 @@ class ClientTest extends TestCase
         Client::configure(array('store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever'));
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
         $resources = Client::getCollection('/whatever');
-        $this->assertInternalType('array', $resources);
+        $this->assertIsArray($resources);
         foreach ($resources as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
         }
@@ -308,7 +310,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::$fnName();
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\' . $class, $resource);
         }
@@ -438,7 +440,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getProductImages(1);
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         $this->assertContainsOnlyInstancesOf('Bigcommerce\\Api\\Resources\\ProductImage', $collection);
     }
 
@@ -450,7 +452,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getProductCustomFields(1);
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\ProductCustomField', $resource);
         }
@@ -497,7 +499,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getCustomerAddresses(1);
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $resource);
         }
@@ -511,7 +513,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getOptionValues();
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\OptionValue', $resource);
         }
@@ -713,7 +715,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getOrderProducts(1);
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\OrderProduct', $resource);
         }
@@ -727,7 +729,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getShipments(1);
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Shipment', $resource);
         }
@@ -788,7 +790,7 @@ class ClientTest extends TestCase
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getOrderShippingAddresses(1);
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $resource);
         }
@@ -858,7 +860,7 @@ class ClientTest extends TestCase
             ->with($this->basePath . '/hooks', false)
             ->will($this->returnValue(array(new \Bigcommerce\Api\Resource(),new \Bigcommerce\Api\Resource())));
         $collection = Client::listWebhooks();
-        $this->assertInternalType('array', $collection);
+        $this->assertIsArray($collection);
         foreach ($collection as $resource) {
             $this->assertInstanceOf('Bigcommerce\\Api\\Resource', $resource);
         }

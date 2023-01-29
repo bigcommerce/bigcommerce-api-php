@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation='vendor/phpunit/phpunit/phpunit.xsd'
-         backupGlobals="true"
-         backupStaticAttributes="true"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
-         processIsolation="false"
-         bootstrap="vendor/autoload.php">
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-php" target="build/logs/coverage.cov"/>
-        <log type="coverage-text" target="build/logs/coverage.txt" showUncoveredFiles="false"/>
-        <log type="coverage-html" target="test/reports/coverage/" showUncoveredFiles="true"/>
-        <log type="junit" target="test/reports/junit.xml"/>
-    </logging>
-    <testsuites>
-        <testsuite name="test">
-            <directory>test/</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="true" backupStaticAttributes="true" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" forceCoversAnnotation="false" processIsolation="false" bootstrap="vendor/autoload.php">
+  <coverage>
+    <include>
+      <directory suffix=".php">src/</directory>
+    </include>
+    <report>
+      <clover outputFile="build/logs/clover.xml"/>
+      <html outputDirectory="test/reports/coverage/"/>
+      <php outputFile="build/logs/coverage.cov"/>
+      <text outputFile="build/logs/coverage.txt" showUncoveredFiles="false"/>
+    </report>
+  </coverage>
+  <logging>
+    <junit outputFile="test/reports/junit.xml"/>
+  </logging>
+  <testsuites>
+    <testsuite name="test">
+      <directory>test/</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

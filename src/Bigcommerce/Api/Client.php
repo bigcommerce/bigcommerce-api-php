@@ -353,7 +353,7 @@ class Client
         $baseResource = __NAMESPACE__ . '\\' . $resource;
         self::$resource = (class_exists($baseResource)) ? $baseResource : 'Bigcommerce\\Api\\Resources\\' . $resource;
 
-        return array_map(array('self', 'mapCollectionObject'), $object);
+        return array_map(array(self::class, 'mapCollectionObject'), $object);
     }
 
     /**

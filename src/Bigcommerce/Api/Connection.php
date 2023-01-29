@@ -242,6 +242,16 @@ class Connection
     }
 
     /**
+     * Return the request headers
+     *
+     * @return array
+     */
+    public function getRequestHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
      * Get the MIME type that should be used for this request.
      *
      * Defaults to application/json

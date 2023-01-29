@@ -12,23 +12,15 @@ class ConnectionTest extends TestCase
      */
     protected $object;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->object = new Connection();
-    }
-
-    public function testFailOnError()
-    {
-        $this->object->failOnError(false);
-        $this->assertAttributeSame(false, 'failOnError', $this->object);
-        $this->object->failOnError(true);
-        $this->assertAttributeSame(true, 'failOnError', $this->object);
     }
 
     public function testAddHeader()
     {
         $this->object->addHeader('Content-Length', 4);
-        $this->assertAttributeContains('Content-Length: 4', 'headers', $this->object);
+        $this->assertContains('Content-Length: 4', $this->object->getRequestHeaders());
     }
 
     /**
@@ -38,6 +30,6 @@ class ConnectionTest extends TestCase
     {
         $this->object->addHeader('Content-Length', 4);
         $this->object->removeHeader('Content-Length');
-        $this->assertAttributeNotContains('Content-Length: 4', 'headers', $this->object);
+        $this->assertNotContains('Content-Length: 4', $this->object->getRequestHeaders());
     }
 }
