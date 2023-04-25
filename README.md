@@ -6,18 +6,14 @@ PHP client for connecting to the Bigcommerce V2 REST API.
 To find out more, visit the official documentation website:
 http://developer.bigcommerce.com/
 
-[![Build Status](https://travis-ci.org/bigcommerce/bigcommerce-api-php.png?branch=master)](https://travis-ci.org/bigcommerce/bigcommerce-api-php)
-[![Coverage Status](https://coveralls.io/repos/bigcommerce/bigcommerce-api-php/badge.png?branch=master)](https://coveralls.io/r/bigcommerce/bigcommerce-api-php?branch=master)
-[![Dependency Status](https://www.versioneye.com/package/php--bigcommerce--api/badge.png)](https://www.versioneye.com/package/php--bigcommerce--api)
-
 [![Latest Stable Version](https://poser.pugx.org/bigcommerce/api/v/stable.png)](https://packagist.org/packages/bigcommerce/api)
 [![Total Downloads](https://poser.pugx.org/bigcommerce/api/downloads.png)](https://packagist.org/packages/bigcommerce/api)
 
 Requirements
 ------------
 
-- PHP 7.0 or greater
-- cUrl extension enabled
+- PHP 7.1 or greater
+- `curl` extension enabled
 
 To generate an OAuth API token, [follow this guide.](https://support.bigcommerce.com/s/article/Store-API-Accounts)
 
@@ -70,7 +66,6 @@ for connecting to a store on the Bigcommerce platform:
 In order to obtain the auth_token you would consume `Bigcommerce::getAuthToken` method during an installation of a single-click app. Alternatively, if you already have a token, skip to `Bigcommerce::configure` and provide your credentials.
 
 ~~~php
-
 $object = new \stdClass();
 $object->client_id = 'xxxxxx';
 $object->client_secret = 'xxxxx';
@@ -81,21 +76,20 @@ $object->scope = $request->get('scope');
 
 $authTokenResponse = Bigcommerce::getAuthToken($object);
 
-Bigcommerce::configure(array(
+Bigcommerce::configure([
     'client_id' => 'xxxxxxxx',
     'auth_token' => $authTokenResponse->access_token,
     'store_hash' => 'xxxxxxx'
-));
-
+]);
 ~~~
 
 ### Basic Auth (deprecated)
 ~~~php
-Bigcommerce::configure(array(
+Bigcommerce::configure([
 	'store_url' => 'https://store.mybigcommerce.com',
 	'username'	=> 'admin',
 	'api_key'	=> 'd81aada4xc34xx3e18f0xxxx7f36ca'
-));
+]);
 ~~~
 
 Connecting to the store
@@ -155,7 +149,7 @@ If you require more specific numbering and paging, you can explicitly specify
 a limit parameter:
 
 ~~~php
-$filter = array("page" => 3, "limit" => 30);
+$filter = ['page' => 3, 'limit' => 30];
 
 $products = Bigcommerce::getProducts($filter);
 ~~~
@@ -164,7 +158,7 @@ To filter a collection, you can also pass parameters to filter by as key-value
 pairs:
 
 ~~~php
-$filter = array("is_featured" => true);
+$filter = ['is_featured' => true];
 
 $featured = Bigcommerce::getProducts($filter);
 ~~~
@@ -179,7 +173,7 @@ To update a single resource:
 ~~~php
 $product = Bigcommerce::getProduct(11);
 
-$product->name = "MacBook Air";
+$product->name = 'MacBook Air';
 $product->price = 99.95;
 $product->update();
 ~~~
@@ -188,10 +182,10 @@ You can also update a resource by passing an array or stdClass object of fields
 you want to change to the global update method:
 
 ~~~php
-$fields = array(
-	"name"  => "MacBook Air",
-	"price" => 999.95
-);
+$fields = [
+	'name'  => 'MacBook Air',
+	'price' => 999.95
+];
 
 Bigcommerce::updateProduct(11, $fields);
 ~~~
@@ -204,9 +198,9 @@ can be done by passing an array or stdClass object representing the new
 resource to the global create method:
 
 ~~~php
-$fields = array(
-	"name" => "Apple"
-);
+$fields = [
+	'name' => 'Apple'
+];
 
 Bigcommerce::createBrand($fields);
 ~~~
@@ -217,7 +211,7 @@ and calling the create method once you have set the fields you want to save:
 ~~~php
 $brand = new Bigcommerce\Api\Resources\Brand();
 
-$brand->name = "Apple";
+$brand->name = 'Apple';
 $brand->create();
 ~~~
 
@@ -265,11 +259,11 @@ objects. An example transaction using XML would look like:
 ~~~php
 Bigcommerce::useXml();
 
-$xml = "<?xml version="1.0" encoding="UTF-8"?>
+$xml = '<?xml version="1.0" encoding="UTF-8"?>
 		<brand>
 		 	<name>Apple</name>
 		 	<search_keywords>computers laptops</search_keywords>
-		</brand>";
+		</brand>';
 
 $result = Bigcommerce::createBrand($xml);
 ~~~
@@ -343,5 +337,5 @@ need to configure the client to recognize this. Provide the URL of the proxy
 server and (optionally) a port to the useProxy method:
 
 ~~~php
-Bigcommerce::useProxy("http://proxy.example.com", 81);
+Bigcommerce::useProxy('http://proxy.example.com', 81);
 ~~~

@@ -18,8 +18,8 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
-        "firebase/php-jwt": "~3.0 || ~5.0",
+        "php": ">=8.0",
+        "firebase/php-jwt": "~5.0 || ~6.0",
         "ext-curl": "*"
     },
     "require-dev": {

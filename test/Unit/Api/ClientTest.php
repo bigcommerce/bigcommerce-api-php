@@ -137,7 +137,8 @@ class ClientTest extends TestCase
             'customer_id' => 1,
         );
         $token = Client::getCustomerLoginToken(1);
-        $actualPayload = (array)\Firebase\JWT\JWT::decode($token, 'zyx', array('HS256'));
+        $key = new \Firebase\JWT\Key('zyx', 'HS256');
+        $actualPayload = (array)\Firebase\JWT\JWT::decode($token, $key);
         foreach ($expectedPayload as $value) {
             $this->assertContains($value, $actualPayload);
         }
