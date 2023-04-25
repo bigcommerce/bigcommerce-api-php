@@ -437,7 +437,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($this->basePath . '/products/1/images/', false)
+            ->with($this->basePath . '/products/1/images', false)
             ->will($this->returnValue(array(array(), array())));
 
         $collection = Client::getProductImages(1);
