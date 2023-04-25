@@ -484,7 +484,7 @@ class Client
      */
     public static function getProductImages($id)
     {
-        return self::getCollection('/products/' . $id . '/images/', 'ProductImage');
+        return self::getCollection('/products/' . $id . '/images', 'ProductImage');
     }
 
     /**
