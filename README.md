@@ -4,7 +4,7 @@ Bigcommerce API Client
 PHP client for connecting to the Bigcommerce V2 REST API.
 
 To find out more, visit the official documentation website:
-http://developer.bigcommerce.com/
+https://developer.bigcommerce.com/
 
 [![Latest Stable Version](https://poser.pugx.org/bigcommerce/api/v/stable.png)](https://packagist.org/packages/bigcommerce/api)
 [![Total Downloads](https://poser.pugx.org/bigcommerce/api/downloads.png)](https://packagist.org/packages/bigcommerce/api)
