@@ -26,7 +26,8 @@
         "codeless/jugglecode": "1.0",
         "friendsofphp/php-cs-fixer": "^3.13",
         "php-coveralls/php-coveralls": "2.5",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.10"
     },
     "autoload": {
         "psr-0": {

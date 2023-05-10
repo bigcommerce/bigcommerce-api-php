@@ -4,12 +4,18 @@ orbs:
   ci: bigcommerce/internal@volatile
   php: bigcommerce/internal-php@volatile
 
+default_matrix: &default_matrix
+  matrix:
+    parameters:
+      php-version: [ "8.0", "8.1", "8.2" ]
+
 workflows:
   version: 2
   full:
     jobs:
       - php/phpunit-tests:
+          <<: *default_matrix
           configuration: "phpunit.xml.dist"
-          matrix:
-            parameters:
-              php-version: [ "8.0", "8.1", "8.2" ]
+      - php/static-analysis:
+          <<: *default_matrix
+          generate_ide_helper: false
