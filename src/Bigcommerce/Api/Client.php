@@ -73,6 +73,7 @@ class Client
      * Accepts OAuth and (for now!) Basic Auth credentials
      *
      * @param array $settings
+     * @return void
      */
     public static function configure($settings)
     {
@@ -2053,7 +2054,7 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/products/'.$productId.'/skus' . $filter->toQuery(), 'Sku');
     }
-    
+
     /**
      * Delete the given optionValue.
      *
@@ -2065,7 +2066,7 @@ class Client
     {
         return self::deleteResource('/options/' . $optionId .'/values/'. $valueId);
     }
-    
+
     /**
      * Return the collection of all option values By OptionID
      *
@@ -2078,7 +2079,7 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/options/' . $optionId . '/values' . $filter->toQuery(), 'OptionValue');
     }
-    
+
     /**
      * Get collection of product rules by ProductId
      *

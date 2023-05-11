@@ -116,6 +116,7 @@ class Connection
      * as XML. Defaults to false (using JSON).
      *
      * @param bool $option the new state of this feature
+     * @return void
      */
     public function useXml($option = true)
     {
@@ -284,6 +285,8 @@ class Connection
      *
      * If failOnError is true, a client or server error is raised, otherwise returns false
      * on error.
+     *
+     * @return mixed
      */
     private function handleResponse()
     {

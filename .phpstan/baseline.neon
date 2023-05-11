@@ -1,0 +1,1506 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to function is_string\\(\\) with non\\-empty\\-array will always evaluate to false\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with stdClass will always evaluate to false\\.$#"
+			count: 2
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:configure\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:configureBasicAuth\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:configureBasicAuth\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:configureOAuth\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:configureOAuth\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createCoupon\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createCustomerAddress\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createCustomerGroup\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createGiftCertificate\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createMarketingBanner\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createOption\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createOptionSet\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createOptionSetOption\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createOptionSetOption\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createOptionValue\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createOrder\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createPage\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createProductBulkPricingRules\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createProductReview\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createProductRule\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createShipment\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createShipment\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createSku\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:createSku\\(\\) has parameter \\$productId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteAllShipmentsForOrder\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteCustomers\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteCustomers\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteOptionValue\\(\\) has parameter \\$valueId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteShipment\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteShipment\\(\\) has parameter \\$shipmentID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteShippingMethod\\(\\) has parameter \\$methodId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:deleteShippingMethod\\(\\) has parameter \\$zoneId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:failOnError\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getAuthToken\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getBrands\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getBrands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getBrandsCount\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCategories\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCategories\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCategoriesCount\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCoupons\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCurrencies\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCustomerAddresses\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCustomers\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCustomers\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getCustomersCount\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getGiftCertificates\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getGoogleProductSearch\\(\\) has parameter \\$productId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptionSets\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptionSets\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptionValues\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptionValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptionValuesByOption\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptionValuesByOption\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptions\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderCoupons\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderCoupons\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderProducts\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderProductsCount\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderProductsCount\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderShippingAddress\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderShippingAddress\\(\\) has parameter \\$orderShippingAddressID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderShippingAddresses\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderShippingAddresses\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderStatuses\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrderStatusesWithCounts\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrders\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrders\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getOrdersCount\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getProductCustomFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getProductReviews\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getProducts\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getProductsCount\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getRequestLogs\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getRequestsRemaining\\(\\) should return int but returns false\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getRulesByProduct\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getShipment\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getShipment\\(\\) has parameter \\$shipmentID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getShipments\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getShipments\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getShippingMethod\\(\\) has parameter \\$methodId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getShippingMethod\\(\\) has parameter \\$zoneId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getShippingMethods\\(\\) has parameter \\$zoneId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getSkus\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getSkusByProduct\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getSkusByProduct\\(\\) has parameter \\$productId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getStore\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getTime\\(\\) should return DateTime but returns array\\|float\\|int\\|string\\|false\\|null\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:mapCollection\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:mapCollection\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:setConnection\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateCoupon\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateCoupon\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateGiftCertificate\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateMarketingBanner\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateOptionValue\\(\\) has parameter \\$object with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updatePage\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateShipment\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateShipment\\(\\) has parameter \\$orderID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateShipment\\(\\) has parameter \\$shipmentID with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateSku\\(\\) has parameter \\$id with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:updateSku\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:useJson\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:useProxy\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:useXml\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:verifyPeer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 2
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Client\\:\\:\\$api_url has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Client\\:\\:\\$auth_token has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Client\\:\\:\\$client_id has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Client\\:\\:\\$client_secret has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Client\\:\\:\\$login_url has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Client\\:\\:\\$store_hash has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Client\\:\\:\\$stores_prefix has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Static method Bigcommerce\\\\Api\\\\Client\\:\\:mapCount\\(\\) is unused\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Static property Bigcommerce\\\\Api\\\\Client\\:\\:\\$connection \\(Bigcommerce\\\\Api\\\\Connection\\) does not accept false\\.$#"
+			count: 2
+			path: ../src/Bigcommerce/Api/Client.php
+
+		-
+			message: "#^Class Bigcommerce\\\\Api\\\\Resource referenced with incorrect case\\: Bigcommerce\\\\Api\\\\resource\\.$#"
+			count: 3
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:addHeader\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:authenticateBasic\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:authenticateOauth\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:failOnError\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:followRedirectPath\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:get\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:getContentType\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:getHeaders\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:getLastError\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:getRequestHeaders\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:initializeRequest\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:removeHeader\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:setTimeout\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:useProxy\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:useUrlEncoded\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:verifyPeer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Connection\\:\\:verifyPeer\\(\\) has parameter \\$option with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(boolean\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 107$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Parameter \\#1 \\$handle of function curl_close expects CurlHandle, Bigcommerce\\\\Api\\\\Resource given\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Parameter \\#1 \\$handle of function curl_errno expects CurlHandle, Bigcommerce\\\\Api\\\\Resource given\\.$#"
+			count: 2
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Parameter \\#1 \\$handle of function curl_error expects CurlHandle, Bigcommerce\\\\Api\\\\Resource given\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Parameter \\#1 \\$handle of function curl_exec expects CurlHandle, Bigcommerce\\\\Api\\\\Resource given\\.$#"
+			count: 5
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Parameter \\#1 \\$handle of function curl_getinfo expects CurlHandle, Bigcommerce\\\\Api\\\\Resource given\\.$#"
+			count: 2
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Parameter \\#1 \\$handle of function curl_setopt expects CurlHandle, Bigcommerce\\\\Api\\\\Resource given\\.$#"
+			count: 37
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Connection\\:\\:\\$contentType has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Connection\\:\\:\\$curl \\(Bigcommerce\\\\Api\\\\Resource\\) does not accept CurlHandle\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Connection\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Connection\\:\\:\\$rawResponse has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Connection\\:\\:\\$responseHeaders type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Connection.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Error\\:\\:__construct\\(\\) has parameter \\$code with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Error.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Error\\:\\:__construct\\(\\) has parameter \\$message with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Error.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Error\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Error.php
+
+		-
+			message: "#^Call to function is_int\\(\\) with array will always evaluate to false\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Instanceof between array and Bigcommerce\\\\Api\\\\Filter will always evaluate to false\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Filter\\:\\:__construct\\(\\) has parameter \\$filter with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Filter\\:\\:__set\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Filter\\:\\:__set\\(\\) has parameter \\$parameter with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Filter\\:\\:__set\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Filter\\:\\:create\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Filter\\:\\:create\\(\\) should return \\$this\\(Bigcommerce\\\\Api\\\\Filter\\) but returns Bigcommerce\\\\Api\\\\Filter\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Filter\\:\\:\\$parameters has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Filter.php
+
+		-
+			message: "#^Argument of an invalid type stdClass supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:__construct\\(\\) has parameter \\$object with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:__get\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:__get\\(\\) has parameter \\$field with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:__isset\\(\\) has parameter \\$field with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:__set\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:__set\\(\\) has parameter \\$field with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:__set\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:getCreateFields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:getUpdateFields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:isIgnoredField\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:isIgnoredField\\(\\) has parameter \\$field with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resource\\:\\:isIgnoredField\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resource\\:\\:\\$fieldMap type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resource\\:\\:\\$ignoreIfZero type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resource\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resource\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resource.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Brand\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Brand.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Brand\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Brand.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Brand\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Brand.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Brand\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Brand.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Category\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Category.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Category\\:\\:delete\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Category.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Category\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Category.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Category\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Category.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Category\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Category.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Coupon\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Coupon.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Coupon\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Coupon.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Coupon\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Coupon.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Coupon\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Coupon.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Currency\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Currency.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Currency\\:\\:delete\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Currency.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Currency\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Currency.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Currency\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Currency.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Currency\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Currency.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Customer\\:\\:addresses\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Customer.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Customer\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Customer.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Customer\\:\\:delete\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Customer.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Customer\\:\\:getLoginToken\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Customer.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Customer\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Customer.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Customer\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Customer.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Customer\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Customer.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Option\\:\\:values\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Option.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionSet\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSet.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionSet\\:\\:options\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSet.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionSet\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSet.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\OptionSet\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSet.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\OptionSet\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSet.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionSetOption\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSetOption.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionSetOption\\:\\:option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSetOption.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionSetOption\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSetOption.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\OptionSetOption\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSetOption.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\OptionSetOption\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionSetOption.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionValue\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionValue.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionValue\\:\\:option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionValue.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\OptionValue\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionValue.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\OptionValue\\:\\:\\$fieldMap type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionValue.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\OptionValue\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionValue.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\OptionValue\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/OptionValue.php
+
+		-
+			message: "#^Access to an undefined property Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:\\$is_deleted\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Access to an undefined property Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:\\$status_id\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:coupons\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:products\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:shipments\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:shipping_addresses\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Order\\:\\:\\$fieldMap type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Order.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Page\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Page.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Page\\:\\:delete\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Page.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Page\\:\\:get\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Page.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Page\\:\\:getAll\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Page.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Page\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Page.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Page\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Page.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Page\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Page.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:brand\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:configurable_fields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:custom_fields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:delete\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:discount_rules\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:images\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:option_set\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:options\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:rules\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:skus\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:tax_class\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:videos\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:\\$ignoreIfZero type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Product\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Product.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ProductCustomField\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductCustomField.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ProductCustomField\\:\\:delete\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductCustomField.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ProductCustomField\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductCustomField.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ProductCustomField\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductCustomField.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ProductCustomField\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductCustomField.php
+
+		-
+			message: "#^Access to an undefined property Bigcommerce\\\\Api\\\\Resources\\\\ProductImage\\:\\:\\$product_id\\.$#"
+			count: 3
+			path: ../src/Bigcommerce/Api/Resources/ProductImage.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ProductImage\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductImage.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ProductImage\\:\\:delete\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductImage.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ProductImage\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductImage.php
+
+		-
+			message: "#^Parameter \\#2 \\$imageId of static method Bigcommerce\\\\Api\\\\Client\\:\\:updateProductImage\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductImage.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ProductImage\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductImage.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ProductImage\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductImage.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ProductOption\\:\\:option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductOption.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ProductOption\\:\\:\\$fieldMap type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ProductOption.php
+
+		-
+			message: "#^Access to an undefined property Bigcommerce\\\\Api\\\\Resources\\\\Rule\\:\\:\\$product_id\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Rule.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Rule\\:\\:conditions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Rule.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Rule\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Rule.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Rule\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Rule.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Rule\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Rule.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Rule\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Rule.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\RuleCondition\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/RuleCondition.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\RuleCondition\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/RuleCondition.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\RuleCondition\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/RuleCondition.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\RuleCondition\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/RuleCondition.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\RuleCondition\\:\\:\\$product_id has no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/RuleCondition.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Shipment\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Shipment.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Shipment\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Shipment.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Shipment\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Shipment.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Shipment\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Shipment.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ShippingMethod\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingMethod.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ShippingMethod\\:\\:create\\(\\) has parameter \\$zoneId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingMethod.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ShippingMethod\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingMethod.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ShippingMethod\\:\\:update\\(\\) has parameter \\$zoneId with no type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingMethod.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ShippingMethod\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingMethod.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ShippingMethod\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingMethod.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ShippingZone\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingZone.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\ShippingZone\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingZone.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ShippingZone\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingZone.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\ShippingZone\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/ShippingZone.php
+
+		-
+			message: "#^Access to an undefined property Bigcommerce\\\\Api\\\\Resources\\\\Sku\\:\\:\\$product_id\\.$#"
+			count: 2
+			path: ../src/Bigcommerce/Api/Resources/Sku.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Sku\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Sku.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Sku\\:\\:options\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Sku.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Sku\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Sku.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Sku\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Sku.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\Sku\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/Sku.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\SkuOption\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/SkuOption.php
+
+		-
+			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\SkuOption\\:\\:update\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/SkuOption.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\SkuOption\\:\\:\\$ignoreOnCreate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/SkuOption.php
+
+		-
+			message: "#^Property Bigcommerce\\\\Api\\\\Resources\\\\SkuOption\\:\\:\\$ignoreOnUpdate type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../src/Bigcommerce/Api/Resources/SkuOption.php
