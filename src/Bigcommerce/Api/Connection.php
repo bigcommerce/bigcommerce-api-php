@@ -5,7 +5,7 @@ namespace Bigcommerce\Api;
 /**
  * HTTP connection.
  */
-class Connection
+class Connection implements ConnectionInterface
 {
     /**
      * XML media type.
