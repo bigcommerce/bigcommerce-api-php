@@ -7,6 +7,8 @@ use Firebase\JWT\JWT;
 
 /**
  * Bigcommerce API Client.
+ * 
+ * Note: Unless specified, the functions only support the API version 2
  */
 class Client
 {
@@ -50,7 +52,7 @@ class Client
      *
      * @var string
      */
-    private static $path_prefix = '/api/v2';
+    private static $path_prefix = '/api/';
 
     /**
      * Full URL path to the configured store API.
@@ -62,7 +64,7 @@ class Client
     private static $store_hash;
     private static $auth_token;
     private static $client_secret;
-    private static $stores_prefix = '/stores/%s/v2';
+    private static $stores_prefix = '/stores/%s/';
     private static $api_url = 'https://api.bigcommerce.com';
     private static $login_url = 'https://login.bigcommerce.com';
 
@@ -257,11 +259,11 @@ class Client
      * @param string $resource resource class to map individual items
      * @return mixed array|string mapped collection or XML string if useXml is true
      */
-    public static function getCollection($path, $resource = 'Resource')
+    public static function getCollection($path, $resource = 'Resource', $version = 'v2')
     {
-        $response = self::connection()->get(self::$api_path . $path);
+        $response = self::connection()->get(self::$api_path . $version . $path);
 
-        return self::mapCollection($resource, $response);
+        return self::mapCollection($resource, $response, $version);
     }
 
     /**
@@ -271,9 +273,9 @@ class Client
      * @param string $resource resource class to map individual items
      * @return mixed Resource|string resource object or XML string if useXml is true
      */
-    public static function getResource($path, $resource = 'Resource')
+    public static function getResource($path, $resource = 'Resource', $version = 'v2')
     {
-        $response = self::connection()->get(self::$api_path . $path);
+        $response = self::connection()->get(self::$api_path . $version . $path);
 
         return self::mapResource($resource, $response);
     }
@@ -284,9 +286,9 @@ class Client
      * @param string $path api endpoint
      * @return mixed int|string count value or XML string if useXml is true
      */
-    public static function getCount($path)
+    public static function getCount($path, $version = 'v2')
     {
-        $response = self::connection()->get(self::$api_path . $path);
+        $response = self::connection()->get(self::$api_path . $version . $path);
 
         if ($response == false || is_string($response)) {
             return $response;
@@ -302,13 +304,13 @@ class Client
      * @param mixed $object object or XML string to create
      * @return mixed
      */
-    public static function createResource($path, $object)
+    public static function createResource($path, $object, $version = 'v2')
     {
         if (is_array($object)) {
             $object = (object)$object;
         }
 
-        return self::connection()->post(self::$api_path . $path, $object);
+        return self::connection()->post(self::$api_path . $version . $path, $object);
     }
 
     /**
@@ -318,13 +320,13 @@ class Client
      * @param mixed $object object or XML string to update
      * @return mixed
      */
-    public static function updateResource($path, $object)
+    public static function updateResource($path, $object, $version = 'v2')
     {
         if (is_array($object)) {
             $object = (object)$object;
         }
 
-        return self::connection()->put(self::$api_path . $path, $object);
+        return self::connection()->put(self::$api_path . $version . $path, $object);
     }
 
     /**
@@ -333,9 +335,9 @@ class Client
      * @param string $path api endpoint
      * @return mixed
      */
-    public static function deleteResource($path)
+    public static function deleteResource($path, $version = 'v2')
     {
-        return self::connection()->delete(self::$api_path . $path);
+        return self::connection()->delete(self::$api_path . $version . $path);
     }
 
     /**
@@ -345,8 +347,12 @@ class Client
      * @param array $object object collection
      * @return array
      */
-    private static function mapCollection($resource, $object)
+    private static function mapCollection($resource, $object, $version = 'v2')
     {
+        if ($version === 'v3') {
+            $object = $object->data ?? false;
+        }
+
         if ($object == false || is_string($object)) {
             return $object;
         }
@@ -454,9 +460,9 @@ class Client
      *
      * @return \DateTime
      */
-    public static function getTime()
+    public static function getTime($version = 'v2')
     {
-        $response = self::connection()->get(self::$api_path . '/time');
+        $response = self::connection()->get(self::$api_path . $version . '/time');
 
         if ($response == false || is_string($response)) {
             return $response;
@@ -467,14 +473,27 @@ class Client
 
     /**
      * Returns the default collection of products.
+     * 
+     * Supports v2 & v3
      *
      * @param array $filter
      * @return mixed array|string list of products or XML string if useXml is true
      */
-    public static function getProducts($filter = array())
+    public static function getProducts($filter = array(), $version = 'v2')
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products' . $filter->toQuery(), 'Product');
+
+        switch ($version) {
+            case 'v3':
+                return self::getCollection('/catalog/products' . $filter->toQuery(), 'Product', $version);
+                break;
+
+            case 'v2':
+            default:
+                return self::getCollection('/products' . $filter->toQuery(), 'Product');
+                break;
+        }
+
     }
 
     /**
@@ -1322,9 +1341,9 @@ class Client
         return self::getCollection('/requestlogs', 'RequestLog');
     }
 
-    public static function getStore()
+    public static function getStore($version = 'v2')
     {
-        $response = self::connection()->get(self::$api_path . '/store');
+        $response = self::connection()->get(self::$api_path . $version . '/store');
         return $response;
     }
 
@@ -1461,6 +1480,36 @@ class Client
     {
         $filter = Filter::create($filter);
         return self::getCollection('/orders/' . $orderID . '/shipping_addresses' . $filter->toQuery(), 'Address');
+    }
+
+    /**
+     * Get Cart
+     * 
+     * Only supports v3
+     * 
+     * @param $cartID
+     * @return mixed
+     */
+    public static function getCart($cartID) {
+        return self::getResource('/carts/' . $cartID, 'Resource', 'v3');
+    }
+
+    /**
+     * Apply Coupon to Checkout
+     * 
+     * Only supports v3
+     * 
+     * @param $checkoutID
+     * @param mixed $object the coupon code to apply
+     * @return mixed
+     */
+    public static function addCoupon($checkoutID, $object)
+    {
+        if (is_array($object)) {
+            $object = (object)$object;
+        }
+
+        return self::createResource('/checkouts/' . $checkoutID . '/coupons', $object, 'v3');
     }
 
     /**
