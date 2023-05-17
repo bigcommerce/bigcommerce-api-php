@@ -244,8 +244,8 @@ class ClientTest extends TestCase
         $now = new \DateTime();
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($this->basePath . '/time', false)
-            ->will($this->returnValue((object)array('time' => $now->format('U'))));
+            ->with('https://api.bigcommerce.com/time', false)
+            ->will($this->returnValue($now->format('U')));
 
         $this->assertEquals($now->format('U'), Client::getTime()->format('U'));
     }
@@ -278,8 +278,8 @@ class ClientTest extends TestCase
 
         $this->connection->expects($this->once())
             ->method('get')
-            ->with($this->basePath . '/time', false)
-            ->will($this->returnValue((object)array('time' => time())));
+            ->with('https://api.bigcommerce.com/time', false)
+            ->will($this->returnValue(time()));
 
         $this->assertSame(12345, Client::getRequestsRemaining());
     }

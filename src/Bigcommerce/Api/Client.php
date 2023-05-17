@@ -2,7 +2,8 @@
 
 namespace Bigcommerce\Api;
 
-use \Exception as Exception;
+use DateTime;
+use Exception;
 use Firebase\JWT\JWT;
 
 /**
@@ -452,17 +453,17 @@ class Client
     /**
      * Pings the time endpoint to test the connection to a store.
      *
-     * @return \DateTime
+     * @return ?DateTime
      */
     public static function getTime()
     {
-        $response = self::connection()->get(self::$api_path . '/time');
+        $response = self::connection()->get(self::$api_url . '/time');
 
-        if ($response == false || is_string($response)) {
-            return $response;
+        if (empty($response)) {
+            return null;
         }
 
-        return new \DateTime("@{$response->time}");
+        return new DateTime("@{$response}");
     }
 
     /**
@@ -1333,7 +1334,7 @@ class Client
      * last request that was fetched within the current script. If no
      * requests have been made, pings the time endpoint to get the value.
      *
-     * @return int
+     * @return int|false
      */
     public static function getRequestsRemaining()
     {
