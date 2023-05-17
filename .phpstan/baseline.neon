@@ -386,11 +386,6 @@ parameters:
 			path: ../src/Bigcommerce/Api/Client.php
 
 		-
-			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getRequestsRemaining\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: ../src/Bigcommerce/Api/Client.php
-
-		-
 			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getRulesByProduct\\(\\) has parameter \\$filter with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../src/Bigcommerce/Api/Client.php
@@ -447,11 +442,6 @@ parameters:
 
 		-
 			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getStore\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../src/Bigcommerce/Api/Client.php
-
-		-
-			message: "#^Method Bigcommerce\\\\Api\\\\Client\\:\\:getTime\\(\\) should return DateTime but returns array\\|float\\|int\\|string\\|false\\|null\\.$#"
 			count: 1
 			path: ../src/Bigcommerce/Api/Client.php
 
@@ -547,7 +537,7 @@ parameters:
 
 		-
 			message: "#^Negated boolean expression is always false\\.$#"
-			count: 2
+			count: 1
 			path: ../src/Bigcommerce/Api/Client.php
 
 		-
