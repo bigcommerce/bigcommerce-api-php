@@ -2,6 +2,8 @@
 
 namespace Bigcommerce\Api;
 
+use CurlHandle;
+
 /**
  * HTTP connection.
  */
@@ -21,17 +23,17 @@ class Connection
     const MEDIA_TYPE_WWW = 'application/x-www-form-urlencoded';
 
     /**
-     * @var resource cURL resource
+     * @var CurlHandle cURL resource
      */
     private $curl;
 
     /**
-     * @var array Hash of HTTP request headers.
+     * @var array<string, string> Hash of HTTP request headers.
      */
     private $headers = [];
 
     /**
-     * @var array Hash of headers from HTTP response
+     * @var array<string, string> Hash of headers from HTTP response
      */
     private $responseHeaders = [];
 
@@ -78,11 +80,13 @@ class Connection
 
     /**
      * Determines whether the response body should be returned as a raw string.
+     * @var bool
      */
     private $rawResponse = false;
 
     /**
      * Determines the default content type to use with requests and responses.
+     * @var string
      */
     private $contentType;
 
@@ -134,6 +138,7 @@ class Connection
      * as urlencoded form data.
      *
      * @param bool $option the new state of this feature
+     * @return void
      */
     public function useUrlEncoded($option = true)
     {
@@ -156,6 +161,7 @@ class Connection
      * as this fails fast, making the HTTP body and headers inaccessible.</em></p>
      *
      * @param bool $option the new state of this feature
+     * @return void
      */
     public function failOnError($option = true)
     {
@@ -167,6 +173,7 @@ class Connection
      *
      * @param string $username
      * @param string $password
+     * @return void
      */
     public function authenticateBasic($username, $password)
     {
@@ -178,6 +185,7 @@ class Connection
      *
      * @param string $clientId
      * @param string $authToken
+     * @return void
      */
     public function authenticateOauth($clientId, $authToken)
     {
@@ -190,6 +198,7 @@ class Connection
      * request takes longer than this to respond.
      *
      * @param int $timeout number of seconds to wait on a response
+     * @return void
      */
     public function setTimeout($timeout)
     {
@@ -202,6 +211,7 @@ class Connection
      *
      * @param string $server
      * @param int|bool $port optional port number
+     * @return void
      */
     public function useProxy($server, $port = false)
     {
@@ -214,7 +224,8 @@ class Connection
 
     /**
      * @todo may need to handle CURLOPT_SSL_VERIFYHOST and CURLOPT_CAINFO as well
-     * @param boolean
+     * @param bool $option Whether to verify the peer's SSL certificate
+     * @return void
      */
     public function verifyPeer($option = false)
     {
@@ -226,6 +237,7 @@ class Connection
      *
      * @param string $header
      * @param string $value
+     * @return void
      */
     public function addHeader($header, $value)
     {
@@ -236,6 +248,7 @@ class Connection
      * Remove a header from the request.
      *
      * @param string $header
+     * @return void
      */
     public function removeHeader($header)
     {
@@ -245,7 +258,7 @@ class Connection
     /**
      * Return the request headers
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getRequestHeaders()
     {
@@ -256,6 +269,7 @@ class Connection
      * Get the MIME type that should be used for this request.
      *
      * Defaults to application/json
+     * @return string
      */
     private function getContentType()
     {
@@ -265,6 +279,7 @@ class Connection
     /**
      * Clear previously cached request data and prepare for
      * making a fresh request.
+     * @return void
      */
     private function initializeRequest()
     {
@@ -324,6 +339,7 @@ class Connection
     /**
      * Return an representation of an error returned by the last request, or false
      * if the last request was not an error.
+     * @return false|string
      */
     public function getLastError()
     {
@@ -336,6 +352,7 @@ class Connection
      *
      * Only 301 and 302 redirects are handled. Redirects from POST and PUT requests will
      * be converted into GET requests, as per the HTTP spec.
+     * @return void
      */
     private function followRedirectPath()
     {
@@ -367,7 +384,7 @@ class Connection
      * Make an HTTP GET request to the specified endpoint.
      *
      * @param string $url URL to retrieve
-     * @param array|bool $query Optional array of query string parameters
+     * @param array<string, string>|bool $query Optional array of query string parameters
      *
      * @return mixed
      */
@@ -498,7 +515,7 @@ class Connection
     /**
      * Method that appears unused, but is in fact called by curl
      *
-     * @param resource $curl
+     * @param CurlHandle $curl
      * @param string $body
      * @return int
      */
@@ -511,7 +528,7 @@ class Connection
     /**
      * Method that appears unused, but is in fact called by curl
      *
-     * @param resource $curl
+     * @param CurlHandle $curl
      * @param string $headers
      * @return int
      */
@@ -580,6 +597,7 @@ class Connection
 
     /**
      * Return the full list of response headers
+     * @return array<string, string>
      */
     public function getHeaders()
     {
