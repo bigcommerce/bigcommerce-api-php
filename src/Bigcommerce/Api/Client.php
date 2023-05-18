@@ -35,7 +35,7 @@ class Client
     /**
      * Connection instance
      *
-     * @var Connection
+     * @var Connection|false
      */
     private static $connection;
 
@@ -59,12 +59,19 @@ class Client
      * @var string
      */
     public static $api_path;
+    /** @var string The OAuth client ID */
     private static $client_id;
+    /** @var string The store hash */
     private static $store_hash;
+    /** @var string The OAuth Auth-Token */
     private static $auth_token;
+    /** @var string */
     private static $client_secret;
+    /** @var string URL pathname prefix for the V2 API */
     private static $stores_prefix = '/stores/%s/v2';
+    /** @var string The BigCommerce store management API host */
     private static $api_url = 'https://api.bigcommerce.com';
+    /** @var string The BigCommerce merchant login URL */
     private static $login_url = 'https://login.bigcommerce.com';
 
     /**
@@ -73,7 +80,7 @@ class Client
      *
      * Accepts OAuth and (for now!) Basic Auth credentials
      *
-     * @param array $settings
+     * @param array<string, string> $settings
      * @return void
      */
     public static function configure($settings)
@@ -94,7 +101,8 @@ class Client
      * - auth_token
      * - store_hash
      *
-     * @param array $settings
+     * @param array<string, string> $settings
+     * @return void
      * @throws \Exception
      */
     public static function configureOAuth($settings)
@@ -111,7 +119,7 @@ class Client
         self::$auth_token = $settings['auth_token'];
         self::$store_hash = $settings['store_hash'];
 
-        self::$client_secret = isset($settings['client_secret']) ? $settings['client_secret'] : null;
+        self::$client_secret = $settings['client_secret'] ?? null;
 
         self::$api_path = self::$api_url . sprintf(self::$stores_prefix, self::$store_hash);
         self::$connection = false;
@@ -126,7 +134,8 @@ class Client
      * - username
      * - api_key
      *
-     * @param array $settings
+     * @param array<string, string> $settings
+     * @return void
      * @throws \Exception
      */
     public static function configureBasicAuth(array $settings)
@@ -156,6 +165,7 @@ class Client
      * Note that network faults will always cause an exception to be thrown.
      *
      * @param bool $option sets the value of this flag
+     * @return void
      */
     public static function failOnError($option = true)
     {
@@ -164,6 +174,7 @@ class Client
 
     /**
      * Return XML strings from the API instead of building objects.
+     * @return void
      */
     public static function useXml()
     {
@@ -173,6 +184,7 @@ class Client
     /**
      * Return JSON objects from the API instead of XML Strings.
      * This is the default behavior.
+     * @return void
      */
     public static function useJson()
     {
@@ -183,6 +195,7 @@ class Client
      * Switch SSL certificate verification on requests.
      *
      * @param bool $option sets the value of this flag
+     * @return void
      */
     public static function verifyPeer($option = false)
     {
@@ -194,6 +207,7 @@ class Client
      *
      * @param string $host host server
      * @param int|bool $port port number to use, or false
+     * @return void
      */
     public static function useProxy($host, $port = false)
     {
@@ -244,7 +258,8 @@ class Client
     /**
      * Set the HTTP connection object. DANGER: This can screw up your Client!
      *
-     * @param Connection $connection The connection to use
+     * @param Connection|null $connection The connection to use
+     * @return void
      */
     public static function setConnection(Connection $connection = null)
     {
@@ -343,8 +358,8 @@ class Client
      * Internal method to wrap items in a collection to resource classes.
      *
      * @param string $resource name of the resource class
-     * @param array $object object collection
-     * @return array
+     * @param mixed $object object collection
+     * @return Resource[]
      */
     private static function mapCollection($resource, $object)
     {

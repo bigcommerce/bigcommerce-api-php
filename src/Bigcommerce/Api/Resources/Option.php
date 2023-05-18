@@ -10,6 +10,9 @@ use Bigcommerce\Api\Client;
  */
 class Option extends Resource
 {
+    /**
+     * @return array|mixed|string
+     */
     public function values()
     {
         return Client::getCollection($this->fields->values->resource, 'OptionValue');

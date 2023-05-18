@@ -10,15 +10,20 @@ use Bigcommerce\Api\Client;
  */
 class Sku extends Resource
 {
+    /** @var string[] */
     protected $ignoreOnCreate = array(
         'product_id',
     );
 
+    /** @var string[] */
     protected $ignoreOnUpdate = array(
         'id',
         'product_id',
     );
 
+    /**
+     * @return SkuOption[]
+     */
     public function options()
     {
         $options = array();
@@ -34,6 +39,9 @@ class Sku extends Resource
         return $options;
     }
 
+    /**
+     * @return mixed
+     */
     public function create()
     {
         return Client::createResource('/products/' . $this->product_id . '/skus', $this->getCreateFields());
