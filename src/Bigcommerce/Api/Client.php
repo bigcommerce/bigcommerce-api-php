@@ -115,6 +115,14 @@ class Client
             throw new Exception("'store_hash' must be provided");
         }
 
+        if (isset($settings['api_url'])) {
+            self::$api_url = $settings['api_url'];
+        }
+
+        if (isset($settings['login_url'])) {
+            self::$login_url = $settings['login_url'];
+        }
+
         self::$client_id = $settings['client_id'];
         self::$auth_token = $settings['auth_token'];
         self::$store_hash = $settings['store_hash'];

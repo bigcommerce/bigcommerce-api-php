@@ -1084,4 +1084,22 @@ class ClientTest extends TestCase
 
         Client::updateOptionValue(1, 1, array());
     }
+
+    public function testConnectionUsesApiUrlOverride()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with('https://api.url.com/time');
+
+        Client::configureOAuth([
+            'client_id' => '123',
+            'auth_token' => '123xyz',
+            'store_hash' => 'abc123',
+            'api_url' => 'https://api.url.com',
+            'login_url' => 'https://login.url.com',
+        ]);
+        Client::setConnection($this->connection); // re-set the connection since Client::setConnection unsets it
+
+        Client::getTime();
+    }
 }
