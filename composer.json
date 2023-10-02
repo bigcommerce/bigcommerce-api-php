@@ -23,7 +23,6 @@
         "ext-curl": "*"
     },
     "require-dev": {
-        "codeless/jugglecode": "1.0",
         "friendsofphp/php-cs-fixer": "^3.13",
         "php-coveralls/php-coveralls": "2.5",
         "phpunit/phpunit": "^9.5",
