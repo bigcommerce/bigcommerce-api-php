@@ -398,8 +398,8 @@ class Client
      * Map a single object to a resource class.
      *
      * @param string $resource name of the resource class
-     * @param \stdClass $object
-     * @return Resource
+     * @param \stdClass|boolean|string $object
+     * @return bool|\stdClass|string
      */
     private static function mapResource($resource, $object)
     {
@@ -415,8 +415,8 @@ class Client
     /**
      * Map object representing a count to an integer value.
      *
-     * @param \stdClass $object
-     * @return int
+     * @param \stdClass|boolean|string $object
+     * @return int|boolean
      */
     private static function mapCount($object)
     {
