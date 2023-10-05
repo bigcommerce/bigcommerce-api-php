@@ -115,6 +115,14 @@ class Client
             throw new Exception("'store_hash' must be provided");
         }
 
+        if (isset($settings['api_url'])) {
+            self::$api_url = $settings['api_url'];
+        }
+
+        if (isset($settings['login_url'])) {
+            self::$login_url = $settings['login_url'];
+        }
+
         self::$client_id = $settings['client_id'];
         self::$auth_token = $settings['auth_token'];
         self::$store_hash = $settings['store_hash'];
@@ -390,8 +398,8 @@ class Client
      * Map a single object to a resource class.
      *
      * @param string $resource name of the resource class
-     * @param \stdClass $object
-     * @return Resource
+     * @param \stdClass|boolean|string $object
+     * @return bool|\stdClass|string
      */
     private static function mapResource($resource, $object)
     {
@@ -407,8 +415,8 @@ class Client
     /**
      * Map object representing a count to an integer value.
      *
-     * @param \stdClass $object
-     * @return int
+     * @param \stdClass|boolean|string $object
+     * @return int|boolean
      */
     private static function mapCount($object)
     {
