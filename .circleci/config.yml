@@ -4,14 +4,25 @@ orbs:
   ci: bigcommerce/internal@volatile
   php: bigcommerce/internal-php@volatile
 
+define: &php_min "8.1"
+
 jobs_default: &jobs_default
   e:
     name: php/php
     php-version: << matrix.php-version >>
   matrix:
     parameters:
-      php-version: [ "8.1", "8.2" ]
+      php-version: [ *php_min, "8.2" ]
 
+jobs:
+  cs-fixer:
+    executor:
+      name: php/php
+      php-version: *php_min
+    steps:
+      - ci/pre-setup
+      - php/composer-install
+      - run: ./vendor/bin/php-cs-fixer fix --diff --dry-run -v
 
 workflows:
   version: 2
@@ -23,3 +34,5 @@ workflows:
       - php/static-analysis:
           <<: *jobs_default
           generate_ide_helper: false
+      - cs-fixer
+

@@ -55,10 +55,10 @@ class ClientTest extends TestCase
     {
         $matcher = $this->exactly(2);
         $this->connection->expects($matcher)
-            ->method('failOnError')->willReturnCallback(fn() => match ($matcher->numberOfInvocations()) {
-            1 => [true],
-            2 => [false],
-        });
+            ->method('failOnError')->willReturnCallback(fn () => match ($matcher->numberOfInvocations()) {
+                1 => [true],
+                2 => [false],
+            });
         Client::failOnError(true);
         Client::failOnError(false);
     }
@@ -75,10 +75,10 @@ class ClientTest extends TestCase
     {
         $matcher = $this->exactly(2);
         $this->connection->expects($matcher)
-            ->method('verifyPeer')->willReturnCallback(fn() => match ($matcher->numberOfInvocations()) {
-            1 => [true],
-            2 => [false],
-        });
+            ->method('verifyPeer')->willReturnCallback(fn () => match ($matcher->numberOfInvocations()) {
+                1 => [true],
+                2 => [false],
+            });
         Client::verifyPeer(true);
         Client::verifyPeer(false);
     }
