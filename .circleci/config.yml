@@ -19,7 +19,7 @@ workflows:
     jobs:
       - php/phpunit-tests:
           <<: *jobs_default
-          minimum_coverage: 10
+          minimum_coverage: 60
       - php/static-analysis:
           <<: *jobs_default
           generate_ide_helper: false
