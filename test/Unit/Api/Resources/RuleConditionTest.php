@@ -8,7 +8,7 @@ class RuleConditionTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
     {
-        $ruleCondition = new RuleCondition((object)array('rule_id' => 1));
+        $ruleCondition = new RuleCondition((object)['rule_id' => 1]);
         $ruleCondition->product_id = 1;
         $this->connection->expects($this->once())
             ->method('post')
@@ -19,7 +19,7 @@ class RuleConditionTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $ruleCondition = new RuleCondition((object)array('id' => 1, 'rule_id' => 1));
+        $ruleCondition = new RuleCondition((object)['id' => 1, 'rule_id' => 1]);
         $ruleCondition->product_id = 1;
         $this->connection->expects($this->once())
             ->method('put')

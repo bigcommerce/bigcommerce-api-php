@@ -18,7 +18,7 @@ class CouponTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $coupon = new Coupon((object)(array('id' => 1)));
+        $coupon = new Coupon((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/coupons/1', $coupon->getUpdateFields());

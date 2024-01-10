@@ -18,7 +18,7 @@ class CategoryTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $category = new Category((object)(array('id' => 1)));
+        $category = new Category((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/categories/1', $category->getUpdateFields());
@@ -28,7 +28,7 @@ class CategoryTest extends ResourceTestBase
 
     public function testDeletePassesThroughToConnection()
     {
-        $category = new Category((object)(array('id' => 1)));
+        $category = new Category((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/categories/1');

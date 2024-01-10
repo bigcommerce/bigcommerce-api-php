@@ -8,8 +8,8 @@ class ErrorTest extends TestCase
 {
     public function testConstructorHandlesArrayOfMessageObjects()
     {
-        $messageObj = (object)array('message' => 'message here');
-        $error = new Error(array($messageObj), 0, []);
+        $messageObj = (object)['message' => 'message here'];
+        $error = new Error([$messageObj], 0, []);
         $this->assertSame('message here', $error->getMessage());
     }
 

@@ -18,7 +18,7 @@ class BrandTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $brand = new Brand((object)(array('id' => 1)));
+        $brand = new Brand((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/brands/1', $brand->getUpdateFields());

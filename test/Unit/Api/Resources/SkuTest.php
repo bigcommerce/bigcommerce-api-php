@@ -12,7 +12,7 @@ class SkuTest extends ResourceTestBase
         $sku = $this->getSimpleSku();
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/skus', (object)array('id' => 1));
+            ->with($this->basePath . '/products/1/skus', (object)['id' => 1]);
 
         $sku->create();
     }
@@ -22,18 +22,16 @@ class SkuTest extends ResourceTestBase
         $sku = $sku = $this->getSimpleSku();
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/1/skus/1', (object)array());
+            ->with($this->basePath . '/products/1/skus/1', (object)[]);
 
         $sku->update();
     }
 
     public function testSkuHasOptions()
     {
-        $sku = new Sku((object)array('id' => 1, 'product_id' => 1, 'options' => array(
-            array('option_value_id' => 1, 'product_option_id' => 1)
-        )));
+        $sku = new Sku((object)['id' => 1, 'product_id' => 1, 'options' => [['option_value_id' => 1, 'product_option_id' => 1]]]);
 
-        $this->assertInstanceOf('Bigcommerce\Api\Resources\SkuOption', $sku->options[0]);
+        $this->assertInstanceOf(\Bigcommerce\Api\Resources\SkuOption::class, $sku->options[0]);
 
         $this->assertEquals(1, $sku->options[0]->option_value_id);
         $this->assertEquals(1, $sku->options[0]->product_option_id);
@@ -47,6 +45,6 @@ class SkuTest extends ResourceTestBase
 
     private function getSimpleSku()
     {
-        return new Sku((object)array('id' => 1, 'product_id' => 1));
+        return new Sku((object)['id' => 1, 'product_id' => 1]);
     }
 }

@@ -19,7 +19,7 @@ class PageTest extends ResourceTestBase
 
     public function testGetPassesThroughToConnection()
     {
-        $page = new Page((object)(array('id' => 1)));
+        $page = new Page((object)(['id' => 1]));
 
         $this->connection->expects($this->once())
             ->method('get')
@@ -40,7 +40,7 @@ class PageTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $page = new Page((object)(array('id' => 1)));
+        $page = new Page((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/pages/1', $page->getUpdateFields());
@@ -50,7 +50,7 @@ class PageTest extends ResourceTestBase
 
     public function testDeletePassesThroughToConnection()
     {
-        $page = new Page((object)(array('id' => 1)));
+        $page = new Page((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/pages/1');

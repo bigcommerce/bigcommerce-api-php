@@ -9,13 +9,7 @@ class ShippingZoneTest extends ResourceTestBase
 {
     public function testCreateShippingZone()
     {
-        $input = array(
-            'name' => 'United States',
-            'type' => 'country',
-            'locations' => array(
-                array('country_iso2' => 'US'),
-            ),
-        );
+        $input = ['name' => 'United States', 'type' => 'country', 'locations' => [['country_iso2' => 'US']]];
         $zone = new ShippingZone((object)$input);
         $this->connection->expects($this->once())
             ->method('post')
@@ -26,14 +20,8 @@ class ShippingZoneTest extends ResourceTestBase
 
     public function testUpdateShippingZone()
     {
-        $input = array(
-            'name' => 'United States',
-            'type' => 'country',
-            'locations' => array(
-                array('country_iso2' => 'US'),
-            ),
-        );
-        $updateResource = array_merge(array('id' => 1), $input);
+        $input = ['name' => 'United States', 'type' => 'country', 'locations' => [['country_iso2' => 'US']]];
+        $updateResource = array_merge(['id' => 1], $input);
         $zone = new ShippingZone((object)$updateResource);
 
         $this->connection->expects($this->once())
