@@ -9,37 +9,7 @@ class ShippingMethodTest extends ResourceTestBase
 {
     public function testCreateShippingMethod()
     {
-        $input = array(
-            "name" => "USPS Endicia",
-            "type" => "endicia",
-            "settings" => array(
-                "carrier_options" => array(
-                    "delivery_services" => array(
-                        "PriorityExpress",
-                        "PriorityMailExpressInternational",
-                        "FirstClassPackageInternationalService",
-                        "Priority",
-                        "PriorityMailInternational",
-                        "First",
-                        "ParcelSelect",
-                        "MediaMail"
-                    ),
-                    "packaging" => array(
-                        "FlatRateLegalEnvelope",
-                        "FlatRatePaddedEnvelope",
-                        "Parcel",
-                        "SmallFlatRateBox",
-                        "MediumFlatRateBox",
-                        "LargeFlatRateBox",
-                        "FlatRateEnvelope",
-                        "RegionalRateBoxA",
-                        "RegionalRateBoxB"
-                    ),
-                    "show_transit_time" => true,
-                )
-            ),
-            "enabled" => true
-        );
+        $input = ["name" => "USPS Endicia", "type" => "endicia", "settings" => ["carrier_options" => ["delivery_services" => ["PriorityExpress", "PriorityMailExpressInternational", "FirstClassPackageInternationalService", "Priority", "PriorityMailInternational", "First", "ParcelSelect", "MediaMail"], "packaging" => ["FlatRateLegalEnvelope", "FlatRatePaddedEnvelope", "Parcel", "SmallFlatRateBox", "MediumFlatRateBox", "LargeFlatRateBox", "FlatRateEnvelope", "RegionalRateBoxA", "RegionalRateBoxB"], "show_transit_time" => true]], "enabled" => true];
         $method = new ShippingMethod((object)$input);
         $this->connection->expects($this->once())
             ->method('post')
@@ -50,23 +20,8 @@ class ShippingMethodTest extends ResourceTestBase
 
     public function testUpdateShippingMethod()
     {
-        $input = array(
-            "name" => "Ship by Weight",
-            "type" => "weight",
-            "settings" => array(
-                "default_cost" => 1,
-                "default_cost_type" => "fixed_amount",
-                "range" => array(
-                    array(
-                        "lower_limit" => 0,
-                        "upper_limit" => 20,
-                        "shipping_cost" => 8
-                    )
-                )
-            ),
-            "enabled" => true
-        );
-        $updateResource = array_merge(array('id' => 1), $input);
+        $input = ["name" => "Ship by Weight", "type" => "weight", "settings" => ["default_cost" => 1, "default_cost_type" => "fixed_amount", "range" => [["lower_limit" => 0, "upper_limit" => 20, "shipping_cost" => 8]]], "enabled" => true];
+        $updateResource = array_merge(['id' => 1], $input);
         $method = new ShippingMethod((object)$updateResource);
         $this->connection->expects($this->once())
             ->method('put')

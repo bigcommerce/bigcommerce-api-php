@@ -8,7 +8,7 @@ class ProductCustomFieldTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
     {
-        $customField = new ProductCustomField((object)array('product_id' => 1));
+        $customField = new ProductCustomField((object)['product_id' => 1]);
         $this->connection->expects($this->once())
             ->method('post')
             ->with($this->basePath . '/products/1/customfields', $customField->getCreateFields());
@@ -18,7 +18,7 @@ class ProductCustomFieldTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $customField = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
+        $customField = new ProductCustomField((object)(['id' => 1, 'product_id' => 1]));
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/products/1/customfields/1', $customField->getUpdateFields());
@@ -28,7 +28,7 @@ class ProductCustomFieldTest extends ResourceTestBase
 
     public function testDeletePassesThroughToConnection()
     {
-        $customField = new ProductCustomField((object)(array('id' => 1, 'product_id' => 1)));
+        $customField = new ProductCustomField((object)(['id' => 1, 'product_id' => 1]));
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/products/1/customfields/1');

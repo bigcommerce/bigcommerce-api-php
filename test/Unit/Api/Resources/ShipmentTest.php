@@ -8,20 +8,20 @@ class ShipmentTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
     {
-        $shipment = new Shipment((object)array('id' => 1, 'order_id' => 1));
+        $shipment = new Shipment((object)['id' => 1, 'order_id' => 1]);
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/orders/1/shipments', (object)array());
+            ->with($this->basePath . '/orders/1/shipments', (object)[]);
 
         $shipment->create();
     }
 
     public function testUpdatePassesThroughToConnection()
     {
-        $shipment = new Shipment((object)array('id' => 1, 'order_id' => 1));
+        $shipment = new Shipment((object)['id' => 1, 'order_id' => 1]);
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/orders/1/shipments/1', (object)array());
+            ->with($this->basePath . '/orders/1/shipments/1', (object)[]);
 
         $shipment->update();
     }

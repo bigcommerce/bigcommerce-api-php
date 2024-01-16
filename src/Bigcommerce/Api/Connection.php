@@ -609,6 +609,8 @@ class Connection
      */
     public function __destruct()
     {
-        curl_close($this->curl);
+        if ($this->curl !== null) {
+            curl_close($this->curl);
+        }
     }
 }

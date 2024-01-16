@@ -4,11 +4,9 @@ composer.lock
 script/*
 
 # Testing
-/phpunit.xml
 /build
 /test/reports
 .env
 .idea
 /.php_cs
-/.php_cs.cache
-/.phpunit.result.cache
+/*.cache

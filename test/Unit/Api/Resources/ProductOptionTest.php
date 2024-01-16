@@ -8,12 +8,12 @@ class ProductOptionTest extends ResourceTestBase
 {
     public function testValuesPassesThroughToConnection()
     {
-        $productOption = new ProductOption((object)array('option_id' => 1));
+        $productOption = new ProductOption((object)['option_id' => 1]);
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/options/1')
-            ->will($this->returnValue(array(array())));
+            ->will($this->returnValue([[]]));
 
-        $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Option', $productOption->option);
+        $this->assertInstanceOf(\Bigcommerce\Api\Resources\Option::class, $productOption->option);
     }
 }

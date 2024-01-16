@@ -8,14 +8,14 @@ class OptionSetTest extends ResourceTestBase
 {
     public function testOptionsPassesThroughToConnection()
     {
-        $optionset = new OptionSet((object)array('options' => (object)array('resource' => '/optionsets/1/options')));
+        $optionset = new OptionSet((object)['options' => (object)['resource' => '/optionsets/1/options']]);
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/optionsets/1/options')
-            ->will($this->returnValue(array(array(), array())));
+            ->will($this->returnValue([[], []]));
 
         foreach ($optionset->options as $value) {
-            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\OptionSetOption', $value);
+            $this->assertInstanceOf(\Bigcommerce\Api\Resources\OptionSetOption::class, $value);
         }
     }
 
@@ -31,7 +31,7 @@ class OptionSetTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $optionset = new OptionSet((object)array('id' => 1));
+        $optionset = new OptionSet((object)['id' => 1]);
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/optionsets/1', $optionset->getUpdateFields());

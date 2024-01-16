@@ -8,27 +8,27 @@ class ProductTest extends ResourceTestBase
 {
     public function testCreatePassesThroughToConnection()
     {
-        $product = new Product((object)array('id' => 1));
+        $product = new Product((object)['id' => 1]);
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products', (object)array('id' => 1));
+            ->with($this->basePath . '/products', (object)['id' => 1]);
 
         $product->create();
     }
 
     public function testUpdatePassesThroughToConnection()
     {
-        $product = new Product((object)array('id' => 1));
+        $product = new Product((object)['id' => 1]);
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/1', (object)array());
+            ->with($this->basePath . '/products/1', (object)[]);
 
         $product->update();
     }
 
     public function testDeletePassesThroughToConnection()
     {
-        $product = new Product((object)array('id' => 1));
+        $product = new Product((object)['id' => 1]);
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/products/1');
@@ -36,31 +36,20 @@ class ProductTest extends ResourceTestBase
         $product->delete();
     }
 
-    public function propertyCollections()
+    public static function propertyCollections()
     {
-        return array(
-            array('images', 'ProductImage'),
-            array('skus', 'Sku'),
-            array('rules', 'Rule'),
-            array('videos', 'ProductVideo'),
-            array('custom_fields', 'ProductCustomField'),
-            array('configurable_fields', 'ProductConfigurableField'),
-            array('discount_rules', 'DiscountRule'),
-            array('options', 'ProductOption')
-        );
+        return [['images', 'ProductImage'], ['skus', 'Sku'], ['rules', 'Rule'], ['videos', 'ProductVideo'], ['custom_fields', 'ProductCustomField'], ['configurable_fields', 'ProductConfigurableField'], ['discount_rules', 'DiscountRule'], ['options', 'ProductOption']];
     }
 
-    /**
-     * @dataProvider propertyCollections
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('propertyCollections')]
     public function testPropertyCollectionsPassThroughToTheConnection($property, $className)
     {
         $url = '/products/1/' . $property;
-        $product = new Product((object)array('id' => 1, $property => (object)array('resource' => $url)));
+        $product = new Product((object)['id' => 1, $property => (object)['resource' => $url]]);
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . $url)
-            ->will($this->returnValue(array(array(), array())));
+            ->will($this->returnValue([[], []]));
 
         $collection = $product->$property;
         $this->assertIsArray($collection);
@@ -69,26 +58,20 @@ class ProductTest extends ResourceTestBase
         }
     }
 
-    public function properties()
+    public static function properties()
     {
-        return array(
-            array('brand', 'Brand'),
-            array('option_set', 'OptionSet'),
-            array('tax_class', 'TaxClass')
-        );
+        return [['brand', 'Brand'], ['option_set', 'OptionSet'], ['tax_class', 'TaxClass']];
     }
 
-    /**
-     * @dataProvider properties
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('properties')]
     public function testPropertiesPassThroughToTheConnection($property, $className)
     {
         $url = '/products/1/' . $property;
-        $product = new Product((object)array($property => (object)array('resource' => $url)));
+        $product = new Product((object)[$property => (object)['resource' => $url]]);
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . $url)
-            ->will($this->returnValue(array(array())));
+            ->will($this->returnValue([[]]));
 
         $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\' . $className, $product->$property);
     }

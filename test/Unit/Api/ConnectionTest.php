@@ -23,9 +23,7 @@ class ConnectionTest extends TestCase
         $this->assertContains('Content-Length: 4', $this->object->getRequestHeaders());
     }
 
-    /**
-     * @depends testAddHeader
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testAddHeader')]
     public function testRemoveHeader()
     {
         $this->object->addHeader('Content-Length', 4);

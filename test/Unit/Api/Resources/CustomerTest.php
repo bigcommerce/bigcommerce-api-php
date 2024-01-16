@@ -8,14 +8,14 @@ class CustomerTest extends ResourceTestBase
 {
     public function testAddressesPassesThroughToConnection()
     {
-        $customer = new Customer((object)array('addresses' => (object)array('resource' => '/customers/1/addresses')));
+        $customer = new Customer((object)['addresses' => (object)['resource' => '/customers/1/addresses']]);
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/customers/1/addresses')
-            ->will($this->returnValue(array(array(), array())));
+            ->will($this->returnValue([[], []]));
 
         foreach ($customer->addresses as $address) {
-            $this->assertInstanceOf('Bigcommerce\\Api\\Resources\\Address', $address);
+            $this->assertInstanceOf(\Bigcommerce\Api\Resources\Address::class, $address);
         }
     }
 
@@ -31,7 +31,7 @@ class CustomerTest extends ResourceTestBase
 
     public function testUpdatePassesThroughToConnection()
     {
-        $customer = new Customer((object)(array('id' => 1)));
+        $customer = new Customer((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('put')
             ->with($this->basePath . '/customers/1', $customer->getUpdateFields());
@@ -41,7 +41,7 @@ class CustomerTest extends ResourceTestBase
 
     public function testDeletePassesThroughToConnection()
     {
-        $customer = new Customer((object)(array('id' => 1)));
+        $customer = new Customer((object)(['id' => 1]));
         $this->connection->expects($this->once())
             ->method('delete')
             ->with($this->basePath . '/customers/1');

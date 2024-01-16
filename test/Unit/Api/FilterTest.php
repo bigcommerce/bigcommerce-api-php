@@ -8,13 +8,13 @@ class FilterTest extends TestCase
 {
     public function testToQueryBuildsAnAppropriateQueryString()
     {
-        $filter = new Filter(array('a' => 1, 'b' => 'orange'));
+        $filter = new Filter(['a' => 1, 'b' => 'orange']);
         $this->assertSame('?a=1&b=orange', $filter->toQuery());
     }
 
     public function testUpdateParameter()
     {
-        $filter = new Filter(array('a' => 'b'));
+        $filter = new Filter(['a' => 'b']);
         $this->assertSame('?a=b', $filter->toQuery());
         $filter->a = 'c';
         $this->assertSame('?a=c', $filter->toQuery());
@@ -28,14 +28,14 @@ class FilterTest extends TestCase
 
     public function testStaticCreateMethodReturnsFilterObjectIfCalledWithFilterObject()
     {
-        $original = new Filter(array('a' => 'b'));
+        $original = new Filter(['a' => 'b']);
         $filter = Filter::create($original);
         $this->assertSame($original, $filter);
     }
 
     public function testStaticCreateMethodReturnsCorrectlyConfiguredFilter()
     {
-        $filter = Filter::create(array('a' => 'b'));
+        $filter = Filter::create(['a' => 'b']);
         $this->assertSame('?a=b', $filter->toQuery());
     }
 }
