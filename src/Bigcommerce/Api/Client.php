@@ -2116,4 +2116,16 @@ class Client
         $filter = Filter::create($filter);
         return self::getCollection('/products/'.$productId.'/rules' . $filter->toQuery(), 'Rule');
     }
+
+
+    /**
+     * Get collection of taxes by OrderId
+     * 
+     * @param int $orderId
+     * @return mixed array|string list of taxes or XML string if useXml is true
+     */
+    public static function getOrderTaxes($orderId)
+    {
+        return self::getCollection('/orders/' . $orderId . '/taxes?details=true', 'OrderTax');
+    }
 }
