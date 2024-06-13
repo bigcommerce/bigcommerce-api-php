@@ -12,7 +12,7 @@ https://developer.bigcommerce.com/
 Requirements
 ------------
 
-- PHP 7.1 or greater
+- PHP 8.1 or greater
 - `curl` extension enabled
 
 To generate an OAuth API token, [follow this guide.](https://support.bigcommerce.com/s/article/Store-API-Accounts)
@@ -96,12 +96,12 @@ Connecting to the store
 -----------------------
 
 To test that your configuration was correct and you can successfully connect to
-the store, ping the getTime method which will return a DateTime object
-representing the current timestamp of the store if successful or false if
+the store, ping the getStoreTime method which will return a DateTime object
+representing the current timestamp of the store if successful or null if
 unsuccessful:
 
 ~~~php
-$ping = Bigcommerce::getTime();
+$ping = Bigcommerce::getStoreTime();
 
 if ($ping) echo $ping->format('H:i:s');
 ~~~
