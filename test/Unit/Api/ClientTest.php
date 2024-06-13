@@ -210,9 +210,9 @@ class ClientTest extends TestCase
         $this->connection->expects($this->once())
             ->method('get')
             ->with('https://api.bigcommerce.com/time', false)
-            ->will($this->returnValue($now->format('U')));
+            ->will($this->returnValue('1718283600000'));
 
-        $this->assertEquals($now->format('U'), Client::getTime()->format('U'));
+        $this->assertEquals('2024-06-13 13:00:00', Client::getTime()->format('Y-m-d H:i:s'));
     }
 
     public function testGetStoreReturnsTheResultBodyDirectly()

@@ -474,7 +474,7 @@ class Client
     }
 
     /**
-     * Pings the time endpoint to test the connection to a store.
+     * Pings the time endpoint to test the connection to the BigCommerce API.
      *
      * @return ?DateTime
      */
@@ -486,7 +486,9 @@ class Client
             return null;
         }
 
-        return new DateTime("@{$response}");
+        $seconds = floor($response / 1000);
+        $microseconds = $response % 1000;
+        return DateTime::createFromFormat('U.u', sprintf('%d.%03d', $seconds, $microseconds));
     }
 
     /**
