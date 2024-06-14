@@ -22,10 +22,14 @@ class Rule extends Resource
 
     public function conditions()
     {
-        $conditions = Client::getCollection($this->fields->conditions->resource, 'RuleCondition');
+        $conditions = array();
 
-        foreach ($conditions as $condition) {
-            $condition->product_id = $this->product_id;
+        if (!isset($this->fields->conditions)) {
+            return $conditions;
+        }
+
+        foreach ($this->fields->conditions as $condition) {
+            $conditions[] = new RuleCondition((object)$condition);
         }
 
         return $conditions;
