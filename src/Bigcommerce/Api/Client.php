@@ -488,8 +488,8 @@ class Client
 
         // The response from /time is unix time in milliseconds
         $seconds = floor($response / 1000);
-        $microseconds = $response % 1000;
-        return DateTime::createFromFormat('U.u', sprintf('%d.%03d', $seconds, $microseconds));
+        $milliseconds = $response % 1000;
+        return DateTime::createFromFormat('U.u', sprintf('%d.%03d', $seconds, $milliseconds));
     }
 
     /**
