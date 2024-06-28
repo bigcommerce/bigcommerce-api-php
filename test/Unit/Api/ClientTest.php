@@ -206,13 +206,32 @@ class ClientTest extends TestCase
 
     public function testGetTimeReturnsTheExpectedTime()
     {
-        $now = new \DateTime();
         $this->connection->expects($this->once())
             ->method('get')
             ->with('https://api.bigcommerce.com/time', false)
-            ->will($this->returnValue($now->format('U')));
+            ->will($this->returnValue('1718283600000'));
 
-        $this->assertEquals($now->format('U'), Client::getTime()->format('U'));
+        $this->assertEquals('2024-06-13 13:00:00', Client::getTime()->format('Y-m-d H:i:s'));
+    }
+
+    public function testGetStoreTimeReturnsTheExpectedTime()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/time')
+            ->will($this->returnValue(json_decode('{"time": 1718283600}')));
+
+        $this->assertEquals('2024-06-13 13:00:00', Client::getStoreTime()->format('Y-m-d H:i:s'));
+    }
+
+    public function testGetStoreTimeReturnsNothing()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/time')
+            ->will($this->returnValue(false));
+
+        $this->assertEquals(null, Client::getStoreTime());
     }
 
     public function testGetStoreReturnsTheResultBodyDirectly()

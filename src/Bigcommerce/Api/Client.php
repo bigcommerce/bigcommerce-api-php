@@ -474,7 +474,7 @@ class Client
     }
 
     /**
-     * Pings the time endpoint to test the connection to a store.
+     * Pings the time endpoint to test the connection to the BigCommerce API.
      *
      * @return ?DateTime
      */
@@ -482,11 +482,30 @@ class Client
     {
         $response = self::connection()->get(self::$api_url . '/time');
 
-        if (empty($response)) {
+        if (empty($response) || !is_numeric($response)) {
             return null;
         }
 
-        return new DateTime("@{$response}");
+        // The response from /time is unix time in milliseconds
+        $seconds = floor($response / 1000);
+        $milliseconds = $response % 1000;
+        return DateTime::createFromFormat('U.u', sprintf('%d.%03d', $seconds, $milliseconds));
+    }
+
+    /**
+     * Pings the time endpoint to test the connection to a store.
+     *
+     * @return ?DateTime
+     */
+    public static function getStoreTime()
+    {
+        $response = self::connection()->get(self::$api_path . '/time');
+
+        if (!is_object($response) || !property_exists($response, 'time')) {
+            return null;
+        }
+
+        return new DateTime("@{$response->time}");
     }
 
     /**
