@@ -1380,7 +1380,10 @@ class Client
      */
     public static function getRequestsRemaining()
     {
-        $limit = self::connection()->getHeader('X-Rate-Limit-Requests-Left');
+        //See https://developer.bigcommerce.com/changelog#publications/upcoming-changes-to-http-header-casing
+        $limit = self::connection()->getHeader('x-rate-limit-requests-left')
+            ? self::connection()->getHeader('x-rate-limit-requests-left')
+            : self::connection()->getHeader('X-Rate-Limit-Requests-Left');
 
         if (!$limit) {
             $result = self::getTime();
@@ -1389,7 +1392,9 @@ class Client
                 return false;
             }
 
-            $limit = self::connection()->getHeader('X-Rate-Limit-Requests-Left');
+            $limit = self::connection()->getHeader('x-rate-limit-requests-left')
+                ? self::connection()->getHeader('x-rate-limit-requests-left')
+                : self::connection()->getHeader('X-Rate-Limit-Requests-Left');
         }
 
         return (int)$limit;
