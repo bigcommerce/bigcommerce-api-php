@@ -28,7 +28,7 @@ class Connection
     private $curl;
 
     /**
-     * @var array<string, string> Hash of HTTP request headers.
+     * @var array<int, string> Hash of HTTP request headers.
      */
     private $headers = [];
 
@@ -258,7 +258,7 @@ class Connection
     /**
      * Return the request headers
      *
-     * @return array<string, string>
+     * @return array<int, string>
      */
     public function getRequestHeaders()
     {

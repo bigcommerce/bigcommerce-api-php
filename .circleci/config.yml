@@ -12,7 +12,7 @@ jobs_default: &jobs_default
     php-version: << matrix.php-version >>
   matrix:
     parameters:
-      php-version: [ *php_min, "8.2", "8.3" ]
+      php-version: [ *php_min, "8.2", "8.3" , "8.4" ]
 
 jobs:
   cs-fixer:
