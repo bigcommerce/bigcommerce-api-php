@@ -269,7 +269,7 @@ class Client
      * @param Connection|null $connection The connection to use
      * @return void
      */
-    public static function setConnection(Connection $connection = null)
+    public static function setConnection(?Connection $connection = null)
     {
         self::$connection = $connection;
     }
