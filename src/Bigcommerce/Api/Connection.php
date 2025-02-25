@@ -33,9 +33,15 @@ class Connection
     private $headers = [];
 
     /**
-     * @var array<string, string> Hash of headers from HTTP response
+     * @var array<string, string> Hash of headers from HTTP response. Will overwrite headers with duplicates keys eg. it is
+     * common for a response to have multiple 'set-cookie' headers and only the last one will be kept.
      */
     private $responseHeaders = [];
+
+    /**
+     * @var array<string, string[]> Returns all response headers grouped by their header key. This preserves all response headers.
+     */
+    private array $responseHeadersList = [];
 
     /**
      * The status line of the response.
@@ -285,6 +291,8 @@ class Connection
     {
         $this->responseBody = '';
         $this->responseHeaders = [];
+        $this->responseHeadersList = [];
+        $this->responseStatusLine = '';
         $this->lastError = false;
         $this->addHeader('Accept', $this->getContentType());
 
@@ -539,6 +547,8 @@ class Connection
         } else {
             $parts = explode(': ', $headers);
             if (isset($parts[1])) {
+                $key = strtolower(trim($parts[0]));
+                $this->responseHeadersList[$key][] = trim($parts[1]);
                 $this->responseHeaders[$parts[0]] = trim($parts[1]);
             }
         }
@@ -596,12 +606,21 @@ class Connection
     }
 
     /**
-     * Return the full list of response headers
+     * Return an associative array of response headers. Will overwrite headers that share the same key.
      * @return array<string, string>
      */
     public function getHeaders()
     {
         return $this->responseHeaders;
+    }
+
+    /**
+     * Return full list of response headers as an array of strings. Preserves headers with duplicate keys.
+     * @return array<string, string[]>
+     */
+    public function getHeadersList()
+    {
+        return $this->responseHeadersList;
     }
 
     /**
