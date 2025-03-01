@@ -974,6 +974,15 @@ class Client
     }
 
     /**
+     * @param $orderID
+     * @return mixed
+     */
+    public static function getOrderConsignments($orderID)
+    {
+        return self::getResource('/orders/' . $orderID . '/consignments', 'OrderConsignment');
+    }
+
+    /**
      * The total number of order products in the collection.
      *
      * @param $orderID
