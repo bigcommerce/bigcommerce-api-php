@@ -55,7 +55,7 @@ class ClientTest extends TestCase
     {
         $matcher = $this->exactly(2);
         $this->connection->expects($matcher)
-            ->method('failOnError')->willReturnCallback(fn () => match ($matcher->numberOfInvocations()) {
+            ->method('failOnError')->willReturnCallback(fn() => match ($matcher->numberOfInvocations()) {
                 1 => [true],
                 2 => [false],
             });
@@ -75,7 +75,7 @@ class ClientTest extends TestCase
     {
         $matcher = $this->exactly(2);
         $this->connection->expects($matcher)
-            ->method('verifyPeer')->willReturnCallback(fn () => match ($matcher->numberOfInvocations()) {
+            ->method('verifyPeer')->willReturnCallback(fn() => match ($matcher->numberOfInvocations()) {
                 1 => [true],
                 2 => [false],
             });
@@ -107,7 +107,7 @@ class ClientTest extends TestCase
         $expectedPayload = ['iss' => '123', 'operation' => 'customer_login', 'store_hash' => 'abc', 'customer_id' => 1];
         $token = Client::getCustomerLoginToken(1);
         $key = new \Firebase\JWT\Key('zyx', 'HS256');
-        $actualPayload = (array)\Firebase\JWT\JWT::decode($token, $key);
+        $actualPayload = (array) \Firebase\JWT\JWT::decode($token, $key);
         foreach ($expectedPayload as $value) {
             $this->assertContains($value, $actualPayload);
         }
@@ -139,7 +139,7 @@ class ClientTest extends TestCase
         $this->connection->expects($this->once())
             ->method('get')
             ->with('http://storeurl' . $this->basePath . '/whatever', false)
-            ->will($this->returnValue((object)['count' => 5]));
+            ->will($this->returnValue((object) ['count' => 5]));
 
         Client::configure(['store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever']);
         Client::setConnection($this->connection); // re-set the connection since Client::configure unsets it
@@ -168,7 +168,7 @@ class ClientTest extends TestCase
         $new = [random_int(0, mt_getrandmax()) => random_int(0, mt_getrandmax())];
         $this->connection->expects($this->once())
             ->method('post')
-            ->with('http://storeurl' . $this->basePath . '/whatever', (object)$new)
+            ->with('http://storeurl' . $this->basePath . '/whatever', (object) $new)
             ->will($this->returnValue($new));
 
         Client::configure(['store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever']);
@@ -182,7 +182,7 @@ class ClientTest extends TestCase
         $update = [random_int(0, mt_getrandmax()) => random_int(0, mt_getrandmax())];
         $this->connection->expects($this->once())
             ->method('put')
-            ->with('http://storeurl' . $this->basePath . '/whatever', (object)$update)
+            ->with('http://storeurl' . $this->basePath . '/whatever', (object) $update)
             ->will($this->returnValue($update));
 
         Client::configure(['store_url' => 'http://storeurl', 'username' => 'whatever', 'api_key' => 'whatever']);
@@ -305,7 +305,7 @@ class ClientTest extends TestCase
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/' . $path . '/count', false)
-            ->will($this->returnValue((object)['count' => 7]));
+            ->will($this->returnValue((object) ['count' => 7]));
 
         $fnName .= 'Count';
         $count = Client::$fnName();
@@ -316,16 +316,16 @@ class ClientTest extends TestCase
     {
         return [
             //    path            function        classname
-            ['products',     '%sProduct',    'Product'],
-            ['brands',       '%sBrand',      'Brand'],
-            ['orders',       '%sOrder',      'Order'],
-            ['customers',    '%sCustomer',   'Customer'],
-            ['categories',   '%sCategory',   'Category'],
-            ['options',      '%sOption',     'Option'],
-            ['optionsets',   '%sOptionSet',  'OptionSet'],
-            ['coupons',      '%sCoupon',     'Coupon'],
-            ['currencies',   '%sCurrency',   'Currency'],
-            ['pages',        '%sPage',       'Page'],
+            ['products', '%sProduct', 'Product'],
+            ['brands', '%sBrand', 'Brand'],
+            ['orders', '%sOrder', 'Order'],
+            ['customers', '%sCustomer', 'Customer'],
+            ['categories', '%sCategory', 'Category'],
+            ['options', '%sOption', 'Option'],
+            ['optionsets', '%sOptionSet', 'OptionSet'],
+            ['coupons', '%sCoupon', 'Coupon'],
+            ['currencies', '%sCurrency', 'Currency'],
+            ['pages', '%sPage', 'Page'],
         ];
     }
 
@@ -347,7 +347,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/' . $path, (object)[]);
+            ->with($this->basePath . '/' . $path, (object) []);
 
         $fnName = sprintf($fnName, 'create');
         Client::$fnName([]);
@@ -380,7 +380,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/skus', (object)[]);
+            ->with($this->basePath . '/products/1/skus', (object) []);
 
         Client::createSku(1, []);
     }
@@ -389,7 +389,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/skus/1', (object)[]);
+            ->with($this->basePath . '/products/skus/1', (object) []);
 
         Client::updateSku(1, []);
     }
@@ -397,9 +397,9 @@ class ClientTest extends TestCase
     public function testGettingProductGoogleProductSearch()
     {
         $this->connection->expects($this->once())
-          ->method('get')
-          ->with($this->basePath . '/products/1/googleproductsearch')
-          ->will($this->returnValue((object)[]));
+            ->method('get')
+            ->with($this->basePath . '/products/1/googleproductsearch')
+            ->will($this->returnValue((object) []));
 
         $resource = Client::getGoogleProductSearch(1);
         $this->assertInstanceOf(\Bigcommerce\Api\Resources\ProductGoogleProductSearch::class, $resource);
@@ -496,7 +496,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/optionsets', (object)[]);
+            ->with($this->basePath . '/optionsets', (object) []);
 
         Client::createOptionSet([]);
     }
@@ -505,7 +505,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/options', (object)[]);
+            ->with($this->basePath . '/options', (object) []);
 
         Client::createOption([]);
     }
@@ -514,7 +514,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/optionsets/1/options', (object)[]);
+            ->with($this->basePath . '/optionsets/1/options', (object) []);
 
         Client::createOptionSetOption([], 1);
     }
@@ -523,7 +523,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/images', (object)[]);
+            ->with($this->basePath . '/products/1/images', (object) []);
 
         Client::createProductImage(1, []);
     }
@@ -532,7 +532,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/custom_fields', (object)[]);
+            ->with($this->basePath . '/products/1/custom_fields', (object) []);
 
         Client::createProductCustomField(1, []);
     }
@@ -541,7 +541,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/1/images/1', (object)[]);
+            ->with($this->basePath . '/products/1/images/1', (object) []);
 
         Client::updateProductImage(1, 1, []);
     }
@@ -550,7 +550,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/products/1/custom_fields/1', (object)[]);
+            ->with($this->basePath . '/products/1/custom_fields/1', (object) []);
 
         Client::updateProductCustomField(1, 1, []);
     }
@@ -663,7 +663,7 @@ class ClientTest extends TestCase
         $this->connection->expects($this->once())
             ->method('get')
             ->with($this->basePath . '/orders/1/products/count', false)
-            ->will($this->returnValue((object)['count' => 7]));
+            ->will($this->returnValue((object) ['count' => 7]));
 
         $count = Client::getOrderProductsCount(1);
         $this->assertSame(7, $count);
@@ -694,6 +694,17 @@ class ClientTest extends TestCase
         }
     }
 
+    public function testGettingOrderConsignmentsReturnsTheOrderConsignmentsResource()
+    {
+        $this->connection->expects($this->once())
+            ->method('get')
+            ->with($this->basePath . '/orders/1/consignments', false)
+            ->will($this->returnValue([[], []]));
+
+        $resource = Client::getOrderConsignments(1);
+        $this->assertInstanceOf(\Bigcommerce\Api\Resources\OrderConsignment::class, $resource);
+    }
+
     public function testGettingOrderShipmentsReturnsTheOrderShipmentsResource()
     {
         $this->connection->expects($this->once())
@@ -712,7 +723,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/orders/1/shipments', (object)[]);
+            ->with($this->basePath . '/orders/1/shipments', (object) []);
 
         Client::createShipment(1, []);
     }
@@ -721,7 +732,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/orders/1/shipments/1', (object)[]);
+            ->with($this->basePath . '/orders/1/shipments/1', (object) []);
 
         Client::updateShipment(1, 1, []);
     }
@@ -773,7 +784,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/gift_certificates', (object)[]);
+            ->with($this->basePath . '/gift_certificates', (object) []);
 
         Client::createGiftCertificate([]);
     }
@@ -802,7 +813,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/gift_certificates/1', (object)[]);
+            ->with($this->basePath . '/gift_certificates/1', (object) []);
 
         Client::updateGiftCertificate(1, []);
     }
@@ -853,14 +864,14 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/hooks', (object)[]);
+            ->with($this->basePath . '/hooks', (object) []);
         Client::createWebhook([]);
     }
     public function testUpdatingWebhookPutsToTheSpecifiedResource()
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/hooks/1', (object)[]);
+            ->with($this->basePath . '/hooks/1', (object) []);
         Client::updateWebhook(1, []);
     }
 
@@ -876,7 +887,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/reviews', (object)[]);
+            ->with($this->basePath . '/products/1/reviews', (object) []);
 
         Client::createProductReview(1, []);
     }
@@ -885,7 +896,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/discount_rules', (object)[]);
+            ->with($this->basePath . '/products/1/discount_rules', (object) []);
 
         Client::createProductBulkPricingRules(1, []);
     }
@@ -894,7 +905,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/banners', (object)[]);
+            ->with($this->basePath . '/banners', (object) []);
 
         Client::createMarketingBanner([]);
     }
@@ -931,7 +942,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/banners/1', (object)[]);
+            ->with($this->basePath . '/banners/1', (object) []);
 
         Client::updateMarketingBanner(1, []);
     }
@@ -940,7 +951,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/customers/1/addresses', (object)[]);
+            ->with($this->basePath . '/customers/1/addresses', (object) []);
 
         Client::createCustomerAddress(1, []);
     }
@@ -949,7 +960,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/products/1/rules', (object)[]);
+            ->with($this->basePath . '/products/1/rules', (object) []);
 
         Client::createProductRule(1, []);
     }
@@ -958,7 +969,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/customer_groups', (object)[]);
+            ->with($this->basePath . '/customer_groups', (object) []);
 
         Client::createCustomerGroup([]);
     }
@@ -1034,7 +1045,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('post')
-            ->with($this->basePath . '/options/1/values', (object)[]);
+            ->with($this->basePath . '/options/1/values', (object) []);
 
         Client::createOptionValue(1, []);
     }
@@ -1052,7 +1063,7 @@ class ClientTest extends TestCase
     {
         $this->connection->expects($this->once())
             ->method('put')
-            ->with($this->basePath . '/options/1/values/1', (object)[]);
+            ->with($this->basePath . '/options/1/values/1', (object) []);
 
         Client::updateOptionValue(1, 1, []);
     }
