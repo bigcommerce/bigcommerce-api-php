@@ -329,7 +329,7 @@ class Client
     public static function createResource($path, $object)
     {
         if (is_array($object)) {
-            $object = (object)$object;
+            $object = (object) $object;
         }
 
         return self::connection()->post(self::$api_path . $path, $object);
@@ -345,7 +345,7 @@ class Client
     public static function updateResource($path, $object)
     {
         if (is_array($object)) {
-            $object = (object)$object;
+            $object = (object) $object;
         }
 
         return self::connection()->put(self::$api_path . $path, $object);
@@ -435,7 +435,7 @@ class Client
      */
     public static function getAuthToken($object)
     {
-        $context = array_merge(array('grant_type' => 'authorization_code'), (array)$object);
+        $context = array_merge(array('grant_type' => 'authorization_code'), (array) $object);
         $connection = new Connection();
 
         return $connection->post(self::$login_url . '/oauth2/token', $context);
@@ -974,6 +974,15 @@ class Client
     }
 
     /**
+     * @param $orderID
+     * @return mixed
+     */
+    public static function getOrderConsignments($orderID)
+    {
+        return self::getResource('/orders/' . $orderID . '/consignments', 'OrderConsignment');
+    }
+
+    /**
      * The total number of order products in the collection.
      *
      * @param $orderID
@@ -1392,7 +1401,7 @@ class Client
             $limit = self::connection()->getHeader('X-Rate-Limit-Requests-Left');
         }
 
-        return (int)$limit;
+        return (int) $limit;
     }
 
     /**
@@ -2058,7 +2067,7 @@ class Client
      */
     public static function getShippingMethod($zoneId, $methodId)
     {
-        return self::getResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId, 'ShippingMethod');
+        return self::getResource('/shipping/zones/' . $zoneId . '/methods/' . $methodId, 'ShippingMethod');
     }
 
     /**
@@ -2082,7 +2091,7 @@ class Client
      */
     public static function deleteShippingMethod($zoneId, $methodId)
     {
-        return self::deleteResource('/shipping/zones/'. $zoneId . '/methods/'. $methodId);
+        return self::deleteResource('/shipping/zones/' . $zoneId . '/methods/' . $methodId);
     }
 
     /**
@@ -2095,7 +2104,7 @@ class Client
     public static function getSkusByProduct($productId, $filter = array())
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products/'.$productId.'/skus' . $filter->toQuery(), 'Sku');
+        return self::getCollection('/products/' . $productId . '/skus' . $filter->toQuery(), 'Sku');
     }
 
     /**
@@ -2107,7 +2116,7 @@ class Client
      */
     public static function deleteOptionValue($optionId, $valueId)
     {
-        return self::deleteResource('/options/' . $optionId .'/values/'. $valueId);
+        return self::deleteResource('/options/' . $optionId . '/values/' . $valueId);
     }
 
     /**
@@ -2133,6 +2142,6 @@ class Client
     public static function getRulesByProduct($productId, $filter = array())
     {
         $filter = Filter::create($filter);
-        return self::getCollection('/products/'.$productId.'/rules' . $filter->toQuery(), 'Rule');
+        return self::getCollection('/products/' . $productId . '/rules' . $filter->toQuery(), 'Rule');
     }
 }
