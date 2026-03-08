@@ -779,3 +779,9 @@ parameters:
 			message: "#^Method Bigcommerce\\\\Api\\\\Resources\\\\Sku\\:\\:update\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../src/Bigcommerce/Api/Resources/Sku.php
+
+		-
+			message: '#^Method Bigcommerce\\Api\\Client\:\:getOrderConsignments\(\) has parameter \$orderID with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Bigcommerce/Api/Client.php
