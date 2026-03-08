@@ -3,6 +3,9 @@ composer.lock
 *.sh
 script/*
 
+# IDE
+.idea
+
 # Testing
 /build
 /test/reports
