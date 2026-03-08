@@ -1614,12 +1614,14 @@ class Client
 
     /**
      * Get all content pages
-     *
+     * 
+     * @param array $filter
      * @return mixed
      */
-    public static function getPages()
+    public static function getPages($filter = array())
     {
-        return self::getCollection('/pages', 'Page');
+        $filter = Filter::create($filter);
+        return self::getCollection('/pages' . $filter->toQuery(), 'Page');
     }
 
     /**
